@@ -3,11 +3,6 @@
 @section('content')
     <div class="container mt-2">
         <a class="btn btn-secondary mb-2" href="{{ route('volts.index') }}"> Буцах</a>
-        @if (session('status'))
-            <div class="alert alert-success mb-1 mt-1">
-                {{ session('status') }}
-            </div>
-        @endif
         <br />
         <div class="card">
             <div class="card-body">

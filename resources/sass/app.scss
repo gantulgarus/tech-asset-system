@@ -11,3 +11,9 @@ $enable-rtl: true; /* stylelint-disable-line scss/dollar-variable-default */
 
 // If you want to add custom CSS you can put it here.
 @import "custom";
+
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+ 
+// Variables
+@import 'variables';

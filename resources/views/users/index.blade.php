@@ -1,18 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- <livewire:user-table/> --}}
     <div class="card mb-4">
         <div class="card-header">
-            {{ __('Users') }}
+            {{ __('Хэрэглэгч') }}
         </div>
 
         <div class="card-body">
 
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Нэр</th>
+                    <th scope="col">Имэйл</th>
                 </tr>
                 </thead>
                 <tbody>

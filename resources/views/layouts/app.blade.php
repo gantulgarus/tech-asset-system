@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{{ config('app.name', 'Мэдээллийн сан') }}</title>
     <meta name="theme-color" content="#ffffff">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     @vite('resources/sass/app.scss', 'resources/css/app.css')
 </head>
 <body>
@@ -15,15 +22,15 @@
         {{-- <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
             <use xlink:href="{{ asset('icons/brand.svg#full') }}"></use>
         </svg> --}}
-        {{-- <img class="sidebar-brand-full" width="46" height="46" src="{{ asset('icons/tower.svg') }}" /> --}}
         {{-- <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
             <use xlink:href="{{ asset('icons/brand.svg#signet') }}"></use>
         </svg> --}}
-        <div class="sidebar-brand-full" width="46" height="46">Мэдээллийн сан</div>
-        <div class="sidebar-brand-narrow" width="46" height="46">Мэдээллийн сан</div>
+        <img class="sidebar-brand-full" height="46" src="{{ asset('images/bnedo-logo.png') }}" />
+        <div class="sidebar-brand-full mr-3" width="46" height="46">Мэдээллийн сан</div>
+        {{-- <div class="sidebar-brand-narrow" width="46" height="46">Мэдээллийн сан</div> --}}
     </div>
     @include('layouts.navigation')
-    <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+    {{-- <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button> --}}
 </div>
 <div class="wrapper d-flex flex-column min-vh-100 bg-light">
     <header class="header header-sticky mb-4">
@@ -57,7 +64,7 @@
                             <svg class="icon me-2">
                                 <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
                             </svg>
-                            {{ __('My profile') }}
+                            {{ __('Профайл') }}
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -66,7 +73,7 @@
                                 <svg class="icon me-2">
                                     <use xlink:href="{{ asset('icons/coreui.svg#cil-account-logout') }}"></use>
                                 </svg>
-                                {{ __('Logout') }}
+                                {{ __('Гарах') }}
                             </a>
                         </form>
                     </div>
@@ -87,6 +94,14 @@
                 Components</a></div>
     </footer> --}}
 </div>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+
+
 <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
+@yield('scripts')
 </body>
 </html>

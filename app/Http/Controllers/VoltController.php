@@ -35,7 +35,7 @@ class VoltController extends Controller
 
         Volt::create($request->post());
 
-        return redirect()->route('settings')->with('success', 'Volt has been created successfully.')->with('active_tab', 'nav-profile');
+        return redirect()->route('volts.index')->with('success', 'Volt has been created successfully.');
     }
 
     /**
@@ -65,7 +65,7 @@ class VoltController extends Controller
 
         $volt->fill($request->post())->save();
 
-        return redirect()->route('settings')->with('success', 'Volt has been updated successfully.')->with('active_tab', 'nav-profile');
+        return redirect()->route('volts.index')->with('success', 'Volt has been updated successfully.');
     }
 
     /**
@@ -74,6 +74,6 @@ class VoltController extends Controller
     public function destroy(Volt $volt)
     {
         $volt->delete();
-        return redirect()->route('settings')->with('success', 'Volt has been deleted successfully.')->with('active_tab', 'nav-profile');
+        return redirect()->route('volts.index')->with('success', 'Volt has been deleted successfully.');
     }
 }

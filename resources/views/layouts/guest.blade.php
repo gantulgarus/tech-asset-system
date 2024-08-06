@@ -9,9 +9,17 @@
     <meta name="theme-color" content="#ffffff">
     @vite('resources/sass/app.scss')
 </head>
-<body>
+<style>
+    body {
+    background-image: url('/images/bg3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+</style>
+<body>
+<div class="min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
         <div class="row justify-content-center">
             @yield('content')
