@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
+<div class="container">
+
     <div class="card mb-4">
         <div class="card-header">
             {{ __('Профайл') }}
@@ -72,4 +74,5 @@
         </form>
 
     </div>
+</div>
 @endsection

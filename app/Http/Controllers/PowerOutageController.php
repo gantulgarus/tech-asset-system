@@ -43,7 +43,7 @@ class PowerOutageController extends Controller
         }
 
         // Paginate results
-        $powerOutages = $query->paginate(2)->appends($request->query());
+        $powerOutages = $query->paginate(20)->appends($request->query());
 
         $volts = Volt::all();
 

@@ -1,9 +1,9 @@
 <!-- resources/views/schemas/index.blade.php -->
 
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="mt-4">
+<div class="container mt-4">
     @if (session('success'))
         <div class="alert alert-success mb-1 mt-1">
             {{ session('success') }}

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="container mt-2">
@@ -100,7 +100,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="start_time" class="form-label">Тасарсан хугацаа</label>
-                                <input type="text" name="start_time" value="{{ $powerCut->start_time }}" class="form-control">
+                                <input type="text" id="start_time" name="start_time" value="{{ $powerCut->start_time }}" class="form-control">
                                 @error('start_time')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -109,7 +109,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="end_time" class="form-label">Залгасан хугацаа</label>
-                                <input type="text" name="end_time" value="{{ $powerCut->end_time }}" class="form-control">
+                                <input type="text" id="end_time" name="end_time" value="{{ $powerCut->end_time }}" class="form-control">
                                 @error('end_time')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

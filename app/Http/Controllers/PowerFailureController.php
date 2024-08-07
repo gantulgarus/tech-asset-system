@@ -15,7 +15,7 @@ class PowerFailureController extends Controller
      */
     public function index()
     {
-        $powerFailures = PowerFailure::all();
+        $powerFailures = PowerFailure::paginate(20);
         return view('power_failures.index', compact('powerFailures'));
     }
 

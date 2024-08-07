@@ -16,7 +16,8 @@ class PowerCutController extends Controller
      */
     public function index()
     {
-        $powerCuts = PowerCut::all();
+        $powerCuts = PowerCut::paginate(25);
+
         return view('power_cuts.index', compact('powerCuts'));
     }
 

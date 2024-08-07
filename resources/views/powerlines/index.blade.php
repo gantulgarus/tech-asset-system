@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
-<div class="mt-4">
+<div class="container mt-4">
     @if ($message = Session::get('success'))
         <div class="alert alert-success mt-2">
             {{ $message }}

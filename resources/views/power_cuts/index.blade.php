@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <div class="mt-4">
+    <div class="container mt-4">
         @if (session('success'))
             <div class="alert alert-success mb-1 mt-1">
                 {{ session('success') }}
@@ -13,28 +13,28 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('power_cuts.create') }}" class="btn btn-dark mb-2">Нэмэх</a>
-                <table class="table table-bordered table-sm" style="font-size: 12px;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>№</th>
-                            <th>Дэд станц</th>
-                            <th>Тоноглол</th>
-                            <th>Таслалт хийх болсон шалтгаан</th>
-                            <th>U кВ</th>
-                            <th>I</th>
-                            <th>P</th>
-                            <th>Тасарсан</th>
-                            <th>Залгасан</th>
-                            <th>Нийт хугацаа</th>
-                            <th>ДТЦЭХ кВт.ц</th>
-                            <th>Шийдвэр өгсөн</th>
-                            <th>Бүртгэсэн</th>
-                            <th>Үйлдэл</th>
+                <table class="table border mb-0" style="font-size: 12px;">
+                    <thead class="fw-semibold text-nowrap">
+                        <tr class="align-middle">
+                            <th class="bg-body-secondary">№</th>
+                            <th class="bg-body-secondary">Дэд станц</th>
+                            <th class="bg-body-secondary">Тоноглол</th>
+                            <th class="bg-body-secondary">Таслалт шалтгаан</th>
+                            <th class="bg-body-secondary">U кВ</th>
+                            <th class="bg-body-secondary">I</th>
+                            <th class="bg-body-secondary">P</th>
+                            <th class="bg-body-secondary">Тасарсан</th>
+                            <th class="bg-body-secondary">Залгасан</th>
+                            <th class="bg-body-secondary">Нийт хугацаа</th>
+                            <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
+                            <th class="bg-body-secondary">Шийдвэр өгсөн</th>
+                            <th class="bg-body-secondary">Бүртгэсэн</th>
+                            <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($powerCuts as $powerCut)
-                            <tr>
+                            <tr class="align-middle">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $powerCut->station->name }}</td>
                                 <td>{{ $powerCut->equipment->name }}</td>
@@ -49,24 +49,34 @@
                                 <td>{{ $powerCut->approved_by }}</td>
                                 <td>{{ $powerCut->created_by }}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm"
-                                        href="{{ route('power_cuts.edit', $powerCut) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <div class="d-inline-flex">
-                                        <form action="{{ route('power_cuts.destroy', $powerCut) }}" method="Post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-white">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    <div class="dropdown">
+                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <svg class="icon">
+                                                <use
+                                                    xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-options') }}">
+                                                </use>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" href="{{ route('power_cuts.edit', $powerCut) }}">Засах</a>
+                                            <form action="{{ route('power_cuts.destroy', $powerCut) }}" method="Post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn dropdown-item text-danger">
+                                                    Устгах
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-2">
+                    {{ $powerCuts->links() }}
+                </div>
             </div>
         </div>
     </div>

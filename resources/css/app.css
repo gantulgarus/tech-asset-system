@@ -3,3 +3,16 @@
     width: 8px;
     fill: white;
   }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+}
+.sidebar-brand img {
+    margin-right: 10px;
+}
+.sidebar-brand h6 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}

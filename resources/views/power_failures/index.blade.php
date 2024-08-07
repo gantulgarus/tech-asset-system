@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <div class="mt-4">
+    <div class="container mt-4">
         @if (session('success'))
             <div class="alert alert-success mb-1 mt-1">
                 {{ session('success') }}
@@ -13,25 +13,25 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('power_failures.create') }}" class="btn btn-dark mb-2">Нэмэх</a>
-                <table class="table table-bordered table-sm" style="font-size: 12px;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>№</th>
-                            <th>Дэд станц</th>
-                            <th>Тоноглол</th>
-                            <th>Илрүүлсэн огноо</th>
-                            <th>Илрүүлсэн хүний албан тушаал</th>
-                            <th>Гэмтлийн шинж байдал</th>
-                            <th>Гэмтлийн талаар мэдэгдсэн хүний албан тушаал, нэр</th>
-                            <th>Гэмтэл арилгахаар авсан арга хэмжээ</th>
-                            <th>Гэмтэл арилгасан хүний албан тушаал, нэр</th>
-                            <th>Гэмтэл арилгасныг шалгаж, хүлээн авсан хүний албан тушаал, нэр</th>
-                            <th>Үйлдэл</th>
+                <table class="table border mb-0" style="font-size: 12px;">
+                    <thead class="fw-semibold text-nowrap">
+                        <tr class="align-middle">
+                            <th class="bg-body-secondary">№</th>
+                            <th class="bg-body-secondary">Дэд станц</th>
+                            <th class="bg-body-secondary">Тоноглол</th>
+                            <th class="bg-body-secondary">Илрүүлсэн огноо</th>
+                            <th class="bg-body-secondary">Илрүүлсэн хүн</th>
+                            <th class="bg-body-secondary">Гэмтлийн шинж байдал</th>
+                            <th class="bg-body-secondary">Гэмтлийн талаар мэдэгдсэн хүн</th>
+                            <th class="bg-body-secondary">Авсан арга хэмжээ</th>
+                            <th class="bg-body-secondary">Гэмтэл арилгасан хүн</th>
+                            <th class="bg-body-secondary">Хүлээн авсан хүн</th>
+                            <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($powerFailures as $powerFailure)
-                            <tr>
+                            <tr class="align-middle">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $powerFailure->station->name }}</td>
                                 <td>{{ $powerFailure->equipment->name }}</td>
@@ -43,24 +43,34 @@
                                 <td>{{ $powerFailure->fixer_name }}</td>
                                 <td>{{ $powerFailure->inspector_name }}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm"
-                                        href="{{ route('power_failures.edit', $powerFailure) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <div class="d-inline-flex">
-                                        <form action="{{ route('power_failures.destroy', $powerFailure) }}" method="Post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-white">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    <div class="dropdown">
+                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <svg class="icon">
+                                                <use
+                                                    xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-options') }}">
+                                                </use>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" href="{{ route('power_failures.edit', $powerFailure) }}">Засах</a>
+                                            <form action="{{ route('power_failures.destroy', $powerFailure) }}" method="Post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn dropdown-item text-danger">
+                                                    Устгах
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-2">
+                    {{ $powerFailures->links() }}
+                </div>
             </div>
         </div>
     </div>
