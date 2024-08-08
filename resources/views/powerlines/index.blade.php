@@ -11,26 +11,26 @@
     <div class="card">
         <div class="card-header">ЦДАШ-ын мэдээлэл</div>
         <div class="card-body">
-            <a href="{{ route('powerlines.create') }}" class="btn btn-primary btn-sm mb-2">Нэмэх</a>
-            <table class="table table-bordered table-sm" style="font-size: 12px;">
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Дэд станц</th>
-                        <th>Шугамын ША-ны нэр</th>
-                        <th>Хүчдлийн түвшин /кВ/</th>
-                        <th>Ашиглалтад орсон он</th>
-                        <th>Утасны марк</th>
-                        <th>Тулгуурын марк</th>
-                        <th>Тулгуурын тоо</th>
-                        <th>Шугамын урт /км/</th>
-                        <th>Изоляторын маяг</th>
-                        <th>Үйлдэл</th>
+            <a href="{{ route('powerlines.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <table class="table border mb-0" style="font-size: 12px;">
+                <thead class="fw-semibold text-nowrap">
+                    <tr class="align-middle">
+                        <th class="bg-body-secondary">№</th>
+                        <th class="bg-body-secondary">Дэд станц</th>
+                        <th class="bg-body-secondary">Шугамын ША-ны нэр</th>
+                        <th class="bg-body-secondary">Хүчдлийн түвшин /кВ/</th>
+                        <th class="bg-body-secondary">Ашиглалтад орсон он</th>
+                        <th class="bg-body-secondary">Утасны марк</th>
+                        <th class="bg-body-secondary">Тулгуурын марк</th>
+                        <th class="bg-body-secondary">Тулгуурын тоо</th>
+                        <th class="bg-body-secondary">Шугамын урт /км/</th>
+                        <th class="bg-body-secondary">Изоляторын маяг</th>
+                        <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($powerlines as $powerline)
-                        <tr>
+                        <tr class="align-middle">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $powerline->station->name }}</td>
                             <td>{{ $powerline->name }}</td>
@@ -42,20 +42,26 @@
                             <td>{{ $powerline->line_length }}</td>
                             <td>{{ $powerline->isolation_mark }}</td>
                             <td>
-                                <a class="btn btn-info btn-sm text-white" href="{{ route('powerlines.show', $powerline) }}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-primary btn-sm" href="{{ route('powerlines.edit', $powerline) }}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <div class="d-inline-flex">
-                                    <form action="{{ route('powerlines.destroy', $powerline) }}" method="Post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger text-white">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-options') }}">
+                                            </use>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="{{ route('powerlines.show', $powerline) }}">Харах</a>
+                                        <a class="dropdown-item" href="{{ route('powerlines.edit', $powerline) }}">Засах</a>
+                                        <form action="{{ route('powerlines.destroy', $powerline) }}" method="Post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn dropdown-item text-danger">
+                                                Устгах
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

@@ -14,24 +14,24 @@
         </div>
         <div class="card-body">
             <a href="{{ route('equipment.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-            <table class="table table-bordered table-sm" style="font-size: 12px;">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">№</th>
-                        <th>Салбар</th>
-                        <th>Дэд станц</th>
-                        <th>Тоноглолын төрөл</th>
-                        <th>Шуурхай ажиллагааны нэр</th>
-                        <th>Хүчдлийн түвшин</th>
-                        <th>Тип марк</th>
-                        <th>Үйлдвэрлэгдсэн он</th>
-                        <th>Үйлдэл</th>
+            <table class="table border mb-0" style="font-size: 12px;">
+                <thead class="fw-semibold text-nowrap">
+                    <tr class="align-middle">
+                        <th class="bg-body-secondary">№</th>
+                        <th class="bg-body-secondary">Салбар</th>
+                        <th class="bg-body-secondary">Дэд станц</th>
+                        <th class="bg-body-secondary">Тоноглолын төрөл</th>
+                        <th class="bg-body-secondary">Шуурхай ажиллагааны нэр</th>
+                        <th class="bg-body-secondary">Хүчдлийн түвшин</th>
+                        <th class="bg-body-secondary">Тип марк</th>
+                        <th class="bg-body-secondary">Үйлдвэрлэгдсэн он</th>
+                        <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($equipments as $equipment)
-                        <tr>
-                            <td>{{ $equipment->id }}</td>
+                        <tr class="align-middle">
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $equipment->branch->name }}</td>
                             <td>{{ $equipment->station->name }}</td>
                             <td>{{ $equipment->equipmentType->name }}</td>
@@ -45,20 +45,26 @@
                             <td>{{ $equipment->mark }}</td>
                             <td>{{ $equipment->production_date }}</td>
                             <td>
-                                <a class="btn btn-info btn-sm text-white" href="{{ route('equipment.show', $equipment) }}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-primary btn-sm" href="{{ route('equipment.edit', $equipment) }}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <div class="d-inline-flex">
-                                    <form action="{{ route('equipment.destroy', $equipment) }}" method="Post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger text-white">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-options') }}">
+                                            </use>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="{{ route('equipment.show', $equipment) }}">Харах</a>
+                                        <a class="dropdown-item" href="{{ route('equipment.edit', $equipment) }}">Засах</a>
+                                        <form action="{{ route('equipment.destroy', $equipment) }}" method="Post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn dropdown-item text-danger">
+                                                Устгах
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

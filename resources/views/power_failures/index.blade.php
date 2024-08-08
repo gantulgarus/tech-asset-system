@@ -12,7 +12,7 @@
                 Гэмтэл
             </div>
             <div class="card-body">
-                <a href="{{ route('power_failures.create') }}" class="btn btn-dark mb-2">Нэмэх</a>
+                <a href="{{ route('power_failures.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
                 <table class="table border mb-0" style="font-size: 12px;">
                     <thead class="fw-semibold text-nowrap">
                         <tr class="align-middle">
