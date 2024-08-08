@@ -37,8 +37,8 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->branch->name }}</td>
-                        <td>{{ $user->role->name }}</td>
+                        <td>{{ $user->branch?->name }}</td>
+                        <td>{{ $user->role?->name }}</td>
                         <td>{{ $user->division }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
