@@ -11,7 +11,7 @@
 </head>
 <style>
     body {
-    background-image: url('/images/bg3.jpg');
+    background-image: url('/images/bg3.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
