@@ -12,7 +12,7 @@
                                     <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-bottom">
                                     </use>
                                 </svg>)</span></div>
-                        <div>Users</div>
+                        <div>Дэд станц</div>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-transparent text-white p-0" type="button"
@@ -42,7 +42,7 @@
                                     <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-top">
                                     </use>
                                 </svg>)</span></div>
-                        <div>Income</div>
+                        <div>Тоноглол</div>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-transparent text-white p-0" type="button"
@@ -72,7 +72,7 @@
                                     <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-top">
                                     </use>
                                 </svg>)</span></div>
-                        <div>Conversion Rate</div>
+                        <div>ЦДАШ</div>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-transparent text-white p-0" type="button"
@@ -102,7 +102,7 @@
                                     <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-bottom">
                                     </use>
                                 </svg>)</span></div>
-                        <div>Sessions</div>
+                        <div>Хэрэглэгч</div>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-transparent text-white p-0" type="button"
@@ -128,7 +128,7 @@
     <div class="row row-cols-2">
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Line</span></div>
+            <div class="card-header"><strong>Тасралт</strong><span class="small ms-1"></span></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -140,7 +140,7 @@
         </div>
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Bar</span></div>
+            <div class="card-header"><strong>Насжилт</strong><span class="small ms-1">Тоноглол</span></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -152,7 +152,7 @@
         </div>
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Doughnut</span></div>
+            <div class="card-header"><strong>Таслалт</strong><span class="small ms-1">Doughnut</span></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -164,7 +164,7 @@
         </div>
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Radar</span></div>
+            <div class="card-header"><strong>Гэмтэл</strong><span class="small ms-1">Radar</span></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -188,7 +188,7 @@
         </div>
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Polar Area</span></div>
+            <div class="card-header"><strong>Гэмтэл</strong><span class="small ms-1">Polar Area</span></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -201,7 +201,7 @@
       </div>
 
     <!-- /.row-->
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">Traffic &amp; Sales</div>
@@ -593,7 +593,7 @@
             </div>
         </div>
         <!-- /.col-->
-    </div>
+    </div> --}}
     <!-- /.row-->
 </div>
 @endsection
