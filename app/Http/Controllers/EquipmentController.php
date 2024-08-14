@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
+use App\Models\EquipmentHistory;
 use Illuminate\Http\Request;
 use App\Models\EquipmentType;
 
@@ -79,7 +80,9 @@ class EquipmentController extends Controller
      */
     public function show(Equipment $equipment)
     {
-        return view('equipment.show', compact('equipment'));
+        $equipmentHistories = EquipmentHistory::where('equipment_id', $equipment->id)->get();
+
+        return view('equipment.show', compact('equipment', 'equipmentHistories'));
     }
 
     /**

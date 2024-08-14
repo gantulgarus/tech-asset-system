@@ -85,8 +85,7 @@
 
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <h5>Тоноглолын түүх</h5>
-                                <p>This is the content of the Profile tab.</p>
+                                @include('equipment_histories.index')
                             </div>
                         </div>
                     </div>
