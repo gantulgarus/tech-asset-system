@@ -121,7 +121,7 @@
 
     // Function to add the GeoJSON layer with point filtering
     function addGeoJsonLayer() {
-        fetch('{{ asset('storage/' . $geojson->path) }}')
+        fetch('{{ asset('storage/' . $geojson?->path) }}')
             .then(response => response.json())
             .then(data => {
                 // Remove the previous layer if it exists
