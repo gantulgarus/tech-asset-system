@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Powerline;
+use App\Models\PowerlineGeojson;
 use App\Models\Station;
 use App\Models\Volt;
 use Illuminate\Http\Request;
@@ -56,7 +57,10 @@ class PowerlineController extends Controller
      */
     public function show(Powerline $powerline)
     {
-        return view('powerlines.show', compact('powerline'));
+        // $geojsonFiles = PowerlineGeojson::where('powerline_id', $powerline->id)->get();
+        $geojson = $powerline->geojson;
+
+        return view('powerlines.show', compact('powerline', 'geojson'));
     }
 
     /**

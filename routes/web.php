@@ -20,6 +20,8 @@ use App\Http\Controllers\PowerOutageController;
 use App\Http\Controllers\PowerFailureController;
 use App\Http\Controllers\EquipmentTypeController;
 use App\Http\Controllers\EquipmentHistoryController;
+use App\Http\Controllers\PowerlineGeojsonController;
+use App\Http\Controllers\UserTierResearchController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -55,4 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('equipment-histories', EquipmentHistoryController::class);
     Route::get('equipment/{equipment}/history/create', [EquipmentHistoryController::class, 'create'])
         ->name('equipment-history.create');
+    Route::resource('powerlinegeojson', PowerlineGeojsonController::class);
+    Route::resource('user_tier_research', UserTierResearchController::class);
 });

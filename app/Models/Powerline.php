@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Volt;
 use App\Models\Station;
+use App\Models\PowerlineGeojson;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,5 +32,10 @@ class Powerline extends Model
     public function volt()
     {
         return $this->belongsTo(Volt::class);
+    }
+
+    public function geojson()
+    {
+        return $this->hasOne(PowerlineGeojson::class);
     }
 }

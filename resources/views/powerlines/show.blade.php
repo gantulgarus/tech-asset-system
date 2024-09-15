@@ -3,6 +3,9 @@
 @section('content')
     <div class="container mt-4">
         <div class="row">
+            {{-- <div class="col">
+                <div id="map" style="height: 600px;"></div>
+            </div> --}}
             
             <div class="col-12">
                 <div class="card">
@@ -91,7 +94,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col">
-                                            <div id="map" style="height: 400px;"></div>
+                                            <div id="map" style="height: 600px;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,11 +110,88 @@
 @section('scripts')
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    var map = L.map('map').setView([47.92123, 106.918556], 8); // Set initial center and zoom
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+
+    var geojsonLayer;
+
+    // Function to add the GeoJSON layer with point filtering
+    function addGeoJsonLayer() {
+        fetch('{{ asset('storage/' . $geojson->path) }}')
+            .then(response => response.json())
+            .then(data => {
+                // Remove the previous layer if it exists
+                if (geojsonLayer) {
+                    map.removeLayer(geojsonLayer);
+                }
+
+                geojsonLayer = L.geoJSON(data, {
+                    pointToLayer: function (feature, latlng) {
+                        console.log(latlng);
+                        // Only add the point if the zoom level is 14 or greater
+                        if (map.getZoom() >= 14) {
+                            return L.circleMarker(latlng, {
+                                radius: 5,
+                                fillColor: feature.properties.stroke || "#3388ff",
+                                color: feature.properties.stroke || "#3388ff",
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+                        }
+                        return null; // Return null to skip adding the marker
+                    },
+                    style: function (feature) {
+                        return {
+                            color: feature.properties.stroke || "#3388ff", 
+                            weight: 1.5, // Decreased line width
+                            opacity: 1
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<b>' + feature.properties.name + '</b>');
+                        var tooltip = '110 kV'; // Change this to your desired text
+                        if (map.getZoom() < 14) {
+                            layer.bindTooltip(tooltip, {
+                                permanent: true, // Always show the label
+                                direction: "center", // Position the label in the center of the line
+                                offset: [0, 10],
+                                className: "line-label" // Optional: add custom class for styling
+                            });
+                        } else {
+                            // Remove tooltip if zoom level is 14 or greater
+                            layer.unbindTooltip();
+                        }
+                    }
+                }).addTo(map);
+
+                // // Find the bounds of the geojsonLayer
+                // var bounds = geojsonLayer.getBounds();
+                // // Calculate the center of the bounds
+                // var center = bounds.getCenter();
+                // // Set the view to the center of the bounds
+                // map.setView(center, 10); // Adjust zoom level as needed
+                // // map.fitBounds(bounds);
+
+                // Find the bounds of the geojsonLayer
+                var bounds = geojsonLayer.getBounds();
+                // Fit the map to the bounds
+                // map.fitBounds(bounds);
+
+            });
+    }
+
+    // Add the GeoJSON layer initially
+    addGeoJsonLayer();
+
+    // Update the GeoJSON layer when zoom level changes
+    map.on('zoomend', function () {
+        addGeoJsonLayer();
+    });
 
     // Listen for the tab to be shown
     $('a[data-coreui-toggle="tab"]').on('shown.coreui.tab', function (e) {

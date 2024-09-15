@@ -30,6 +30,10 @@
         <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span
                         class="nav-icon-bullet"></span></span> Шугамын түүх</a></li>
     </ul>
+    <li class="nav-item"><a class="nav-link" href="{{ route('user_tier_research.index') }}">
+        <svg class="nav-icon">
+            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-bar-chart') }}"></use>
+        </svg> {{ __('I-II судалгаа') }}</a></li>
 </li>
     <li class="nav-title">Журнал</li>
     <li class="nav-item"><a class="nav-link" href="{{ route('power_outages.index') }}">

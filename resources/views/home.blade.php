@@ -7,11 +7,7 @@
             <div class="card text-white bg-primary">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">26K <span class="fs-6 fw-normal">(-12.4%
-                                <svg class="icon">
-                                    <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-bottom">
-                                    </use>
-                                </svg>)</span></div>
+                        <div class="fs-4 fw-semibold">{{ $stationCount }}</div>
                         <div>Дэд станц</div>
                     </div>
                     <div class="dropdown">
@@ -37,11 +33,7 @@
             <div class="card text-white bg-info">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">$6.200 <span class="fs-6 fw-normal">(40.9%
-                                <svg class="icon">
-                                    <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-top">
-                                    </use>
-                                </svg>)</span></div>
+                        <div class="fs-4 fw-semibold">{{ $equipmentCount }}</div>
                         <div>Тоноглол</div>
                     </div>
                     <div class="dropdown">
@@ -67,11 +59,7 @@
             <div class="card text-white bg-warning">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">2.49% <span class="fs-6 fw-normal">(84.7%
-                                <svg class="icon">
-                                    <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-top">
-                                    </use>
-                                </svg>)</span></div>
+                        <div class="fs-4 fw-semibold">{{ $powerlineCount }}</div>
                         <div>ЦДАШ</div>
                     </div>
                     <div class="dropdown">
@@ -97,11 +85,7 @@
             <div class="card text-white bg-danger">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">44K <span class="fs-6 fw-normal">(-23.6%
-                                <svg class="icon">
-                                    <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-arrow-bottom">
-                                    </use>
-                                </svg>)</span></div>
+                        <div class="fs-4 fw-semibold">{{ $userCount }}</div>
                         <div>Хэрэглэгч</div>
                     </div>
                     <div class="dropdown">
