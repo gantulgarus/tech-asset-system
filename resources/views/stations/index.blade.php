@@ -30,7 +30,7 @@
                 <tbody>
                     @foreach ($stations as $station)
                         <tr class="align-middle">
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $station->branch->name }}</td>
                             <td>{{ $station->name }}</td>
                             <td>
