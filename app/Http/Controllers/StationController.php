@@ -17,7 +17,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        $stations = Station::with('branch', 'volts')->get();
+        $stations = Station::with('branch', 'volts')->paginate(25);
         return view('stations.index', compact('stations'));
     }
 
@@ -47,7 +47,7 @@ class StationController extends Controller
             'desc' => 'nullable',
         ]);
 
-        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year']));
+        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
 
         $station->volts()->attach($request->volt_ids);
 
@@ -93,7 +93,7 @@ class StationController extends Controller
             'desc' => 'nullable',
         ]);
 
-        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year']));
+        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
 
         $station->volts()->sync($request->volt_ids);
 

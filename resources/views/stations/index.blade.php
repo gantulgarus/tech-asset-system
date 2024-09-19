@@ -20,16 +20,17 @@
                         <th class="bg-body-secondary">№</th>
                         <th class="bg-body-secondary">Салбар</th>
                         <th class="bg-body-secondary">Дэд станцын ША-ны нэр</th>
-                        <th class="bg-body-secondary">Хүчдлийн түвшин</th>
+                        <th class="bg-body-secondary">Хүчдэлийн түвшин</th>
                         <th class="bg-body-secondary">Ашиглалтад орсон он</th>
                         <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
+                        <th class="bg-body-secondary">Хэрэглэгчийн дэд станц</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($stations as $station)
                         <tr class="align-middle">
-                            <td>{{ $station->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $station->branch->name }}</td>
                             <td>{{ $station->name }}</td>
                             <td>
@@ -40,6 +41,7 @@
                             </td>
                             <td>{{ $station->create_year }}</td>
                             <td>{{ $station->installed_capacity }}</td>
+                            <td>{{ $station->is_user_station == 0 ? 'Үгүй' : 'Тийм' }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -67,6 +69,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $stations->links(); }}
         </div>
     </div>
     
