@@ -19,7 +19,7 @@ class StationController extends Controller
     {
         $stations = Station::with('branch', 'volts')->paginate(10);
         return view('stations.index', compact('stations'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
