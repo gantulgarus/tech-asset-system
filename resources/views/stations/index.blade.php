@@ -69,7 +69,9 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $stations->links(); }}
+            <div class="mt-2">
+                {{ $stations->links(); }}
+            </div>
         </div>
     </div>
     
