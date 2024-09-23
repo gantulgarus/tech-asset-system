@@ -41,7 +41,7 @@
                             </td>
                             <td>{{ $station->create_year }}</td>
                             <td>{{ $station->installed_capacity }}</td>
-                            <td>{{ $station->is_user_station == 0 ? 'Эзэмшлийн' : 'Өөрийн' }}</td>
+                            <td>{{ $station->is_user_station == 0 ? 'Хэрэглэгчийн' : 'Өөрийн' }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
