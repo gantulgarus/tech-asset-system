@@ -23,7 +23,7 @@
                         <th class="bg-body-secondary">Хүчдэлийн түвшин</th>
                         <th class="bg-body-secondary">Ашиглалтад орсон он</th>
                         <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
-                        <th class="bg-body-secondary">Хэрэглэгчийн дэд станц</th>
+                        <th class="bg-body-secondary">Эзэмшил</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -41,7 +41,7 @@
                             </td>
                             <td>{{ $station->create_year }}</td>
                             <td>{{ $station->installed_capacity }}</td>
-                            <td>{{ $station->is_user_station == 0 ? 'Үгүй' : 'Тийм' }}</td>
+                            <td>{{ $station->is_user_station == 0 ? 'Эзэмшлийн' : 'Өөрийн' }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

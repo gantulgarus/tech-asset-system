@@ -84,8 +84,8 @@
                             <div class="mb-3">
                                 <label for="is_user_station" class="form-label">Хэрэглэгчийн дэд станц мөн эсэх</label>
                                 <select name="is_user_station" class="form-control">
-                                    <option value="0" {{ old('is_user_station', $station->is_user_station) == 0 ? 'selected' : '' }}>Үгүй</option>
-                                    <option value="1" {{ old('is_user_station', $station->is_user_station) == 1 ? 'selected' : '' }}>Тийм</option>
+                                    <option value="0" {{ old('is_user_station', $station->is_user_station) == 0 ? 'selected' : '' }}>Эзэмшлийн</option>
+                                    <option value="1" {{ old('is_user_station', $station->is_user_station) == 1 ? 'selected' : '' }}>Өөрийн</option>
                                 </select>
                                 @error('is_user_station')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
