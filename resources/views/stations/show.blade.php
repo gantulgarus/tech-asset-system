@@ -43,8 +43,8 @@
                                                     <td>{{ $station->name }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Тайлбар</th>
-                                                    <td>{{ $station->description }}</td>
+                                                    <th>Эх үүсвэр</th>
+                                                    <td>{{ $station->desc }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Хүчдлийн түвшин /кВ/</th>

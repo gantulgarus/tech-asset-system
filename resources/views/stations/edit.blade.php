@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="desc" class="form-label">Тайлбар</label>
+                                <label for="desc" class="form-label">Эх үүсвэр</label>
                                 <input type="text" name="desc" value="{{ $station->desc }}" class="form-control">
                                 @error('desc')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

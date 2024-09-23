@@ -24,7 +24,7 @@
                         <th class="bg-body-secondary">Ашиглалтад орсон он</th>
                         <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
                         <th class="bg-body-secondary">Эзэмшил</th>
-                        <th class="bg-body-secondary">Тайлбар</th>
+                        <th class="bg-body-secondary">Эх үүсвэр</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
