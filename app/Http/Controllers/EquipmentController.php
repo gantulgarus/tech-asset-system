@@ -36,7 +36,7 @@ class EquipmentController extends Controller
         $branches = Branch::all();
         $stations = Station::all();
         $equipmentTypes = EquipmentType::all();
-        $volts = Volt::all();
+        $volts = Volt::orderBy('order', 'asc')->get();
 
         return view('equipment.create', compact('branches', 'stations', 'equipmentTypes', 'volts'));
     }
@@ -93,7 +93,7 @@ class EquipmentController extends Controller
         $branches = Branch::all();
         $stations = Station::all();
         $equipmentTypes = EquipmentType::all();
-        $volts = Volt::all();
+        $volts = Volt::orderBy('order', 'asc')->get();
 
         return view('equipment.edit', compact('equipment', 'branches', 'stations', 'equipmentTypes', 'volts'));
     }

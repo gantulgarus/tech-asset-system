@@ -28,7 +28,7 @@ class StationController extends Controller
     public function create()
     {
         $branches = Branch::all();
-        $volts = Volt::all();
+        $volts = Volt::orderBy('order', 'asc')->get();
         return view('stations.create', compact('branches', 'volts'));
     }
 
@@ -74,7 +74,7 @@ class StationController extends Controller
     public function edit(Station $station)
     {
         $branches = Branch::all();
-        $volts = Volt::all();
+        $volts = Volt::orderBy('order', 'asc')->get();
         return view('stations.edit', compact('station', 'branches', 'volts'));
     }
 

@@ -32,7 +32,8 @@ class Station extends Model
 
     public function volts()
     {
-        return $this->belongsToMany(Volt::class, 'station_volt');
+        return $this->belongsToMany(Volt::class, 'station_volt')
+            ->orderByRaw('CAST(name AS UNSIGNED) DESC');
     }
 
     public function schemas()

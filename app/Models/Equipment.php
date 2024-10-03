@@ -15,12 +15,19 @@ class Equipment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'branch_id', 'station_id', 'equipment_type_id', 'mark', 'production_date', 'description'
+        'name',
+        'branch_id',
+        'station_id',
+        'equipment_type_id',
+        'mark',
+        'production_date',
+        'description'
     ];
 
     public function volts()
     {
-        return $this->belongsToMany(Volt::class, 'equipment_volt');
+        return $this->belongsToMany(Volt::class, 'equipment_volt')
+            ->orderByRaw('CAST(name AS UNSIGNED) DESC');
     }
 
     public function branch()
