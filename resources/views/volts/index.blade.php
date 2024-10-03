@@ -14,6 +14,7 @@
             <tr>
                 <th style="width: 50px;">№</th>
                 <th>Нэр</th>
+                <th>Эрэмбэ</th>
                 <th width="280px">Үйлдэл</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $volt->name }}кВ</td>
+                    <td>{{ $volt->order }}</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="{{ route('volts.edit', $volt->id) }}">Засах</a>
                         <div class="d-inline-flex">

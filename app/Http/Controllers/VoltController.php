@@ -12,7 +12,7 @@ class VoltController extends Controller
      */
     public function index()
     {
-        $volts = Volt::orderBy('id', 'desc')->get();
+        $volts = Volt::orderBy('order', 'asc')->get();
         return view('volts.index', compact('volts'));
     }
 

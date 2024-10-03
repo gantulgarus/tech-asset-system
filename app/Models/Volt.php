@@ -10,7 +10,7 @@ class Volt extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'order'];
 
     public function stations()
     {

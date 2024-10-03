@@ -17,9 +17,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Нэр</label>
+                                <label for="name" class="form-label">Нэр</label>
                                 <input type="text" name="name" class="form-control" placeholder="Хүчдлийн түвшний утга">
                                 @error('name')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="order" class="form-label">Эрэмбэ</label>
+                                <input type="text" name="order" class="form-control" placeholder="Эрэмбэ">
+                                @error('order')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

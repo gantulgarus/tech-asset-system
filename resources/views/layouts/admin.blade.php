@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>{{ config('app.name', 'БЗӨБЦТС - Мэдээллийн сан') }}</title>
+    <title>{{ config('app.name', 'БЗӨБЦТС - Техникийн мэдээллийн сан') }}</title>
     <meta name="theme-color" content="#ffffff">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -34,6 +34,7 @@
                 <img class="sidebar-brand-full img-fluid rounded-circle border" style="height: 46px; width: 46px;" height="46" src="{{ asset('images/logo.png') }}" />
                 <div>
                     <h6>БЗӨБЦТС ТӨХК</h6>
+                    <h6>ТЕХНИКИЙН</h6>
                     <h6>МЭДЭЭЛЛИЙН САН</h6>
                 </div>
             </div>

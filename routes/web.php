@@ -17,8 +17,10 @@ use App\Http\Controllers\PowerlineController;
 use App\Http\Controllers\ProtectionController;
 use App\Http\Controllers\CauseOutageController;
 use App\Http\Controllers\PowerOutageController;
+use App\Http\Controllers\BusinessPlanController;
 use App\Http\Controllers\PowerFailureController;
 use App\Http\Controllers\EquipmentTypeController;
+use App\Http\Controllers\OutageScheduleController;
 use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
@@ -59,4 +61,6 @@ Route::middleware('auth')->group(function () {
         ->name('equipment-history.create');
     Route::resource('powerlinegeojson', PowerlineGeojsonController::class);
     Route::resource('user_tier_research', UserTierResearchController::class);
+    Route::resource('business-plans', BusinessPlanController::class);
+    Route::resource('outage_schedules', OutageScheduleController::class);
 });

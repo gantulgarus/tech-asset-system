@@ -15,7 +15,7 @@
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid rounded-circle border" style="max-width: 100px; height: 100px;">
                 </div>
                 <div>
-                    <h4 class="subtitle">{{ __('Мэдээллийн сан') }}</h4>
+                    <h4 class="subtitle">{{ __('Техникийн мэдээллийн сан') }}</h4>
                 </div>
                 <form action="{{ route('login') }}" method="POST" style="width: 100%;">
                     @csrf

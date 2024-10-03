@@ -19,6 +19,13 @@
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label for="order" class="form-label">Эрэмбэ</label>
+                                <input type="text" name="order" value="{{ $volt->order }}" class="form-control" placeholder="Эрэмбэ">
+                                @error('order')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
