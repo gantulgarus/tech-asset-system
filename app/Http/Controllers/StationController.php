@@ -19,7 +19,7 @@ class StationController extends Controller
     {
         // $stations = Station::with('branch', 'volts')->paginate(10);
         $stations = Station::with('branch', 'volts')
-            ->orderBy('name', 'asc') // Order by 'name' column in ascending order
+            ->orderBy('branch_id', 'asc') // Order by 'name' column in ascending order
             ->paginate(25);
 
         return view('stations.index', compact('stations'))
