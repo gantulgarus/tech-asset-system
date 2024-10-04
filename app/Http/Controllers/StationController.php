@@ -17,10 +17,10 @@ class StationController extends Controller
      */
     public function index()
     {
-        // $stations = Station::with('branch', 'volts')->paginate(10);
-        $stations = Station::with('branch', 'volts')
-            ->orderBy('branch_id', 'asc') // Order by 'name' column in ascending order
-            ->paginate(25);
+        $stations = Station::with('branch', 'volts')->paginate(25);
+        // $stations = Station::with('branch', 'volts')
+        //     ->orderBy('branch_id', 'asc') // Order by 'name' column in ascending order
+        //     ->paginate(25);
 
         return view('stations.index', compact('stations'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
