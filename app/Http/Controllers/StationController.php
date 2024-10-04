@@ -17,7 +17,8 @@ class StationController extends Controller
      */
     public function index()
     {
-        $stations = Station::with('branch', 'volts')->paginate(25);
+        $stations = Station::orderBy('branch_id', 'asc')->paginate(25);
+        // $stations = Station::with('branch', 'volts')->paginate(25);
         // $stations = Station::with('branch', 'volts')
         //     ->orderBy('branch_id', 'asc') // Order by 'name' column in ascending order
         //     ->paginate(25);

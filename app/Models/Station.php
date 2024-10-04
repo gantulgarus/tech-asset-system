@@ -12,7 +12,7 @@ use Laravel\Scout\Searchable;
 
 class Station extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = ['name', 'branch_id', 'create_year', 'installed_capacity', 'desc', 'uuid', 'is_user_station'];
 
@@ -26,19 +26,19 @@ class Station extends Model
         });
     }
 
-    public function toSearchableArray()
-    {
-        $array = $this->toArray();
+    // public function toSearchableArray()
+    // {
+    //     $array = $this->toArray();
 
-        return [
-            'name' => $array['name'],
-            'branch_id' => $array['branch_id'],
-            'create_year' => $array['create_year'],
-            'installed_capacity' => $array['installed_capacity'],
-            'desc' => $array['desc'],
-            'is_user_station' => $array['is_user_station']
-        ];
-    }
+    //     return [
+    //         'name' => $array['name'],
+    //         'branch_id' => $array['branch_id'],
+    //         'create_year' => $array['create_year'],
+    //         'installed_capacity' => $array['installed_capacity'],
+    //         'desc' => $array['desc'],
+    //         'is_user_station' => $array['is_user_station']
+    //     ];
+    // }
 
     public function branch()
     {
