@@ -24,7 +24,7 @@ class StationController extends Controller
         //     ->paginate(25);
 
         return view('stations.index', compact('stations'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+            ->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
