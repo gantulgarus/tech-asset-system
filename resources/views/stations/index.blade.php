@@ -34,6 +34,13 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <select name="is_user_station" class="form-control form-control-sm">
+                                <option value="">Эзэмшил</option>
+                                    <option value="0" {{ request('is_user_station') === 0 ? 'selected' : '' }}>Хэрэглэгчийн</option>
+                                    <option value="1" {{ request('is_user_station') === 1 ? 'selected' : '' }}>Өөрийн</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
                             <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
                         </div>

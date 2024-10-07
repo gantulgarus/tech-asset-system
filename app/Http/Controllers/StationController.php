@@ -22,7 +22,7 @@ class StationController extends Controller
 
         if ($request->filled('branch_id')) {
             // dd($request->input('station'));
-            $query->where('stations.branch_id', $request->input('branch_id'));
+            $query->where('branch_id', $request->input('branch_id'));
         }
 
         if ($request->filled('volt_id')) {
@@ -30,6 +30,11 @@ class StationController extends Controller
             $query->whereHas('volts', function ($query) use ($voltId) {
                 $query->where('volts.id', $voltId);
             });
+        }
+
+        if ($request->filled('is_user_station')) {
+            // dd($request->input('station'));
+            $query->where('is_user_station', $request->input('is_user_station'));
         }
 
         $stations = $query->paginate(25)->appends($request->query());
