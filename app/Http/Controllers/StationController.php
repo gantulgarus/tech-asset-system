@@ -15,15 +15,29 @@ class StationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $stations = Station::orderBy('branch_id', 'asc')->paginate(25);
-        // $stations = Station::with('branch', 'volts')->paginate(25);
-        // $stations = Station::with('branch', 'volts')
-        //     ->orderBy('branch_id', 'asc') // Order by 'name' column in ascending order
-        //     ->paginate(25);
+        // $stations = Station::orderBy('branch_id', 'asc')->paginate(25);
+        $query = Station::query();
 
-        return view('stations.index', compact('stations'))
+        if ($request->filled('branch_id')) {
+            // dd($request->input('station'));
+            $query->where('stations.branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
+            });
+        }
+
+        $stations = $query->paginate(25)->appends($request->query());
+
+        $branches = Branch::all();
+        $volts = Volt::orderBy('order', 'asc')->get();
+
+        return view('stations.index', compact('stations', 'branches', 'volts'))
             ->with('i', (request()->input('page', 1) - 1) * 25);
     }
 

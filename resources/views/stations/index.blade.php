@@ -14,6 +14,32 @@
         </div>
         <div class="card-body">
             <a href="{{ route('stations.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <div class="mb-2">
+                <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select name="branch_id" class="form-control form-control-sm">
+                                <option value="">Салбар</option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="volt_id" class="form-control form-control-sm">
+                                <option value="">Хүчдлийн түвшин</option>
+                                @foreach($volts as $volt)
+                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
