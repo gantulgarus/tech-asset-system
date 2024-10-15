@@ -57,6 +57,7 @@
                             <th class="bg-body-secondary">Cosf</th>
                             <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
+                            <th class="bg-body-secondary">Акт</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
@@ -78,6 +79,13 @@
                                 <td>{{ $powerOutage->ude }}</td>
                                 <td>{{ $powerOutage->user->name }}</td>
                                 <td>
+                                    @if($powerOutage->act_file_path)
+                                        <a href="{{ Storage::url($powerOutage->act_file_path) }}" target="_blank">
+                                            <i class="far fa-file-pdf fa-2x"></i>
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
                                     <div class="dropdown">
                                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
@@ -89,6 +97,9 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a class="dropdown-item" href="{{ route('power_outages.edit', $powerOutage) }}">Засах</a>
+                                            @if(!$powerOutage->act_file_path)
+                                            <a class="dropdown-item" href="{{ route('power_outage.upload', $powerOutage->id) }}">Акт оруулах</a>
+                                            @endif
                                             <form action="{{ route('power_outages.destroy', $powerOutage) }}" method="Post">
                                                 @csrf
                                                 @method('DELETE')

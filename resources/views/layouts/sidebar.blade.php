@@ -39,12 +39,12 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('outage_schedules.index') }}">
         <i class="fas fa-calendar-check nav-icon"></i>
         {{ __('Таслалт график') }}</a></li>
-    {{-- <li class="nav-item"><a class="nav-link" href="">
+    <li class="nav-item"><a class="nav-link" href="{{ route('protection-zone-violations.index') }}">
         <i class="fas fa-exclamation-triangle nav-icon"></i>
         {{ __('Хамгаалалтын зурвас') }}</a></li>
     <li class="nav-item"><a class="nav-link" href="">
         <i class="far fa-bell nav-icon"></i>
-        {{ __('Олон жилийн график') }}</a></li> --}}
+        {{ __('Олон жилийн график') }}</a></li>
     
 </li>
     <li class="nav-title">Журнал</li>

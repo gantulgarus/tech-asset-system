@@ -24,6 +24,7 @@ use App\Http\Controllers\OutageScheduleController;
 use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
+use App\Http\Controllers\ProtectionZoneViolationController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('cause_cuts', CauseCutController::class);
     Route::resource('power_outages', PowerOutageController::class);
     Route::get('/power_outages', [PowerOutageController::class, 'index'])->name('power_outages.index');
+    Route::post('/power_outage/{id}/upload-act', [PowerOutageController::class, 'uploadAct'])->name('power_outage.upload-act');
+    Route::get('/power_outage/{id}/upload', [PowerOutageController::class, 'showUploadPage'])->name('power_outage.upload');
     Route::resource('power_failures', PowerFailureController::class);
     Route::resource('power_cuts', PowerCutController::class);
     Route::resource('schemas', SchemaController::class);
@@ -63,4 +66,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('user_tier_research', UserTierResearchController::class);
     Route::resource('business-plans', BusinessPlanController::class);
     Route::resource('outage_schedules', OutageScheduleController::class);
+    Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
 });

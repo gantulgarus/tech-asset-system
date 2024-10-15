@@ -27,7 +27,8 @@ class PowerOutage extends Model
         'current_amper',
         'cosf',
         'ude',
-        'user_id'
+        'user_id',
+        'act_file_path'
     ];
 
     // Define relationships (if applicable)

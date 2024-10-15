@@ -96,6 +96,40 @@ class PowerOutageController extends Controller
             ->with('success', 'Power outage created successfully.');
     }
 
+    public function showUploadPage($id)
+    {
+        $powerOutage = PowerOutage::findOrFail($id);
+        return view('power_outages.upload-act', compact('powerOutage'));
+    }
+
+    // New action to handle the act file upload
+    public function uploadAct(Request $request, $id)
+    {
+        // Validate the request to ensure a PDF file is provided
+        $request->validate([
+            'act_file' => 'required|mimes:pdf|max:2048', // Only allow PDF files up to 2MB
+        ]);
+
+        // Find the existing PowerOutage entry
+        $powerOutage = PowerOutage::findOrFail($id);
+
+        // Handle file upload
+        if ($request->hasFile('act_file')) {
+            // Get the uploaded file
+            $file = $request->file('act_file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('acts', $filename, 'public'); // Store the file in the 'public/acts' folder
+
+            // Save the file path in the database
+            $powerOutage->act_file_path = $path;
+            $powerOutage->save();
+
+            return redirect()->back()->with('success', 'Act uploaded successfully!');
+        }
+
+        return redirect()->back()->withErrors('File upload failed.');
+    }
+
     /**
      * Display the specified resource.
      */
