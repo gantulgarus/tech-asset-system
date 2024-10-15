@@ -21,6 +21,7 @@ use App\Http\Controllers\BusinessPlanController;
 use App\Http\Controllers\PowerFailureController;
 use App\Http\Controllers\EquipmentTypeController;
 use App\Http\Controllers\OutageScheduleController;
+use App\Http\Controllers\MaintenancePlanController;
 use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
@@ -67,4 +68,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('business-plans', BusinessPlanController::class);
     Route::resource('outage_schedules', OutageScheduleController::class);
     Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
+    Route::resource('maintenance-plans', MaintenancePlanController::class);
+    Route::get('maintenance-plan/{equipment}/create', [MaintenancePlanController::class, 'create'])->name('maintenance-plans.create');
 });

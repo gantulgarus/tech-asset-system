@@ -10,6 +10,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentHistory;
 use Illuminate\Http\Request;
 use App\Models\EquipmentType;
+use App\Models\MaintenancePlan;
 
 class EquipmentController extends Controller
 {
@@ -81,8 +82,9 @@ class EquipmentController extends Controller
     public function show(Equipment $equipment)
     {
         $equipmentHistories = EquipmentHistory::where('equipment_id', $equipment->id)->get();
+        $maintenancePlans = MaintenancePlan::where('equipment_id', $equipment->id)->get();
 
-        return view('equipment.show', compact('equipment', 'equipmentHistories'));
+        return view('equipment.show', compact('equipment', 'equipmentHistories', 'maintenancePlans'));
     }
 
     /**

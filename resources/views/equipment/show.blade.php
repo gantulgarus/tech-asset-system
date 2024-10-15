@@ -12,8 +12,12 @@
                                     role="tab" aria-controls="details" aria-selected="true">Мэдээлэл</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-coreui-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile" aria-selected="false">Тоноглолын түүх</a>
+                                <a class="nav-link" id="passport-tab" data-coreui-toggle="tab" href="#passport" role="tab"
+                                    aria-controls="passport" aria-selected="false">Тоноглолын түүх</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="plan-tab" data-coreui-toggle="tab" href="#plan" role="tab"
+                                    aria-controls="plan" aria-selected="false">График</a>
                             </li>
                         </ul>
                     </div>
@@ -84,8 +88,11 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">
                                 @include('equipment_histories.index')
+                            </div>
+                            <div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="passport-tab">
+                                @include('maintenance_plans.index')
                             </div>
                         </div>
                     </div>

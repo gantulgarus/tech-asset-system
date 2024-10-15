@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\EquipmentType;
+use App\Models\MaintenancePlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -48,5 +49,10 @@ class Equipment extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function maintenancePlans()
+    {
+        return $this->hasMany(MaintenancePlan::class);
     }
 }
