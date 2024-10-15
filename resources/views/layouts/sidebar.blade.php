@@ -48,7 +48,7 @@
     
 </li>
     <li class="nav-title">Журнал</li>
-    <li class="nav-item"><a class="nav-link" href="">
+    <li class="nav-item"><a class="nav-link" href="" onclick="return false;">
         <i class="fab fa-creative-commons-nd nav-icon"></i>
         {{ __('Захиалгын бүртгэл') }}</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('power_outages.index') }}">
