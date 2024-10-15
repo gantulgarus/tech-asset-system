@@ -42,15 +42,15 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('protection-zone-violations.index') }}">
         <i class="fas fa-exclamation-triangle nav-icon"></i>
         {{ __('Хамгаалалтын зурвас') }}</a></li>
-    <li class="nav-item"><a class="nav-link" href="">
+    {{-- <li class="nav-item"><a class="nav-link" href="">
         <i class="far fa-bell nav-icon"></i>
-        {{ __('Олон жилийн график') }}</a></li>
+        {{ __('Олон жилийн график') }}</a></li> --}}
     
 </li>
     <li class="nav-title">Журнал</li>
-    {{-- <li class="nav-item"><a class="nav-link" href="">
+    <li class="nav-item"><a class="nav-link" href="">
         <i class="fab fa-creative-commons-nd nav-icon"></i>
-        {{ __('Захиалгын бүртгэл') }}</a></li> --}}
+        {{ __('Захиалгын бүртгэл') }}</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('power_outages.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-notes') }}"></use>
