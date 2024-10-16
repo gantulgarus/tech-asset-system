@@ -1,0 +1,27 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\OrderStatus;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class OrderStatusSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $orderStatuses = [
+            'Илгээсэн',
+            'Хүлээн авсан',
+            'Батлагдсан',
+            'Цуцлагдсан',
+        ];
+
+        foreach ($orderStatuses as $status) {
+            OrderStatus::create(['name' => $status]);
+        }
+    }
+}
