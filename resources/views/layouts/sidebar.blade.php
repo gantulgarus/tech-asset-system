@@ -50,7 +50,7 @@
     <li class="nav-title">Журнал</li>
     <li class="nav-item"><a class="nav-link" href="" onclick="return false;">
         <i class="fab fa-creative-commons-nd nav-icon"></i>
-        {{ __('Захиалгын бүртгэл') }}</a></li>
+        {{ __('Захиалга') }}</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('power_outages.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-notes') }}"></use>
@@ -63,10 +63,10 @@
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-notes') }}"></use>
             </svg> {{ __('Гэмтэл') }}</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">
+    {{-- <li class="nav-item"><a class="nav-link" href="#">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-library') }}"></use>
-            </svg> {{ __('Тайлан') }}</a></li>
+            </svg> {{ __('Тайлан') }}</a></li> --}}
     <li class="nav-title">Тохиргоо</li>
     <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
             <svg class="nav-icon">
