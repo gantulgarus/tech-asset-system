@@ -18,6 +18,7 @@ use App\Http\Controllers\ProtectionController;
 use App\Http\Controllers\CauseOutageController;
 use App\Http\Controllers\PowerOutageController;
 use App\Http\Controllers\BusinessPlanController;
+use App\Http\Controllers\OrderJournalController;
 use App\Http\Controllers\PowerFailureController;
 use App\Http\Controllers\EquipmentTypeController;
 use App\Http\Controllers\OutageScheduleController;
@@ -70,4 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
     Route::resource('maintenance-plans', MaintenancePlanController::class);
     Route::get('maintenance-plan/{equipment}/create', [MaintenancePlanController::class, 'create'])->name('maintenance-plans.create');
+    Route::resource('order-journals', OrderJournalController::class);
+    Route::put('/order-journals/{orderJournal}/receive', [OrderJournalController::class, 'receive'])->name('order-journals.receive');
+    Route::put('/order-journals/{orderJournal}/approve', [OrderJournalController::class, 'approve'])->name('order-journals.approve');
+    Route::put('/order-journals/{orderJournal}/cancel', [OrderJournalController::class, 'cancel'])->name('order-journals.cancel');
 });

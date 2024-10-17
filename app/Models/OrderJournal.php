@@ -30,6 +30,8 @@ class OrderJournal extends Model
         'order_status_id',
         'real_start_date',
         'real_end_date',
+        'approved_at',
+        'canceled_at',
     ];
 
     public function branch()
@@ -55,5 +57,15 @@ class OrderJournal extends Model
     public function orderStatus()
     {
         return $this->belongsTo(OrderStatus::class);
+    }
+
+    public function approvedUser()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function receivedUser()
+    {
+        return $this->belongsTo(User::class);
     }
 }
