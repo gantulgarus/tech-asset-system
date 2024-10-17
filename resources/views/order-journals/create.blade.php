@@ -62,7 +62,9 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="content" class="form-label">Захиалгын агуулга, захиалга өгсөн, дамжуулсан хүний албан тушаал нэр </label>
-                                <textarea name="content" rows="4" class="form-control" value="{{ old('content') }}"></textarea>
+                                <textarea name="content" rows="4" class="form-control">
+                                    {{ old('content') }}
+                                </textarea>
                                 @error('content')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

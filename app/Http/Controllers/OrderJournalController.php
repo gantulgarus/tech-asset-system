@@ -53,15 +53,11 @@ class OrderJournalController extends Controller
         $orderNumber = $latestOrder ? $latestOrder->order_number + 1 : 1;
         $input['order_number'] = $orderNumber;
 
-        // dd($input);
-
         $request->validate([
-            // 'branch_id' => 'required',
             'order_type_id' => 'required',
             'content' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            // 'created_user_id' => 'required',
         ]);
 
         OrderJournal::create($input);
@@ -83,7 +79,11 @@ class OrderJournalController extends Controller
      */
     public function edit(OrderJournal $orderJournal)
     {
-        return view('order-journals.edit', compact('orderJournal'));
+        $stations = Station::all();
+        $equipments = Equipment::all();
+        $orderTypes = OrderType::all();
+
+        return view('order-journals.edit', compact('orderJournal', 'stations', 'equipments', 'orderTypes'));
     }
 
     /**
@@ -92,13 +92,9 @@ class OrderJournalController extends Controller
     public function update(Request $request, OrderJournal $orderJournal)
     {
         $request->validate([
-            'branch_id' => 'required',
             'order_type_id' => 'required',
-            'order_number' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'created_user_id' => 'required',
-            'status_id' => 'required',
         ]);
 
         $orderJournal->update($request->all());
