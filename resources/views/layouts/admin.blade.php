@@ -76,8 +76,10 @@
     <script src="{{ asset('vendors/@coreui/chartjs/js/coreui-chartjs.js') }}"></script>
     <script src="{{ asset('vendors/@coreui/utils/js/index.js') }}"></script>
     <script src="{{ asset('vendors/@coreui/chartjs/js/coreui-chartjs.js') }}"></script>
-    <script src="{{ asset('js/charts.js') }}"></script>
+    {{-- <script src="{{ asset('js/charts.js') }}"></script> --}}
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     @yield('scripts')
 </body>

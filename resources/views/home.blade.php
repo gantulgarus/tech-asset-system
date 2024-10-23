@@ -124,7 +124,7 @@
         </div>
         <div class="col">
           <div class="card mb-4">
-            <div class="card-header"><strong>Насжилт</strong><span class="small ms-1">Тоноглол</span></div>
+            <div class="card-header"><strong>Тоноглолын насжилт</strong></div>
             <div class="card-body">
               <div class="example">
                 <div class="c-chart-wrapper">
@@ -134,442 +134,69 @@
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card mb-4">
-            <div class="card-header"><strong>Таслалт</strong><span class="small ms-1">Doughnut</span></div>
-            <div class="card-body">
-              <div class="example">
-                <div class="c-chart-wrapper">
-                    <canvas id="canvas-3"></canvas>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4">
-            <div class="card-header"><strong>Гэмтэл</strong><span class="small ms-1">Radar</span></div>
-            <div class="card-body">
-              <div class="example">
-                <div class="c-chart-wrapper">
-                    <canvas id="canvas-4"></canvas>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4">
-            <div class="card-header"><strong>Chart</strong><span class="small ms-1">Pie</span></div>
-            <div class="card-body">
-              <div class="example">
-                <div class="c-chart-wrapper">
-                    <canvas id="canvas-5"></canvas>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4">
-            <div class="card-header"><strong>Гэмтэл</strong><span class="small ms-1">Polar Area</span></div>
-            <div class="card-body">
-              <div class="example">
-                <div class="c-chart-wrapper">
-                    <canvas id="canvas-6"></canvas>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-    <!-- /.row-->
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-                <div class="card-header">Traffic &amp; Sales</div>
+                <div class="card-header">Захиалгын мэдээ</div>
                 <div class="card-body">
                     <!-- /.row--><br>
                     <div class="table-responsive">
-                        <table class="table border mb-0">
-                            <thead class="fw-semibold text-nowrap">
+                        <table class="table border mb-0" style="font-size: 12px;">
+                            <thead class="fw-semibold">
                                 <tr class="align-middle">
-                                    <th class="bg-body-secondary text-center">
-                                        <svg class="icon">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/free.svg#cil-people">
-                                            </use>
-                                        </svg>
-                                    </th>
-                                    <th class="bg-body-secondary">User</th>
-                                    <th class="bg-body-secondary text-center">Country</th>
-                                    <th class="bg-body-secondary">Usage</th>
-                                    <th class="bg-body-secondary text-center">Payment Method</th>
-                                    <th class="bg-body-secondary">Activity</th>
-                                    <th class="bg-body-secondary"></th>
+                                    <th class="bg-body-secondary">№</th>
+                                    <th class="bg-body-secondary">Салбар</th>
+                                    <th class="bg-body-secondary">Төрөл</th>
+                                    <th class="bg-body-secondary">Дугаар</th>
+                                    <th class="bg-body-secondary">Төлөв</th>
+                                    <th class="bg-body-secondary">Огноо</th>
+                                    <th class="bg-body-secondary">Дэд станц, шугам тоноглолын нэр</th>
+                                    <th class="bg-body-secondary">Захиалгын агуулга</th>
+                                    <th class="bg-body-secondary">Таслах өдөр, цаг</th>
+                                    <th class="bg-body-secondary">Залгах өдөр, цаг</th>
+                                    <th class="bg-body-secondary">Хүлээн авсан</th>
+                                    <th class="bg-body-secondary">Захиалга баталсан</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($orderJournals as $orderJournal)
                                 <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/1.jpg" alt="user@email.com"><span
-                                                class="avatar-status bg-success"></span></div>
-                                    </td>
+                                    <td>{{ $orderJournal->id }}</td>
+                                    <td>{{ $orderJournal->branch->name }}</td>
+                                    <td>{{ $orderJournal->orderType->name }}</td>
+                                    <td>{{ $orderJournal->order_number }}</td>
                                     <td>
-                                        <div class="text-nowrap">Yiorgos Avraamu</div>
-                                        <div class="small text-body-secondary text-nowrap"><span>New</span>
-                                            | Registered: Jan 1, 2023</div>
+                                        @php
+                                            // Set the badge class based on order_status_id
+                                            switch ($orderJournal->order_status_id) {
+                                                case 1:  // Example status for 'primary'
+                                                    $badgeClass = 'text-bg-primary text-white';
+                                                    break;
+                                                case 2:  // Example status for 'info'
+                                                    $badgeClass = 'text-bg-info text-white';
+                                                    break;
+                                                case 3:  // Example status for 'success'
+                                                    $badgeClass = 'text-bg-success text-white';
+                                                    break;
+                                                case 4:  // Example status for 'success'
+                                                    $badgeClass = 'text-bg-danger text-white';
+                                                    break;
+                                                default: // Default status
+                                                    $badgeClass = 'text-bg-secondary text-white';
+                                                    break;
+                                            }
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }}">{{ $orderJournal->orderStatus->name }}</span>
                                     </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-us">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">50%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun 11,
-                                                2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-mastercard">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">10 sec ago</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
+                                    <td>{{ $orderJournal->created_at }}</td>
+                                    <td>{{ $orderJournal->station->name . ", " . $orderJournal->equipment->name }}</td>
+                                    <td>{{ $orderJournal->content }}</td>
+                                    <td>{{ $orderJournal->start_date }}</td>
+                                    <td>{{ $orderJournal->end_date }}</td>
                                 </tr>
-                                <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/2.jpg"
-                                                alt="user@email.com"><span
-                                                class="avatar-status bg-danger"></span></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-nowrap">Avram Tarasios</div>
-                                        <div class="small text-body-secondary text-nowrap">
-                                            <span>Recurring</span> | Registered: Jan 1, 2023</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-br">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">10%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun
-                                                11, 2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 10%" aria-valuenow="10"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-visa">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">5 minutes ago</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/3.jpg"
-                                                alt="user@email.com"><span
-                                                class="avatar-status bg-warning"></span></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-nowrap">Quintin Ed</div>
-                                        <div class="small text-body-secondary text-nowrap">
-                                            <span>New</span> | Registered: Jan 1, 2023</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-in">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">74%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun
-                                                11, 2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-warning" role="progressbar"
-                                                style="width: 74%" aria-valuenow="74"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-stripe">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">1 hour ago</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/4.jpg"
-                                                alt="user@email.com"><span
-                                                class="avatar-status bg-secondary"></span></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-nowrap">Enéas Kwadwo</div>
-                                        <div class="small text-body-secondary text-nowrap">
-                                            <span>New</span> | Registered: Jan 1, 2023</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-fr">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">98%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun
-                                                11, 2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                style="width: 98%" aria-valuenow="98"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-paypal">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">Last month</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/5.jpg"
-                                                alt="user@email.com"><span
-                                                class="avatar-status bg-success"></span></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-nowrap">Agapetus Tadeáš</div>
-                                        <div class="small text-body-secondary text-nowrap">
-                                            <span>New</span> | Registered: Jan 1, 2023</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-es">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">22%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun
-                                                11, 2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 22%" aria-valuenow="22"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-apple-pay">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">Last week</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown dropup">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="align-middle">
-                                    <td class="text-center">
-                                        <div class="avatar avatar-md"><img class="avatar-img"
-                                                src="assets/img/avatars/6.jpg"
-                                                alt="user@email.com"><span
-                                                class="avatar-status bg-danger"></span></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-nowrap">Friderik Dávid</div>
-                                        <div class="small text-body-secondary text-nowrap">
-                                            <span>New</span> | Registered: Jan 1, 2023</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use xlink:href="vendors/@coreui/icons/svg/flag.svg#cif-pl">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <div class="fw-semibold">43%</div>
-                                            <div class="text-nowrap small text-body-secondary ms-3">Jun
-                                                11, 2023 - Jul 10, 2023</div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: 43%" aria-valuenow="43"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <svg class="icon icon-xl">
-                                            <use
-                                                xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-cc-amex">
-                                            </use>
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <div class="small text-body-secondary">Last login</div>
-                                        <div class="fw-semibold text-nowrap">Yesterday</div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown dropup">
-                                            <button class="btn btn-transparent p-0" type="button"
-                                                data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <svg class="icon">
-                                                    <use
-                                                        xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"><a
-                                                    class="dropdown-item" href="#">Info</a><a
-                                                    class="dropdown-item" href="#">Edit</a><a
-                                                    class="dropdown-item text-danger"
-                                                    href="#">Delete</a></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -577,7 +204,117 @@
             </div>
         </div>
         <!-- /.col-->
-    </div> --}}
-    <!-- /.row-->
+    </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('canvas-1').getContext('2d');
+        
+        // Labels for the months (coming from the controller)
+        const labels = @json($labels);
+        
+        // Data (outage counts) coming from the controller
+        const dataOutages = @json($dataOutages);
+        const dataCuts = @json($dataCuts);
+        const dataFailures = @json($dataFailures);
+
+        // Initialize Chart.js
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Тасралт',
+                        data: dataOutages,
+                        fill: false,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Таслалт',
+                        data: dataCuts,
+                        fill: false,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Гэмтэл',
+                        data: dataFailures,
+                        fill: false,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        /* ================ Tonogloliin nasjiltiin chart ====================== */
+
+
+        const ctx2 = document.getElementById('canvas-2').getContext('2d');
+
+        // Define the labels (decades)
+        const labelBars = ['2020-2029', '2010-2019', '2000-2009', '1990-1999', '1980-1989', '1970-1979'];
+
+        // Prepare datasets for each branch
+        const datasets = [];
+        const branches = @json($branches); // Assume you have a collection of branches
+
+        branches.forEach(function(branch) {
+            const data = labelBars.map(decade => {
+                return @json($equipmentsByBranch)[branch.id]?.[decade] || 0; // Get count or 0
+            });
+
+            datasets.push({
+                label: branch.name, // Branch name
+                data: data, // Equipment counts per decade
+                // backgroundColor: getRandomColor(), // Random color for each branch
+            });
+        });
+
+        // Create the chart
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labelBars,
+                datasets: datasets,
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        stacked: true, // Enable stacking
+                    },
+                    x: {
+                        stacked: true // Enable stacking
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                    },
+                },
+            }
+        });
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        
+    });
+</script>
 @endsection
