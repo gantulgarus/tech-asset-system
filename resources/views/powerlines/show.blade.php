@@ -81,16 +81,16 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <h5>Тоноглолын мэдээлэл</h5>
+                            {{-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <h5>Шугамын түүх</h5>
                             </div>
                             <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="container">
                                     
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="tab-pane fade" id="mapContainer" role="tabpanel" aria-labelledby="mapContainer-tab">
-                                <h5>Дэд станцын байршлын мэдээлэл</h5>
+                                <h5>Шугамын трасс</h5>
                                 <div class="container">
                                     <div class="row">
                                         <div class="col">
