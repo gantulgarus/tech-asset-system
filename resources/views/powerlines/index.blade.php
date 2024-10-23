@@ -68,6 +68,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-2">
+                {{ $powerlines->links(); }}
+            </div>
         </div>
     </div>
 </div>

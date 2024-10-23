@@ -27,8 +27,8 @@
     <ul class="nav-group-items compact">
         <li class="nav-item"><a class="nav-link" href="{{ route('powerlines.index') }}"><span class="nav-icon"><span
                         class="nav-icon-bullet"></span></span> ЦДАШ-ын мэдээлэл</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Шугамын түүх</a></li>
+        {{-- <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span
+                        class="nav-icon-bullet"></span></span> Шугамын түүх</a></li> --}}
     </ul>
     <li class="nav-item"><a class="nav-link" href="{{ route('user_tier_research.index') }}">
         <i class="fas fa-user-tie nav-icon"></i>

@@ -119,6 +119,12 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label for="images">Зураг:</label>
+                            <input type="file" class="form-control" id="images" name="images[]" multiple>
+                        </div>
+                        
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>

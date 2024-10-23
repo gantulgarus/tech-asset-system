@@ -115,6 +115,16 @@ class EquipmentController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('images', 'public');
+                Image::create([
+                    'equipment_id' => $equipment->id,
+                    'file_path' => $path,
+                ]);
+            }
+        }
+
         $equipment->update($request->all());
 
         $equipment->volts()->sync($request->volt_ids);
