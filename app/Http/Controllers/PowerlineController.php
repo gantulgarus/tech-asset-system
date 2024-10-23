@@ -15,7 +15,7 @@ class PowerlineController extends Controller
      */
     public function index()
     {
-        $powerlines = Powerline::paginate(25);
+        $powerlines = Powerline::orderBy('station_id', 'asc')->paginate(25);
         return view('powerlines.index', compact('powerlines'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
