@@ -31,7 +31,7 @@
                 <tbody>
                     @foreach ($powerlines as $powerline)
                         <tr class="align-middle">
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $powerline->station->name }}</td>
                             <td>{{ $powerline->name }}</td>
                             <td>{{ $powerline->volt->name }}</td>

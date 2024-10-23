@@ -31,7 +31,7 @@
                 <tbody>
                     @foreach ($equipments as $equipment)
                         <tr class="align-middle">
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $equipment->branch->name }}</td>
                             <td>{{ $equipment->station->name }}</td>
                             <td>{{ $equipment->equipmentType->name }}</td>
@@ -71,6 +71,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-2">
+                {{ $equipments->links(); }}
+            </div>
         </div>
     </div>
     

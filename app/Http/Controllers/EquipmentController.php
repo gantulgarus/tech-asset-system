@@ -19,8 +19,8 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::all();
-        return view('equipment.index', compact('equipments'));
+        $equipments = Equipment::paginate(25);
+        return view('equipment.index', compact('equipments'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     public function getEquipments($stationId)
