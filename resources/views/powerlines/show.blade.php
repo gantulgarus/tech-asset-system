@@ -15,17 +15,17 @@
                                 <a class="nav-link active" id="details-tab" data-coreui-toggle="tab" href="#details"
                                     role="tab" aria-controls="details" aria-selected="true">Шугамын мэдээлэл</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-coreui-toggle="tab" href="#profile" role="tab"
                                     aria-controls="profile" aria-selected="false">Шугамын түүх</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="messages-tab" data-coreui-toggle="tab" href="#messages"
                                     role="tab" aria-controls="messages" aria-selected="false">Эргэлт, зөрлөгийн зураг</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link" id="mapContainer-tab" data-coreui-toggle="tab" href="#mapContainer"
-                                    role="tab" aria-controls="mapContainer" aria-selected="false">Трасс</a>
+                                    role="tab" aria-controls="mapContainer" aria-selected="false">Трассын схем</a>
                             </li>
                         </ul>
                     </div>
