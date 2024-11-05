@@ -12,6 +12,34 @@
         <div class="card-header">ЦДАШ-ын мэдээлэл</div>
         <div class="card-body">
             <a href="{{ route('powerlines.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <div class="mb-2">
+                <form method="GET" action="{{ route('powerlines.index') }}" id="filter-form">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select name="station_id" class="form-control form-control-sm">
+                                <option value="">Дэд станц</option>
+                                @foreach($stations as $station)
+                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="powerline" class="form-control form-control-sm" placeholder="Шугамын нэр" value="{{ request('powerline') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <select name="volt_id" class="form-control form-control-sm">
+                                <option value="">Хүчдлийн түвшин</option>
+                                @foreach($volts as $volt)
+                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
@@ -32,9 +60,9 @@
                     @foreach ($powerlines as $powerline)
                         <tr class="align-middle">
                             <td>{{ ++$i }}</td>
-                            <td>{{ $powerline->station->name }}</td>
+                            <td>{{ $powerline->station?->name }}</td>
                             <td>{{ $powerline->name }}</td>
-                            <td>{{ $powerline->volt->name }}</td>
+                            <td>{{ $powerline->volt?->name }}</td>
                             <td>{{ $powerline->create_year }}</td>
                             <td>{{ $powerline->line_mark }}</td>
                             <td>{{ $powerline->tower_mark }}</td>

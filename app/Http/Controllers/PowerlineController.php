@@ -2,21 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Powerline;
-use App\Models\PowerlineGeojson;
-use App\Models\Station;
 use App\Models\Volt;
+use App\Models\Branch;
+use App\Models\Station;
+use App\Models\Powerline;
 use Illuminate\Http\Request;
+use App\Models\PowerlineGeojson;
 
 class PowerlineController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $powerlines = Powerline::orderBy('station_id', 'asc')->paginate(25);
-        return view('powerlines.index', compact('powerlines'))->with('i', (request()->input('page', 1) - 1) * 25);
+        $query = Powerline::query();
+
+        if ($request->filled('station_id')) {
+            $query->where('station_id', $request->input('station_id'));
+        }
+
+        if ($request->filled('powerline')) {
+            // dd($request->input('station'));
+            $query->where('name', 'like', '%' . $request->input('powerline') . '%');
+        }
+
+        if ($request->filled('volt_id')) {
+            $query->where('volt_id', $request->input('volt_id'));
+        }
+
+        $powerlines = $query->paginate(25)->appends($request->query());
+
+        $stations = Station::orderBy('name', 'asc')->get();
+        $volts = Volt::orderBy('order', 'asc')->get();
+
+        // $powerlines = Powerline::orderBy('station_id', 'asc')->paginate(25);
+        return view('powerlines.index', compact('powerlines', 'stations', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
