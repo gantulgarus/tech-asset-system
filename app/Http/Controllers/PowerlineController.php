@@ -31,7 +31,7 @@ class PowerlineController extends Controller
             $query->where('volt_id', $request->input('volt_id'));
         }
 
-        $powerlines = $query->paginate(25)->appends($request->query());
+        $powerlines = $query->orderBy('station_id', 'asc')->paginate(25)->appends($request->query());
 
         $stations = Station::orderBy('name', 'asc')->get();
         $volts = Volt::orderBy('order', 'asc')->get();
