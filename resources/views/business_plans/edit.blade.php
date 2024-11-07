@@ -49,22 +49,22 @@
 
                         <div class="form-group">
                             <label for="quantity">Тоо хэмжээ</label>
-                            <input type="number" step="0.01" name="quantity" id="quantity" class="form-control" required value="{{ $businessPlan->quantity }}">
+                            <input type="number" step="0.00001" name="quantity" id="quantity" class="form-control" required value="{{ $businessPlan->quantity }}">
                         </div>
 
                         <div class="form-group">
                             <label for="budget_without_vat">Төсөвт өртөг НӨАТ-гүй (сая төг) </label>
-                            <input type="number" step="0.01" name="budget_without_vat" id="budget_without_vat" class="form-control" required value="{{ $businessPlan->budget_without_vat }}">
+                            <input type="number" name="budget_without_vat" id="budget_without_vat" class="form-control" required value="{{ $businessPlan->budget_without_vat }}">
                         </div>
 
                         <div class="form-group">
                             <label for="performance_amount">Гүйцэтгэл (сая төг)</label>
-                            <input type="number" step="0.01" name="performance_amount" id="performance_amount" class="form-control" required value="{{ $businessPlan->performance_amount }}">
+                            <input type="number" step="0.00001" name="performance_amount" id="performance_amount" class="form-control" required value="{{ $businessPlan->performance_amount }}">
                         </div>
 
                         <div class="form-group">
                             <label for="variance_amount">Хэтрэлт, хэмнэлт (сая төг)</label>
-                            <input type="number" step="0.01" name="variance_amount" id="variance_amount" class="form-control" required value="{{ $businessPlan->variance_amount }}">
+                            <input type="number" step="0.00001" name="variance_amount" id="variance_amount" class="form-control" required value="{{ $businessPlan->variance_amount }}">
                         </div>
 
                         <div class="form-group">
@@ -77,7 +77,7 @@
 
                         <div class="form-group mb-2">
                             <label for="performance_percentage">Гүйцэтгэл (%)</label>
-                            <input type="number" step="0.01" name="performance_percentage" id="performance_percentage" class="form-control" required value="{{ $businessPlan->performance_percentage }}">
+                            <input type="number" step="0.00001" name="performance_percentage" id="performance_percentage" class="form-control" required value="{{ $businessPlan->performance_percentage }}">
                         </div>
 
                         <div class="col-12">
