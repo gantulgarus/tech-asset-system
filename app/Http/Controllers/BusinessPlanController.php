@@ -64,7 +64,9 @@ class BusinessPlanController extends Controller
      */
     public function edit(BusinessPlan $businessPlan)
     {
-        return view('business_plans.edit', compact('businessPlan'));
+        $branches = Branch::all();
+
+        return view('business_plans.edit', compact('businessPlan', 'branches'));
     }
 
     /**
