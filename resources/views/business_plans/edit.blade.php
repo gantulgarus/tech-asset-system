@@ -54,7 +54,7 @@
 
                         <div class="form-group">
                             <label for="budget_without_vat">Төсөвт өртөг НӨАТ-гүй (сая төг) </label>
-                            <input type="number" name="budget_without_vat" id="budget_without_vat" class="form-control" required value="{{ $businessPlan->budget_without_vat }}">
+                            <input type="number" step="0.00001" name="budget_without_vat" id="budget_without_vat" class="form-control" required value="{{ $businessPlan->budget_without_vat }}">
                         </div>
 
                         <div class="form-group">
