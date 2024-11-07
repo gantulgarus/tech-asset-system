@@ -16,9 +16,9 @@
             <a href="{{ route('stations.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
             <div class="mb-2">
                 <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-md-2">
-                            <select name="branch_id" class="form-control form-control-sm">
+                            <select name="branch_id" class="form-select form-select-sm">
                                 <option value="">Салбар</option>
                                 @foreach($branches as $branch)
                                     <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
@@ -26,7 +26,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select name="volt_id" class="form-control form-control-sm">
+                            <select name="volt_id" class="form-select form-select-sm">
                                 <option value="">Хүчдлийн түвшин</option>
                                 @foreach($volts as $volt)
                                     <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
@@ -34,7 +34,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select name="is_user_station" class="form-control form-control-sm">
+                            <select name="is_user_station" class="form-select form-select-sm">
                                 <option value="">Эзэмшил</option>
                                     <option value="0" {{ request('is_user_station') === 0 ? 'selected' : '' }}>Хэрэглэгчийн</option>
                                     <option value="1" {{ request('is_user_station') === 1 ? 'selected' : '' }}>Өөрийн</option>

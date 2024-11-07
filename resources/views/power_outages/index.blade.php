@@ -15,7 +15,7 @@
                 <a href="{{ route('power_outages.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
                 <div class="mb-2">
                     <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
-                        <div class="row">
+                        <div class="row g-2">
                             <div class="col-md-2">
                                 <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц" value="{{ request('station') }}">
                             </div>
@@ -26,7 +26,7 @@
                                 <input type="text" id="endtime" name="endtime" class="form-control form-control-sm" placeholder="Дуусах" value="{{ request('endtime') }}">
                             </div>
                             <div class="col-md-2">
-                                <select name="volt_id" class="form-control form-control-sm">
+                                <select name="volt_id" class="form-select form-select-sm">
                                     <option value="">Хүчдлийн түвшин</option>
                                     @foreach($volts as $volt)
                                         <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
