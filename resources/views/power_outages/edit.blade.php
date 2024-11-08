@@ -157,6 +157,17 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="technological_violation" class="form-label">ТЕХНОЛОГИЙН ЗӨРЧИЛ</label>
+                                <select name="technological_violation" class="form-select">
+                                    <option value="">-- Сонгох --</option>
+                                    <option value="Аваар" {{ $powerOutage->technological_violation == 'Аваар' ? 'selected' : '' }}>Аваар</option>
+                                    <option value="1-р зэргийн саатал" {{ $powerOutage->technological_violation == '1-р зэргийн саатал' ? 'selected' : '' }}>1-р зэргийн саатал</option>
+                                    <option value="2-р зэргийн саатал" {{ $powerOutage->technological_violation == '2-р зэргийн саатал' ? 'selected' : '' }}>2-р зэргийн саатал</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>

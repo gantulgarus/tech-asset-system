@@ -41,7 +41,7 @@
                     </form>
                 </div>
                 <table class="table border mb-0" style="font-size: 12px;">
-                    <thead class="fw-semibold text-nowrap">
+                    <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">№</th>
                             <th class="bg-body-secondary">Дэд станц</th>
@@ -57,6 +57,7 @@
                             <th class="bg-body-secondary">Cosf</th>
                             <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
+                            <th class="bg-body-secondary">Технологийн зөрчил</th>
                             <th class="bg-body-secondary">Акт</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
@@ -78,6 +79,7 @@
                                 <td>{{ $powerOutage->cosf }}</td>
                                 <td>{{ $powerOutage->ude }}</td>
                                 <td>{{ $powerOutage->user->name }}</td>
+                                <td>{{ $powerOutage->technological_violation }}</td>
                                 <td>
                                     @if($powerOutage->act_file_path)
                                         <a href="{{ Storage::url($powerOutage->act_file_path) }}" target="_blank">

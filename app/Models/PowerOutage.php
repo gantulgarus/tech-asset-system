@@ -28,7 +28,8 @@ class PowerOutage extends Model
         'cosf',
         'ude',
         'user_id',
-        'act_file_path'
+        'act_file_path',
+        'technological_violation',
     ];
 
     // Define relationships (if applicable)

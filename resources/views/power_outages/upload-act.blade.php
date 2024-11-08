@@ -6,7 +6,6 @@
             <div class="card-header">
                 Акт оруулах
             </div>
-            <h2>Upload PDF for Power Outage #{{ $powerOutage->id }}</h2>
             <div class="card-body">
                 <form action="{{ route('power_outage.upload-act', $powerOutage->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf

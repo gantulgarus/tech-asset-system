@@ -23,7 +23,8 @@ class PowerOutageController extends Controller
         $query = PowerOutage::query();
 
         $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
-            ->select('power_outages.*', 'stations.name as station_name');
+            ->select('power_outages.*', 'stations.name as station_name')
+            ->orderBy('power_outages.start_time', 'desc');
 
         // Apply filters
         if ($request->filled('station')) {
@@ -87,7 +88,7 @@ class PowerOutageController extends Controller
             'current_amper' => 'nullable|numeric',
             'cosf' => 'nullable|numeric',
             'ude' => 'nullable|numeric',
-            // 'user_id' => 'required|exists:users,id',
+            'technological_violation' => 'nullable|in:Аваар,1-р зэргийн саатал,2-р зэргийн саатал',
         ]);
 
         PowerOutage::create($input);
@@ -169,7 +170,7 @@ class PowerOutageController extends Controller
             'current_amper' => 'nullable|numeric',
             'cosf' => 'nullable|numeric',
             'ude' => 'nullable|numeric',
-            'user_id' => 'required|exists:users,id',
+            'technological_violation' => 'nullable|in:Аваар,1-р зэргийн саатал,2-р зэргийн саатал',
         ]);
 
         $powerOutage->update($request->all());
