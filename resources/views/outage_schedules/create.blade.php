@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container mt-2">
+        @if ($errors->has('error'))
+            <div class="alert alert-danger">
+                {{ $errors->first('error') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-header">
                 Таслалтын график бүртгэх
@@ -14,7 +19,7 @@
                             <div class="mb-3">
                                 <label for="branch_id" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
-                                    <select id="station-dropdown" name="branch_id" class="form-control">
+                                    <select id="station-dropdown" name="branch_id" class="form-select">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                             <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
@@ -48,6 +53,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
+                                <label for="type" class="form-label">Төрөл</label>
+                                    <input id="type" type="text" name="type" class="form-control" value="{{ old('type') }}">
+                                @error('duration')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
                                 <label for="start_date" class="form-label">Эхлэх огноо</label>
                                 <input id="start_date" type="text" name="start_date" class="form-control" value="{{ old('start_date') }}">
                                 @error('start_date')
@@ -64,15 +78,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="type" class="form-label">Төрөл</label>
-                                    <input id="type" type="text" name="type" class="form-control" value="{{ old('type') }}">
-                                @error('duration')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="affected_users" class="form-label">Тасрах хэрэглэгчид</label>
@@ -116,6 +122,18 @@
 
             $('#start_date').flatpickr(options);
             $('#end_date').flatpickr(options);
+
+            // Add form submission validation
+            $('form').on('submit', function(e) {
+                const today = new Date();
+                const currentDay = today.getDate();
+
+                // Allow submission only between the 1st and the 24th
+                // if (currentDay < 1 || currentDay > 25) {
+                //     e.preventDefault(); // Prevent form submission
+                //     alert("Таслалтын графикийг зөвхөн сар бүрийн 1-25-ний хооронд бүртгэх боломжтой.");
+                // }
+            });
 
         });
     </script>

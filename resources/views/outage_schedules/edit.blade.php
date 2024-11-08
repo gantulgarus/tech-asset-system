@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container mt-2">
+        @if ($errors->has('error'))
+            <div class="alert alert-danger">
+                {{ $errors->first('error') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-header">
                 Таслалтын график бүртгэх
@@ -15,7 +20,7 @@
                             <div class="mb-3">
                                 <label for="branch_id" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
-                                    <select id="station-dropdown" name="branch_id" class="form-control">
+                                    <select id="station-dropdown" name="branch_id" class="form-select">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                             <option value="{{ $branch->id }}" {{ old('branch_id', $outageSchedule->branch_id) == $branch->id ? 'selected' : '' }}>

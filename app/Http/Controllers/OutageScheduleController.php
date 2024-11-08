@@ -32,6 +32,12 @@ class OutageScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $today = now()->day;
+
+        if ($today < 1 || $today > 25) {
+            return redirect()->back()->withErrors(['error' => 'Таслалтын графикийг зөвхөн сар бүрийн 1-25-ний хооронд бүртгэх боломжтой.']);
+        }
+
         $validatedData = $request->validate([
             'branch_id' => 'required|integer',
             'substation_line_equipment' => 'required|string',
@@ -72,6 +78,13 @@ class OutageScheduleController extends Controller
      */
     public function update(Request $request, OutageSchedule $outageSchedule)
     {
+        $today = now()->day;
+
+        // Block updates if today's date is 25 or later
+        if ($today >= 25) {
+            return redirect()->back()->withErrors(['error' => 'Сар бүрийн 25-наас хойш таслалтын графикийг засах боломжгүй.']);
+        }
+
         $validatedData = $request->validate([
             'branch_id' => 'required|integer',
             'substation_line_equipment' => 'required|string',
