@@ -29,35 +29,63 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $stationCount = Station::count();
-        $equipmentCount = Equipment::count();
-        $powerlineCount = Powerline::count();
-        $userCount = User::count();
+        $branchId = $request->get('branch_id');
+
+        $stationCount = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->count();
+
+        $equipmentCount = Equipment::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->count();
+
+        $powerlineCount = Powerline::when($branchId, function ($query, $branchId) {
+            return $query->whereHas('station', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            });
+        })->count();
+
+
+        $userCount = User::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->count();
 
         $currentYear = Carbon::now()->year;
 
         $outages = DB::table('power_outages')
-            ->selectRaw('MONTH(start_time) as month, COUNT(*) as outage_count')
-            ->whereYear('start_time', now()->year)
-            ->groupBy(DB::raw('MONTH(start_time)'))
-            ->orderBy(DB::raw('MONTH(start_time)'))
-            ->pluck('outage_count', 'month'); // Fetching data in [month => count] format
+            ->join('stations', 'power_outages.station_id', '=', 'stations.id') // Join with stations
+            ->selectRaw('MONTH(power_outages.start_time) as month, COUNT(*) as outage_count')
+            ->when($branchId, function ($query) use ($branchId) {
+                return $query->where('stations.branch_id', $branchId);
+            })
+            ->whereYear('power_outages.start_time', $currentYear)
+            ->groupBy(DB::raw('MONTH(power_outages.start_time)'))
+            ->orderBy(DB::raw('MONTH(power_outages.start_time)'))
+            ->pluck('outage_count', 'month');
 
         $cuts = DB::table('power_cuts')
-            ->selectRaw('MONTH(start_time) as month, COUNT(*) as outage_cut')
-            ->whereYear('start_time', now()->year)
-            ->groupBy(DB::raw('MONTH(start_time)'))
-            ->orderBy(DB::raw('MONTH(start_time)'))
-            ->pluck('outage_cut', 'month'); // Fetching data in [month => count] format
+            ->join('stations', 'power_cuts.station_id', '=', 'stations.id') // Join with stations
+            ->selectRaw('MONTH(power_cuts.start_time) as month, COUNT(*) as outage_cut')
+            ->when($branchId, function ($query) use ($branchId) {
+                return $query->where('stations.branch_id', $branchId);
+            })
+            ->whereYear('power_cuts.start_time', $currentYear)
+            ->groupBy(DB::raw('MONTH(power_cuts.start_time)'))
+            ->orderBy(DB::raw('MONTH(power_cuts.start_time)'))
+            ->pluck('outage_cut', 'month');
 
         $failures = DB::table('power_failures')
-            ->selectRaw('MONTH(failure_date) as month, COUNT(*) as outage_failure')
-            ->whereYear('failure_date', now()->year)
-            ->groupBy(DB::raw('MONTH(failure_date)'))
-            ->orderBy(DB::raw('MONTH(failure_date)'))
-            ->pluck('outage_failure', 'month'); // Fetching data in [month => count] format
+            ->join('stations', 'power_failures.station_id', '=', 'stations.id') // Join with stations
+            ->selectRaw('MONTH(power_failures.failure_date) as month, COUNT(*) as outage_failure')
+            ->when($branchId, function ($query) use ($branchId) {
+                return $query->where('stations.branch_id', $branchId);
+            })
+            ->whereYear('power_failures.failure_date', $currentYear)
+            ->groupBy(DB::raw('MONTH(power_failures.failure_date)'))
+            ->orderBy(DB::raw('MONTH(power_failures.failure_date)'))
+            ->pluck('outage_failure', 'month');
 
         // Generate months array with 0 values for months that have no data
         $labels = ['1 сар', '2 сар', '3 сар', '4 сар', '5 сар', '6 сар', '7 сар', '8 сар', '9 сар', '10 сар', '11 сар', '12 сар'];
@@ -91,8 +119,13 @@ class HomeController extends Controller
         // Fetch all branches
         $branches = Branch::all(); // This retrieves all branches
 
-        $orderJournals = OrderJournal::whereDate('created_at', '>=', Carbon::now()->subDays(3))->get();
+        $orderJournals = OrderJournal::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })
+            ->where('created_at', '>=', now()->subDays(3))
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals'));
+        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId'));
     }
 }

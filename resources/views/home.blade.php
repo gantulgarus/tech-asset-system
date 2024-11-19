@@ -3,6 +3,20 @@
 @section('content')
 <div class="container-lg px-4">
     <div class="row g-4 mb-4">
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <form method="GET" action="{{ route('home') }}">
+                    <select id="branch_id" name="branch_id" class="form-select" onchange="this.form.submit()">
+                        <option value="">Бүх салбар</option>
+                        @foreach ($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ $branchId == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
         <div class="col-sm-6 col-xl-3">
             <div class="card text-white bg-primary">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
