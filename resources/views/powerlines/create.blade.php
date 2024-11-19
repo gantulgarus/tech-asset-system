@@ -96,7 +96,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="line_length" class="form-label">Шугамын урт /км/</label>
-                                <input type="number" step="0.1" name="line_length" class="form-control" value="{{ old('line_length') }}">
+                                <input type="number" step="0.001" name="line_length" class="form-control" value="{{ old('line_length') }}">
                                 @error('line_length')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

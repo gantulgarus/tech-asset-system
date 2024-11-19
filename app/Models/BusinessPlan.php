@@ -22,6 +22,7 @@ class BusinessPlan extends Model
         'variance_amount',
         'desc',
         'performance_percentage',
+        'act_file_path'
     ];
 
     public function branch()

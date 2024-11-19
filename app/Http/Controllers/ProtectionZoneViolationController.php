@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sum;
+use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -14,10 +15,30 @@ class ProtectionZoneViolationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $violations = ProtectionZoneViolation::paginate(25);
-        return view('protection_zone_violations.index', compact('violations'));
+        // $violations = ProtectionZoneViolation::paginate(25);
+
+        $query = ProtectionZoneViolation::query();
+
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('province_id')) {
+            $query->where('province_id', $request->input('province_id'));
+        }
+        if ($request->filled('sum_id')) {
+            $query->where('sum_id', $request->input('sum_id'));
+        }
+
+        // Paginate results
+        $violations = $query->paginate(20)->appends($request->query());
+
+        $branches = Branch::all();
+        $provinces = Province::all();
+        $sums = Sum::all();
+
+        return view('protection_zone_violations.index', compact('violations', 'branches', 'provinces', 'sums'));
     }
 
     /**

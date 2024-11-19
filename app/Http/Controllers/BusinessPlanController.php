@@ -102,4 +102,37 @@ class BusinessPlanController extends Controller
 
         return redirect()->route('business-plans.index')->with('success', 'Business plan deleted successfully.');
     }
+
+    public function showUploadPage($id)
+    {
+        $businessPlan = BusinessPlan::findOrFail($id);
+        return view('business_plans.upload-act', compact('businessPlan'));
+    }
+
+    // New action to handle the act file upload
+    public function uploadAct(Request $request, $id)
+    {
+        // Validate the request to ensure a PDF file is provided
+        $request->validate([
+            'act_file' => 'required|mimes:pdf|max:2048', // Only allow PDF files up to 2MB
+        ]);
+
+        $businessPlan = BusinessPlan::findOrFail($id);
+
+        // Handle file upload
+        if ($request->hasFile('act_file')) {
+            // Get the uploaded file
+            $file = $request->file('act_file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('acts', $filename, 'public'); // Store the file in the 'public/acts' folder
+
+            // Save the file path in the database
+            $businessPlan->act_file_path = $path;
+            $businessPlan->save();
+
+            return redirect()->route('business-plans.index')->with('success', 'Файл амжилттай орууллаа!');
+        }
+
+        return redirect()->back()->withErrors('Алдаа гарлаа.');
+    }
 }

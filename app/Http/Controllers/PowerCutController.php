@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Volt;
 use App\Models\Station;
 use App\Models\CauseCut;
 use App\Models\PowerCut;
@@ -14,11 +15,39 @@ class PowerCutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $powerCuts = PowerCut::paginate(25);
+        // $powerCuts = PowerCut::paginate(25);
 
-        return view('power_cuts.index', compact('powerCuts'));
+        $query = PowerCut::query();
+
+        $query->join('stations', 'power_cuts.station_id', '=', 'stations.id')
+            ->select('power_cuts.*', 'stations.name as station_name')
+            ->orderBy('power_cuts.start_time', 'desc');
+
+        // Apply filters
+        if ($request->filled('station')) {
+            // dd($request->input('station'));
+            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        if ($request->filled('starttime') && $request->filled('endtime')) {
+            $query->whereBetween('power_cuts.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        }
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('equipment.volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
+            });
+        }
+
+        // Paginate results
+        $powerCuts = $query->paginate(20)->appends($request->query());
+
+        $volts = Volt::all();
+
+        return view('power_cuts.index', compact('powerCuts', 'volts'));
     }
 
     /**
@@ -55,6 +84,7 @@ class PowerCutController extends Controller
             'ude' => 'required|numeric',
             'approved_by' => 'required',
             'created_by' => 'required',
+            'order_number' => 'required',
         ]);
 
         PowerCut::create($input);
@@ -100,6 +130,7 @@ class PowerCutController extends Controller
             'ude' => 'required|numeric',
             'approved_by' => 'required',
             'created_by' => 'required',
+            'order_number' => 'required',
         ]);
 
         $powerCut->update($validatedData);

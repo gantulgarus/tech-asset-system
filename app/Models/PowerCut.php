@@ -26,7 +26,8 @@ class PowerCut extends Model
         'ude',
         'approved_by',
         'created_by',
-        'user_id'
+        'user_id',
+        'order_number'
     ];
 
     public function station()

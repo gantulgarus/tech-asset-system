@@ -25,6 +25,9 @@
                             <th class="bg-body-secondary">Төрөл</th>
                             <th class="bg-body-secondary">Тасрах хэрэглэгчид</th>
                             <th class="bg-body-secondary">Хариуцах албан тушаалтан</th>
+                            <th class="bg-body-secondary">Боловсруулсан</th>
+                            <th class="bg-body-secondary">Хянасан</th>
+                            <th class="bg-body-secondary">Баталсан</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
@@ -40,6 +43,9 @@
                                 <td>{{ $schedule->type }}</td>
                                 <td>{{ $schedule->affected_users }}</td>
                                 <td>{{ $schedule->responsible_officer }}</td>
+                                <td>{{ $schedule->created_user }}</td>
+                                <td>{{ $schedule->controlled_user }}</td>
+                                <td>{{ $schedule->approved_user }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

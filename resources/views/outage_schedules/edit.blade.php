@@ -98,6 +98,33 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="created_user" class="form-label">Боловсруулсан</label>
+                                <input type="text" name="created_user" class="form-control" value="{{ $outageSchedule->created_user }}">
+                                @error('created_user')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="controlled_user" class="form-label">Хянасан</label>
+                                <input type="text" name="controlled_user" class="form-control" value="{{ $outageSchedule->controlled_user }}">
+                                @error('controlled_user')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="approved_user" class="form-label">Баталсан</label>
+                                <input type="text" name="approved_user" class="form-control" value="{{ $outageSchedule->approved_user }}">
+                                @error('approved_user')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>

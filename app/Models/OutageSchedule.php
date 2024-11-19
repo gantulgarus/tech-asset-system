@@ -19,6 +19,9 @@ class OutageSchedule extends Model
         'type',
         'affected_users',
         'responsible_officer',
+        'created_user',
+        'controlled_user',
+        'approved_user',
     ];
 
     public function branch()

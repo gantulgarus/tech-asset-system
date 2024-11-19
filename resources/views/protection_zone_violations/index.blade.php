@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     
 
     @if (session('success'))
@@ -15,8 +15,34 @@
         </div>
         <div class="card-body">
             <a href="{{ route('protection-zone-violations.create') }}" class="btn btn-primary btn-sm mb-2">Нэмэх</a>
+            <div class="mb-2">
+                <form method="GET" action="{{ route('protection-zone-violations.index') }}" id="filter-form">
+                    <div class="row g-2">
+                        <div class="col-md-2">
+                            <select name="province_id" class="form-select form-select-sm">
+                                <option value="">Аймаг</option>
+                                @foreach($provinces as $province)
+                                    <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>{{ $province->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="sum_id" class="form-select form-select-sm">
+                                <option value="">Сум</option>
+                                @foreach($sums as $sum)
+                                    <option value="{{ $sum->id }}" {{ request('sum_id') == $sum->id ? 'selected' : '' }}>{{ $sum->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="table border mb-0" style="font-size: 12px;">
-                <thead class="fw-semibold text-nowrap">
+                <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">№</th>
                         <th class="bg-body-secondary">Салбар</th>

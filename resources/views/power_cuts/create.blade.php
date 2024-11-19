@@ -69,7 +69,7 @@
                             <div class="mb-3">
                                 <label for="current_voltage" class="form-label">Тухайн үеийн хүчдэл /кВ/</label>
                                 <div class="input-group mb-3">
-                                <input type="number" name="current_voltage" class="form-control" value="{{ old('current_voltage') }}">
+                                <input type="number" step="0.01" name="current_voltage" class="form-control" value="{{ old('current_voltage') }}">
                                 <span class="input-group-text">кВ</span>
                                 </div>
                                 @error('current_voltage')
@@ -80,7 +80,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_amper" class="form-label">Гүйдэл /A/</label>
-                                <input type="number" name="current_amper" class="form-control" value="{{ old('current_amper') }}">
+                                <input type="number" step="0.01" name="current_amper" class="form-control" value="{{ old('current_amper') }}">
                                 @error('current_amper')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -146,6 +146,16 @@
                                 <label for="approved_by" class="form-label">Шийдвэр өгсөн хүний нэр</label>
                                 <input type="text" name="approved_by" class="form-control" value="{{ old('approved_by') }}">
                                 @error('approved_by')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="order_number" class="form-label">Захиалгын дугаар</label>
+                                <input type="number" name="order_number" class="form-control" value="{{ old('order_number') }}">
+                                @error('order_number')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

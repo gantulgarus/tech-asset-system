@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         @if (session('success'))
             <div class="alert alert-success mb-1 mt-1">
                 {{ session('success') }}
@@ -13,6 +13,33 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('power_cuts.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+                <div class="mb-2">
+                    <form method="GET" action="{{ route('power_cuts.index') }}" id="filter-form">
+                        <div class="row g-2">
+                            <div class="col-md-2">
+                                <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц" value="{{ request('station') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="starttime" name="starttime" class="form-control form-control-sm" placeholder="Эхлэх" value="{{ request('starttime') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="endtime" name="endtime" class="form-control form-control-sm" placeholder="Дуусах" value="{{ request('endtime') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <select name="volt_id" class="form-select form-select-sm">
+                                    <option value="">Хүчдлийн түвшин</option>
+                                    @foreach($volts as $volt)
+                                        <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                                <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <table class="table border mb-0" style="font-size: 12px;">
                     <thead class="fw-semibold text-nowrap">
                         <tr class="align-middle">
@@ -28,6 +55,7 @@
                             <th class="bg-body-secondary">Нийт хугацаа</th>
                             <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
                             <th class="bg-body-secondary">Шийдвэр өгсөн</th>
+                            <th class="bg-body-secondary">Захиалгын дугаар</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
@@ -47,6 +75,7 @@
                                 <td>{{ $powerCut->duration }}</td>
                                 <td>{{ $powerCut->ude }}</td>
                                 <td>{{ $powerCut->approved_by }}</td>
+                                <td>{{ $powerCut->order_number }}</td>
                                 <td>{{ $powerCut->created_by }}</td>
                                 <td>
                                     <div class="dropdown">
@@ -80,4 +109,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#starttime').flatpickr();
+            $('#endtime').flatpickr();
+
+            $('#reset-filters').on('click', function() {
+                // Clear all the input fields
+                $('#filter-form').find('input[type="text"], select').val('');
+                // Submit the form to reload without filters
+                $('#filter-form').submit();
+            });
+
+        });
+    </script>
 @endsection

@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('powerlinegeojson', PowerlineGeojsonController::class);
     Route::resource('user_tier_research', UserTierResearchController::class);
     Route::resource('business-plans', BusinessPlanController::class);
+    Route::post('/business-plans/{id}/upload-act', [BusinessPlanController::class, 'uploadAct'])->name('business-plans.upload-act');
+    Route::get('/business-plans/{id}/upload', [BusinessPlanController::class, 'showUploadPage'])->name('business-plans.upload');
     Route::resource('outage_schedules', OutageScheduleController::class);
     Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
     Route::resource('maintenance-plans', MaintenancePlanController::class);

@@ -31,6 +31,7 @@
                             <th class="bg-body-secondary">Хэтрэлт, хэмнэлт (сая төг)</th>
                             <th class="bg-body-secondary">Тайлбар</th>
                             <th class="bg-body-secondary">Гүйцэтгэл (%)</th>
+                            <th class="bg-body-secondary">Акт</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
@@ -49,6 +50,13 @@
                                 <td>{{ $businessPlan->desc }}</td>
                                 <td>{{ $businessPlan->performance_percentage }}</td>
                                 <td>
+                                    @if($businessPlan->act_file_path)
+                                        <a href="{{ Storage::url($businessPlan->act_file_path) }}" target="_blank">
+                                            <i class="far fa-file-pdf fa-2x"></i>
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
                                     <div class="dropdown">
                                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
@@ -61,6 +69,9 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a class="dropdown-item" href="{{ route('business-plans.show', $businessPlan) }}">Харах</a>
                                             <a class="dropdown-item" href="{{ route('business-plans.edit', $businessPlan) }}">Засах</a>
+                                            @if(!$businessPlan->act_file_path)
+                                            <a class="dropdown-item" href="{{ route('business-plans.upload', $businessPlan->id) }}">Акт оруулах</a>
+                                            @endif
                                             <form action="{{ route('business-plans.destroy', $businessPlan) }}" method="Post">
                                                 @csrf
                                                 @method('DELETE')
