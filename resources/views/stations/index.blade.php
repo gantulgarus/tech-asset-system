@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     @if (session('success'))
         <div class="alert alert-success mb-1 mt-1">
             {{ session('success') }}
@@ -26,6 +26,13 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <select name="station_type" class="form-select form-select-sm">
+                                <option value="">Төрөл</option>
+                                <option value="Дэд станц" {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                <option value="Хуваарилах байгууламж" {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <select name="volt_id" class="form-select form-select-sm">
                                 <option value="">Хүчдлийн түвшин</option>
                                 @foreach($volts as $volt)
@@ -41,6 +48,9 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <input type="number" name="create_year" placeholder="Ашиглалтад орсон он" class="form-control form-control-sm" value="{{ request('create_year') }}">
+                        </div>
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
                             <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
                         </div>
@@ -48,9 +58,10 @@
                 </form>
             </div>
             <table class="table border mb-0" style="font-size: 12px;">
-                <thead class="fw-semibold text-nowrap">
+                <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">№</th>
+                        <th class="bg-body-secondary">Төрөл</th>
                         <th class="bg-body-secondary">Салбар</th>
                         <th class="bg-body-secondary">Дэд станцын ША-ны нэр</th>
                         <th class="bg-body-secondary">Хүчдэлийн түвшин</th>
@@ -65,6 +76,7 @@
                     @foreach ($stations as $station)
                         <tr class="align-middle">
                             <td>{{ ++$i }}</td>
+                            <td>{{ $station->station_type }}</td>
                             <td>{{ $station->branch->name }}</td>
                             <td>{{ $station->name }}</td>
                             <td>
@@ -111,5 +123,11 @@
     </div>
     
 </div>
+
+<script>
+    document.getElementById('reset-filters').addEventListener('click', function () {
+        window.location.href = "{{ route('stations.index') }}";
+    });
+</script>
 
 @endsection

@@ -16,6 +16,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="station_type" class="form-label">Төрөл:</label>
+                                <select name="station_type" id="station_type" class="form-select">
+                                    <option value="Дэд станц" {{ old('station_type', 'Дэд станц') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                    <option value="Хуваарилах байгууламж" {{ old('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
+                                </select>
+                            </div>
+                        </div>
                         
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -55,7 +64,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="installed_capacity" class="form-label">Суурилагдсан чадал /кВА/</label>
-                                <input type="text" name="installed_capacity" class="form-control">
+                                <input type="number" name="installed_capacity" class="form-control">
                                 @error('installed_capacity')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

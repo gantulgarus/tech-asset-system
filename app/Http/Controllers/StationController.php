@@ -37,6 +37,16 @@ class StationController extends Controller
             $query->where('is_user_station', $request->input('is_user_station'));
         }
 
+        if ($request->filled('create_year')) {
+            // dd($request->input('station'));
+            $query->where('create_year', $request->input('create_year'));
+        }
+
+        if ($request->filled('station_type')) {
+            $query->where('station_type', $request->station_type);
+        }
+
+
         $stations = $query->paginate(25)->appends($request->query());
 
         $branches = Branch::all();
@@ -68,15 +78,16 @@ class StationController extends Controller
             'volt_ids' => 'required|array',
             'volt_ids.*' => 'exists:volts,id',
             'installed_capacity' => 'required',
-            'create_year' => 'required|numeric',
+            'create_year' => ['required', 'numeric', 'regex:/^\d{4}$/'],
             'desc' => 'nullable',
+            'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
         $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
 
         $station->volts()->attach($request->volt_ids);
 
-        return redirect()->route('stations.index')->with('success', 'Station created successfully.');
+        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй бүртгэгдлээ.');
     }
 
     /**
@@ -114,15 +125,16 @@ class StationController extends Controller
             'volt_ids' => 'required|array',
             'volt_ids.*' => 'exists:volts,id',
             'installed_capacity' => 'required',
-            'create_year' => 'required|numeric',
+            'create_year' => ['required', 'numeric', 'regex:/^\d{4}$/'],
             'desc' => 'nullable',
+            'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
         $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
 
         $station->volts()->sync($request->volt_ids);
 
-        return redirect()->route('stations.index')->with('success', 'Station updated successfully.');
+        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй засагдлаа.');
     }
 
     /**
@@ -131,6 +143,6 @@ class StationController extends Controller
     public function destroy(Station $station)
     {
         $station->delete();
-        return redirect()->route('stations.index')->with('success', 'Station deleted successfully.');
+        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй устгагдлаа.');
     }
 }
