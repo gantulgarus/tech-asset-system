@@ -9,6 +9,7 @@ use App\Models\Station;
 use App\Models\Equipment;
 use Illuminate\Http\Request;
 use App\Exports\StationsExport;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -163,9 +164,18 @@ class StationController extends Controller
             $query->where('station_type', $request->station_type);
         }
 
-        if ($request->filled('volt_id')) {
-            $query->whereHas('volts', function ($q) use ($request) {
-                $q->where('id', $request->volt_id);
+        // if ($request->filled('volt_id')) {
+        //     $query->whereHas('volts', function ($q) use ($request) {
+        //         $q->where('id', $request->volt_id);
+        //     });
+        // }
+        if ($request->has('volt_id')) {
+            $query->whereExists(function ($query) use ($request) {
+                $query->select(DB::raw(1))
+                    ->from('volts')
+                    ->join('station_volt', 'volts.id', '=', 'station_volt.volt_id')
+                    ->whereRaw('stations.id = station_volt.station_id')
+                    ->where('volts.id', $request->volt_id);
             });
         }
 
