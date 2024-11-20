@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('volts', VoltController::class);
     Route::resource('branches', BranchController::class);
     Route::resource('stations', StationController::class);
+    Route::get('export', [StationController::class, 'export'])->name('export');
     Route::resource('equipment-types', EquipmentTypeController::class);
     Route::resource('equipment', EquipmentController::class);
     Route::get('/equipments/{stationId}', [EquipmentController::class, 'getEquipments']);

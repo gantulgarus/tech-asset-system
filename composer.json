@@ -12,6 +12,7 @@
         "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
+        "maatwebsite/excel": "^3.1",
         "power-components/livewire-powergrid": "^5.8",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "yajra/laravel-datatables": "^11.0"

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Volt;
 use App\Models\Branch;
-use App\Models\Equipment;
 use App\Models\Schema;
 use App\Models\Station;
+use App\Models\Equipment;
 use Illuminate\Http\Request;
+use App\Exports\StationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StationController extends Controller
@@ -144,5 +146,41 @@ class StationController extends Controller
     {
         $station->delete();
         return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй устгагдлаа.');
+    }
+    /**
+     * Export stations to Excel.
+     */
+    public function export(Request $request)
+    {
+        $query = Station::query();
+
+        // Apply filters
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        if ($request->filled('station_type')) {
+            $query->where('station_type', $request->station_type);
+        }
+
+        if ($request->filled('volt_id')) {
+            $query->whereHas('volts', function ($q) use ($request) {
+                $q->where('id', $request->volt_id);
+            });
+        }
+
+        if ($request->filled('is_user_station')) {
+            $query->where('is_user_station', $request->is_user_station);
+        }
+
+        if ($request->filled('create_year')) {
+            $query->where('create_year', $request->create_year);
+        }
+
+        // Get the filtered data
+        $stations = $query->get();
+
+
+        return Excel::download(new StationsExport($stations), 'station_data.xlsx');
     }
 }
