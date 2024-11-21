@@ -36,6 +36,9 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('business-plans.index') }}">
         <i class="far fa-calendar-alt nav-icon"></i>
         {{ __('Бизнес төлөвлөгөө') }}</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('budget-plans.index') }}">
+        <i class="far fa-calendar-check nav-icon"></i>
+        {{ __('Батлагдсан төсөв') }}</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('outage_schedules.index') }}">
         <i class="fas fa-calendar-check nav-icon"></i>
         {{ __('Таслалт график') }}</a></li>

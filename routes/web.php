@@ -14,6 +14,7 @@ use App\Http\Controllers\PowerCutController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\PowerlineController;
+use App\Http\Controllers\BudgetPlanController;
 use App\Http\Controllers\ProtectionController;
 use App\Http\Controllers\CauseOutageController;
 use App\Http\Controllers\PowerOutageController;
@@ -78,4 +79,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/order-journals/{orderJournal}/receive', [OrderJournalController::class, 'receive'])->name('order-journals.receive');
     Route::put('/order-journals/{orderJournal}/approve', [OrderJournalController::class, 'approve'])->name('order-journals.approve');
     Route::put('/order-journals/{orderJournal}/cancel', [OrderJournalController::class, 'cancel'])->name('order-journals.cancel');
+    Route::resource('budget-plans', BudgetPlanController::class);
 });
