@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('export', [StationController::class, 'export'])->name('export');
     Route::resource('equipment-types', EquipmentTypeController::class);
     Route::resource('equipment', EquipmentController::class);
+    Route::get('export-equipment', [EquipmentController::class, 'export'])->name('export-equipment');
     Route::get('/equipments/{stationId}', [EquipmentController::class, 'getEquipments']);
     Route::resource('protections', ProtectionController::class);
     Route::resource('cause_outages', CauseOutageController::class);

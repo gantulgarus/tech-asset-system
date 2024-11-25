@@ -2,25 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EquipmentExport;
 use App\Models\Volt;
 use App\Models\Image;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
-use App\Models\EquipmentHistory;
 use Illuminate\Http\Request;
 use App\Models\EquipmentType;
 use App\Models\MaintenancePlan;
+use App\Models\EquipmentHistory;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EquipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $equipments = Equipment::paginate(25);
-        return view('equipment.index', compact('equipments'))->with('i', (request()->input('page', 1) - 1) * 25);
+        $query = Equipment::query();
+
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('station_id')) {
+            $query->where('station_id', $request->input('station_id'));
+        }
+        if ($request->filled('equipment_type_id')) {
+            $query->where('equipment_type_id', $request->input('equipment_type_id'));
+        }
+
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
+            });
+        }
+
+        $equipments = $query->paginate(25)->appends($request->query());
+
+        $branches = Branch::all();
+        $stations = Station::orderBy('name', 'asc')->get();
+        $equipment_types = EquipmentType::orderBy('name', 'asc')->get();
+        $volts = Volt::orderBy('order', 'asc')->get();
+
+        return view('equipment.index', compact('equipments', 'branches', 'stations', 'equipment_types', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     public function getEquipments($stationId)
@@ -73,7 +103,7 @@ class EquipmentController extends Controller
         }
 
         return redirect()->route('equipment.index')
-            ->with('success', 'Equipment created successfully.');
+            ->with('success', 'Амжилттай хадгаллаа.');
     }
 
     /**
@@ -130,7 +160,7 @@ class EquipmentController extends Controller
         $equipment->volts()->sync($request->volt_ids);
 
         return redirect()->route('equipment.index')
-            ->with('success', 'Equipment updated successfully.');
+            ->with('success', 'Амжилттай хадгаллаа.');
     }
 
     /**
@@ -141,6 +171,40 @@ class EquipmentController extends Controller
         $equipment->delete();
 
         return redirect()->route('equipment.index')
-            ->with('success', 'Equipment deleted successfully.');
+            ->with('success', 'Амжилттай устгалаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $query = Equipment::query();
+
+        // Apply filters
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        if ($request->filled('station_id')) {
+            $query->where('station_id', $request->input('station_id'));
+        }
+
+        if ($request->filled('equipment_type_id')) {
+            $query->where('equipment_type_id', $request->input('equipment_type_id'));
+        }
+
+        if ($request->has('volt_id')) {
+            $query->whereExists(function ($query) use ($request) {
+                $query->select(DB::raw(1))
+                    ->from('volts')
+                    ->join('equipment_volt', 'volts.id', '=', 'equipment_volt.volt_id')
+                    ->whereRaw('equipment.id = equipment_volt.equipment_id')
+                    ->where('volts.id', $request->volt_id);
+            });
+        }
+
+        // Get the filtered data
+        $equipments = $query->get();
+
+
+        return Excel::download(new EquipmentExport($equipments), 'equipment_data.xlsx');
     }
 }

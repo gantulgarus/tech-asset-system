@@ -20,7 +20,6 @@ class StationController extends Controller
      */
     public function index(Request $request)
     {
-        // $stations = Station::orderBy('branch_id', 'asc')->paginate(25);
         $query = Station::query();
 
         if ($request->filled('branch_id')) {
@@ -164,11 +163,6 @@ class StationController extends Controller
             $query->where('station_type', $request->station_type);
         }
 
-        // if ($request->filled('volt_id')) {
-        //     $query->whereHas('volts', function ($q) use ($request) {
-        //         $q->where('id', $request->volt_id);
-        //     });
-        // }
         if ($request->has('volt_id')) {
             $query->whereExists(function ($query) use ($request) {
                 $query->select(DB::raw(1))
