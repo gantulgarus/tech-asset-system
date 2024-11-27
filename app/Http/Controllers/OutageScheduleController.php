@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Models\OutageSchedule;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OutageScheduleExport;
 
 class OutageScheduleController extends Controller
 {
@@ -14,6 +17,15 @@ class OutageScheduleController extends Controller
     public function index()
     {
         $outageSchedules = OutageSchedule::paginate(15);
+
+        foreach ($outageSchedules as $schedule) {
+            $schedule->customDateFormat = Carbon::parse($schedule->start_date)->format('Y.m.d')
+                . '-'
+                . Carbon::parse($schedule->end_date)->format('d');
+            $schedule->startTime = Carbon::parse($schedule->start_date)->format('H:i'); // Extract time (hours:minutes)
+            $schedule->endTime = Carbon::parse($schedule->end_date)->format('H:i');
+        }
+
         return view('outage_schedules.index', compact('outageSchedules'));
     }
 
@@ -111,5 +123,21 @@ class OutageScheduleController extends Controller
 
         return redirect()->route('outage_schedules.index')
             ->with('success', 'Outage schedule deleted successfully');
+    }
+
+    public function export(Request $request)
+    {
+        $query = OutageSchedule::query();
+
+        // Apply filters
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        // Get the filtered data
+        $stations = $query->get();
+
+
+        return Excel::download(new OutageScheduleExport($stations), 'outage_data.xlsx');
     }
 }

@@ -13,8 +13,9 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('outage_schedules.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+                <a href="{{ route('export-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
                 <table class="table border mb-0" style="font-size: 12px;">
-                    <thead class="fw-semibold text-nowrap">
+                    <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">№</th>
                             <th class="bg-body-secondary">Салбар</th>
@@ -25,9 +26,9 @@
                             <th class="bg-body-secondary">Төрөл</th>
                             <th class="bg-body-secondary">Тасрах хэрэглэгчид</th>
                             <th class="bg-body-secondary">Хариуцах албан тушаалтан</th>
-                            <th class="bg-body-secondary">Боловсруулсан</th>
+                            {{-- <th class="bg-body-secondary">Боловсруулсан</th>
                             <th class="bg-body-secondary">Хянасан</th>
-                            <th class="bg-body-secondary">Баталсан</th>
+                            <th class="bg-body-secondary">Баталсан</th> --}}
                             <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
@@ -38,14 +39,14 @@
                                 <td>{{ $schedule->branch->name }}</td>
                                 <td>{{ $schedule->substation_line_equipment }}</td>
                                 <td>{{ $schedule->task }}</td>
-                                <td>{{ $schedule->start_date }}</td>
-                                <td>{{ $schedule->end_date }}</td>
+                                <td>{{ $schedule->customDateFormat . " " . $schedule->startTime }}</td>
+                                <td>{{ $schedule->customDateFormat . " " . $schedule->endTime }}</td>
                                 <td>{{ $schedule->type }}</td>
                                 <td>{{ $schedule->affected_users }}</td>
                                 <td>{{ $schedule->responsible_officer }}</td>
-                                <td>{{ $schedule->created_user }}</td>
+                                {{-- <td>{{ $schedule->created_user }}</td>
                                 <td>{{ $schedule->controlled_user }}</td>
-                                <td>{{ $schedule->approved_user }}</td>
+                                <td>{{ $schedule->approved_user }}</td> --}}
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

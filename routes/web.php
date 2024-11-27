@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/business-plans/{id}/upload-act', [BusinessPlanController::class, 'uploadAct'])->name('business-plans.upload-act');
     Route::get('/business-plans/{id}/upload', [BusinessPlanController::class, 'showUploadPage'])->name('business-plans.upload');
     Route::resource('outage_schedules', OutageScheduleController::class);
+    Route::get('export-outage', [OutageScheduleController::class, 'export'])->name('export-outage');
     Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
     Route::resource('maintenance-plans', MaintenancePlanController::class);
     Route::get('maintenance-plan/{equipment}/create', [MaintenancePlanController::class, 'create'])->name('maintenance-plans.create');
