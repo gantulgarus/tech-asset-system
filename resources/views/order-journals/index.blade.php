@@ -63,7 +63,7 @@
                             <span class="badge {{ $badgeClass }}">{{ $orderJournal->orderStatus->name }}</span>
                         </td>
                         <td>{{ $orderJournal->created_at }}</td>
-                        <td>{{ $orderJournal->station->name . ", " . $orderJournal->equipment->name }}</td>
+                        <td>{{ $orderJournal->station?->name . ", " . $orderJournal->equipment?->name }}</td>
                         <td>{{ $orderJournal->content }}</td>
                         <td>{{ $orderJournal->start_date }}</td>
                         <td>{{ $orderJournal->end_date }}</td>
