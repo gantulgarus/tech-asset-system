@@ -74,6 +74,14 @@ class OutageScheduleExport implements FromCollection, WithHeadings, WithMapping,
     public function styles(Worksheet $sheet)
     {
 
+        // Set the default font for the entire worksheet
+        $sheet->getParent()->getDefaultStyle()->applyFromArray([
+            'font' => [
+                'name' => 'Arial', // Replace with your desired font (e.g., 'Times New Roman', 'Calibri')
+                'size' => 11,      // Replace with your desired font size
+            ],
+        ]);
+
         // Style for table headers
         $sheet->mergeCells('A8:I8');
         $sheet->getStyle('A8:I8')->applyFromArray([
