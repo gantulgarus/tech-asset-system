@@ -132,7 +132,7 @@ class HomeController extends Controller
 
     public function logActivity()
     {
-        $logs = LogActivity::latest()->get();
+        $logs = LogActivity::latest()->paginate(25);
         // dd($logs);
 
         return view('log-activity', compact('logs'));
