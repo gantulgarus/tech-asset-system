@@ -38,10 +38,6 @@ class OrderJournalController extends Controller
             $query->where('branch_id', $request->input('branch_id'));
         }
 
-        // // Apply branch filter
-        // if ($request->filled('branch_id')) {
-        //     $query->where('branch_id', $request->input('branch_id'));
-        // }
         if ($request->filled('order_type_id')) {
             $query->where('order_type_id', $request->input('order_type_id'));
         }
