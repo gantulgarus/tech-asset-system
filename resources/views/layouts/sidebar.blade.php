@@ -79,7 +79,7 @@
             <li class="nav-item"><a class="nav-link" href="{{ route('branches.index') }}"><span class="nav-icon"><span
                             class="nav-icon-bullet"></span></span> Салбар</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('volts.index') }}"><span class="nav-icon"><span
-                            class="nav-icon-bullet"></span></span> Хүчдлийн түвшин</a></li>
+                            class="nav-icon-bullet"></span></span> Хүчдэлийн түвшин</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('equipment-types.index') }}"><span class="nav-icon"><span
                             class="nav-icon-bullet"></span></span> Тоноглолын төрөл</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('protections.index') }}"><span class="nav-icon"><span
@@ -94,4 +94,7 @@
         <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user') }}"></use>
         </svg> {{ __('Хэрэглэгч') }}</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('log-activity') }}">
+        <i class="fas fa-clipboard-list nav-icon"></i>
+        {{ __('Лог') }}</a></li>
 </ul>

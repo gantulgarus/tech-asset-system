@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Branch;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\OutageSchedule;
 use Maatwebsite\Excel\Facades\Excel;
@@ -63,8 +64,10 @@ class OutageScheduleController extends Controller
 
         OutageSchedule::create($validatedData);
 
+        LogActivity::addToLog("Таслалтын график амжилттай хадгалагдлаа.");
+
         return redirect()->route('outage_schedules.index')
-            ->with('success', 'Outage schedule created successfully');
+            ->with('success', 'Таслалтын график амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -110,8 +113,10 @@ class OutageScheduleController extends Controller
 
         $outageSchedule->update($validatedData);
 
+        LogActivity::addToLog("Таслалтын график амжилттай засагдлаа.");
+
         return redirect()->route('outage_schedules.index')
-            ->with('success', 'Outage schedule updated successfully');
+            ->with('success', 'Таслалтын график амжилттай засагдлаа.');
     }
 
     /**
@@ -121,8 +126,10 @@ class OutageScheduleController extends Controller
     {
         $outageSchedule->delete();
 
+        LogActivity::addToLog("Таслалтын график амжилттай устгагдлаа.");
+
         return redirect()->route('outage_schedules.index')
-            ->with('success', 'Outage schedule deleted successfully');
+            ->with('success', 'Таслалтын график амжилттай устгагдлаа.');
     }
 
     public function export(Request $request)

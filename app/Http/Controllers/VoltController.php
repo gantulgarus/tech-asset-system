@@ -35,7 +35,7 @@ class VoltController extends Controller
 
         Volt::create($request->post());
 
-        return redirect()->route('volts.index')->with('success', 'Volt has been created successfully.');
+        return redirect()->route('volts.index')->with('success', 'Амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -65,7 +65,7 @@ class VoltController extends Controller
 
         $volt->fill($request->post())->save();
 
-        return redirect()->route('volts.index')->with('success', 'Volt has been updated successfully.');
+        return redirect()->route('volts.index')->with('success', 'Амжилттай шинэчлэгдлээ.');
     }
 
     /**
@@ -74,6 +74,6 @@ class VoltController extends Controller
     public function destroy(Volt $volt)
     {
         $volt->delete();
-        return redirect()->route('volts.index')->with('success', 'Volt has been deleted successfully.');
+        return redirect()->route('volts.index')->with('success', 'Амжилттай устгагдлаа.');
     }
 }

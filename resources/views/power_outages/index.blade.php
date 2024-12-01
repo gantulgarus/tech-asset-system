@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md-2">
                                 <select name="volt_id" class="form-select form-select-sm">
-                                    <option value="">Хүчдлийн түвшин</option>
+                                    <option value="">Хүчдэлийн түвшин</option>
                                     @foreach($volts as $volt)
                                         <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
                                     @endforeach
@@ -43,7 +43,7 @@
                 <table class="table border mb-0" style="font-size: 12px;">
                     <thead class="fw-semibold">
                         <tr class="align-middle">
-                            <th class="bg-body-secondary">№</th>
+                            <th class="bg-body-secondary">Д/д</th>
                             <th class="bg-body-secondary">Дэд станц</th>
                             <th class="bg-body-secondary">Тоноглол</th>
                             <th class="bg-body-secondary">Хамгаалалт</th>
@@ -53,8 +53,8 @@
                             <th class="bg-body-secondary">Цаг агаар</th>
                             <th class="bg-body-secondary">Тасралтын шалгтаан</th>
                             <th class="bg-body-secondary">U кВ</th>
-                            <th class="bg-body-secondary">I/P кВт</th>
-                            <th class="bg-body-secondary">Cosf</th>
+                            <th class="bg-body-secondary">I A</th>
+                            <th class="bg-body-secondary">cos ф</th>
                             <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
                             <th class="bg-body-secondary">Технологийн зөрчил</th>

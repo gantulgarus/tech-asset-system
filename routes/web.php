@@ -82,4 +82,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/order-journals/{orderJournal}/approve', [OrderJournalController::class, 'approve'])->name('order-journals.approve');
     Route::put('/order-journals/{orderJournal}/cancel', [OrderJournalController::class, 'cancel'])->name('order-journals.cancel');
     Route::resource('budget-plans', BudgetPlanController::class);
+    Route::get('log-activity', [HomeController::class, 'logActivity'])->name('log-activity');
 });

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EquipmentExport;
 use App\Models\Volt;
 use App\Models\Image;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\EquipmentType;
 use App\Models\MaintenancePlan;
+use App\Exports\EquipmentExport;
 use App\Models\EquipmentHistory;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -102,8 +103,10 @@ class EquipmentController extends Controller
             }
         }
 
+        LogActivity::addToLog("Тоноглолын мэдээлэл амжилттай хадгаллаа.");
+
         return redirect()->route('equipment.index')
-            ->with('success', 'Амжилттай хадгаллаа.');
+            ->with('success', 'Тоноглолын мэдээлэл амжилттай хадгаллаа.');
     }
 
     /**
@@ -157,10 +160,12 @@ class EquipmentController extends Controller
 
         $equipment->update($request->all());
 
+        LogActivity::addToLog("Тоноглолын мэдээлэл амжилттай засагдлаа.");
+
         $equipment->volts()->sync($request->volt_ids);
 
         return redirect()->route('equipment.index')
-            ->with('success', 'Амжилттай хадгаллаа.');
+            ->with('success', 'Тоноглолын мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -170,8 +175,10 @@ class EquipmentController extends Controller
     {
         $equipment->delete();
 
+        LogActivity::addToLog("Тоноглолын мэдээлэл амжилттай устгалаа.");
+
         return redirect()->route('equipment.index')
-            ->with('success', 'Амжилттай устгалаа.');
+            ->with('success', 'Тоноглолын мэдээлэл амжилттай устгалаа.');
     }
 
     public function export(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Schema;
 use App\Models\Station;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 
 class SchemaController extends Controller
@@ -48,7 +49,9 @@ class SchemaController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('schemas.index')->with('success', 'Schema created successfully.');
+        LogActivity::addToLog("Схем амжилттай хадгалагдлаа.");
+
+        return redirect()->route('schemas.index')->with('success', 'Схем амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -90,7 +93,9 @@ class SchemaController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('schemas.index')->with('success', 'Schema updated successfully.');
+        LogActivity::addToLog("Схем амжилттай засагдлаа.");
+
+        return redirect()->route('schemas.index')->with('success', 'Схем амжилттай засагдлаа.');
     }
 
     /**
@@ -99,6 +104,9 @@ class SchemaController extends Controller
     public function destroy(Schema $schema)
     {
         $schema->delete();
-        return redirect()->route('schemas.index')->with('success', 'Schema deleted successfully.');
+
+        LogActivity::addToLog("Схем амжилттай устгагдлаа.");
+
+        return redirect()->route('schemas.index')->with('success', 'Схем амжилттай устгагдлаа.');
     }
 }

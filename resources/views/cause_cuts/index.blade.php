@@ -12,7 +12,7 @@
     <table class="table table-bordered table-sm">
         <thead>
             <tr>
-                <th style="width: 50px;">№</th>
+                <th style="width: 50px;">Д/д</th>
                 <th>Нэр</th>
                 <th>Тайлбар</th>
                 <th width="280px">Үйлдэл</th>

@@ -42,11 +42,11 @@ class StationsExport implements FromCollection, WithHeadings, WithStyles
     public function headings(): array
     {
         return [
-            '№',
+            'Д/д',
             'Төрөл',
             'Салбар',
             'Дэд станцын ША-ны нэр',
-            'Хүчдлийн түвшин',
+            'Хүчдэлийн түвшин',
             'Ашиглалтад орсон он',
             'Суурилагдсан хүчин чадал кВА',
             'Эзэмшил',

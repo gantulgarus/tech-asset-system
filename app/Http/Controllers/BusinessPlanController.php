@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Helpers\LogActivity;
 use App\Models\BusinessPlan;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,9 @@ class BusinessPlanController extends Controller
 
         BusinessPlan::create($validatedData);
 
-        return redirect()->route('business-plans.index')->with('success', 'Business plan created successfully.');
+        LogActivity::addToLog("Бизнес төлөвлөгөө амжилттай хадгалагдлаа.");
+
+        return redirect()->route('business-plans.index')->with('success', 'Бизнес төлөвлөгөө амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -90,7 +93,9 @@ class BusinessPlanController extends Controller
 
         $businessPlan->update($validatedData);
 
-        return redirect()->route('business-plans.index')->with('success', 'Business plan updated successfully.');
+        LogActivity::addToLog("Бизнес төлөвлөгөө амжилттай засагдлаа.");
+
+        return redirect()->route('business-plans.index')->with('success', 'Бизнес төлөвлөгөө амжилттай засагдлаа.');
     }
 
     /**
@@ -100,7 +105,9 @@ class BusinessPlanController extends Controller
     {
         $businessPlan->delete();
 
-        return redirect()->route('business-plans.index')->with('success', 'Business plan deleted successfully.');
+        LogActivity::addToLog("Бизнес төлөвлөгөө амжилттай устгагдлаа.");
+
+        return redirect()->route('business-plans.index')->with('success', 'Бизнес төлөвлөгөө амжилттай устгагдлаа.');
     }
 
     public function showUploadPage($id)

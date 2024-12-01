@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\PowerOutageDataTable;
+use App\Models\Volt;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\Protection;
 use App\Models\CauseOutage;
 use App\Models\PowerOutage;
-use App\Models\Volt;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\DataTables\PowerOutageDataTable;
 
 class PowerOutageController extends Controller
 {
@@ -93,8 +94,10 @@ class PowerOutageController extends Controller
 
         PowerOutage::create($input);
 
+        LogActivity::addToLog("Тасралтын мэдээлэл амжилттай хадгаллаа.");
+
         return redirect()->route('power_outages.index')
-            ->with('success', 'Power outage created successfully.');
+            ->with('success', 'Тасралтын мэдээлэл амжилттай хадгаллаа.');
     }
 
     public function showUploadPage($id)
@@ -125,7 +128,7 @@ class PowerOutageController extends Controller
             $powerOutage->act_file_path = $path;
             $powerOutage->save();
 
-            return redirect()->back()->with('success', 'Act uploaded successfully!');
+            return redirect()->back()->with('success', 'Амжилттай хадгаллаа!');
         }
 
         return redirect()->back()->withErrors('File upload failed.');
@@ -175,8 +178,10 @@ class PowerOutageController extends Controller
 
         $powerOutage->update($request->all());
 
+        LogActivity::addToLog("Тасралтын мэдээлэл амжилттай засагдлаа.");
+
         return redirect()->route('power_outages.index')
-            ->with('success', 'Power outage updated successfully.');
+            ->with('success', 'Тасралтын мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -186,7 +191,9 @@ class PowerOutageController extends Controller
     {
         $powerOutage->delete();
 
+        LogActivity::addToLog("Тасралтын мэдээлэл амжилттай устгалаа.");
+
         return redirect()->route('power_outages.index')
-            ->with('success', 'Power outage deleted successfully.');
+            ->with('success', 'Тасралтын мэдээлэл амжилттай устгалаа.');
     }
 }

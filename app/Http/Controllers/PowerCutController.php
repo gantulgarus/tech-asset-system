@@ -7,6 +7,7 @@ use App\Models\Station;
 use App\Models\CauseCut;
 use App\Models\PowerCut;
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,16 +81,18 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            'duration' => 'required',
-            'ude' => 'required|numeric',
-            'approved_by' => 'required',
-            'created_by' => 'required',
-            'order_number' => 'required',
+            // 'duration' => 'required',
+            // 'ude' => 'required|numeric',
+            // 'approved_by' => 'required',
+            // 'created_by' => 'required',
+            // 'order_number' => 'required',
         ]);
 
         PowerCut::create($input);
 
-        return redirect()->route('power_cuts.index')->with('success', 'Power cut created successfully.');
+        LogActivity::addToLog("Таслалтын мэдээлэл амжилттай хадгаллаа.");
+
+        return redirect()->route('power_cuts.index')->with('success', 'Таслалтын мэдээлэл амжилттай хадгаллаа.');
     }
 
     /**
@@ -126,15 +129,18 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            'duration' => 'required',
-            'ude' => 'required|numeric',
-            'approved_by' => 'required',
-            'created_by' => 'required',
-            'order_number' => 'required',
+            // 'duration' => 'required',
+            // 'ude' => 'required|numeric',
+            // 'approved_by' => 'required',
+            // 'created_by' => 'required',
+            // 'order_number' => 'required',
         ]);
 
         $powerCut->update($validatedData);
-        return redirect()->route('power_cuts.index')->with('success', 'Power cut updated successfully.');
+
+        LogActivity::addToLog("Таслалтын мэдээлэл амжилттай засагдлаа.");
+
+        return redirect()->route('power_cuts.index')->with('success', 'Таслалтын мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -143,6 +149,9 @@ class PowerCutController extends Controller
     public function destroy(PowerCut $powerCut)
     {
         $powerCut->delete();
-        return redirect()->route('power_cuts.index')->with('success', 'Power cut deleted successfully.');
+
+        LogActivity::addToLog("Таслалтын мэдээлэл амжилттай устгалаа.");
+
+        return redirect()->route('power_cuts.index')->with('success', 'Таслалтын мэдээлэл амжилттай устгалаа.');
     }
 }

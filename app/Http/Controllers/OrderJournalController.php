@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\OrderType;
+use App\Helpers\LogActivity;
 use App\Models\OrderJournal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,8 +63,10 @@ class OrderJournalController extends Controller
 
         OrderJournal::create($input);
 
+        LogActivity::addToLog("Захиалга амжилттай хадгалагдлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order Journal created successfully.');
+            ->with('success', 'Захиалга амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -99,8 +102,10 @@ class OrderJournalController extends Controller
 
         $orderJournal->update($request->all());
 
+        LogActivity::addToLog("Захиалга амжилттай засагдлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order Journal updated successfully.');
+            ->with('success', 'Захиалга амжилттай засагдлаа.');
     }
 
     /**
@@ -110,8 +115,10 @@ class OrderJournalController extends Controller
     {
         $orderJournal->delete();
 
+        LogActivity::addToLog("Захиалга амжилттай устгагдлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order Journal deleted successfully.');
+            ->with('success', 'Захиалга амжилттай устгагдлаа.');
     }
 
     public function receive(Request $request, OrderJournal $orderJournal)
@@ -124,8 +131,10 @@ class OrderJournalController extends Controller
             'received_at' => now(),  // Set the received_at timestamp
         ]);
 
+        LogActivity::addToLog("Захиалга амжилттай хүлээн авлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order received successfully.');
+            ->with('success', 'Захиалга амжилттай хүлээн авлаа.');
     }
 
     public function approve(Request $request, OrderJournal $orderJournal)
@@ -138,8 +147,10 @@ class OrderJournalController extends Controller
             'approved_at' => now(),  // Set the approved_at timestamp
         ]);
 
+        LogActivity::addToLog("Захиалга амжилттай хүлээн батлагдлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order approved successfully.');
+            ->with('success', 'Захиалга амжилттай хүлээн батлагдлаа.');
     }
 
     public function cancel(Request $request, OrderJournal $orderJournal)
@@ -150,7 +161,9 @@ class OrderJournalController extends Controller
             'canceled_at' => now(),  // Set the canceled_at timestamp
         ]);
 
+        LogActivity::addToLog("Захиалга цуцлагдлаа.");
+
         return redirect()->route('order-journals.index')
-            ->with('success', 'Order cancelled successfully.');
+            ->with('success', 'Захиалга цуцлагдлаа.');
     }
 }

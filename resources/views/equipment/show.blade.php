@@ -47,7 +47,7 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <th>Хүчдлийн түвшин /кВ/</th>
+                                                    <th>Хүчдэлийн түвшин /кВ/</th>
                                                     <td>
                                                         @foreach ($equipment->volts as $volt)
                                                             <span>{{ $volt->name }}</span>

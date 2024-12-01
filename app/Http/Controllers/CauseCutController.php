@@ -37,7 +37,7 @@ class CauseCutController extends Controller
         CauseCut::create($request->all());
 
         return redirect()->route('cause_cuts.index')
-            ->with('success', 'Cause cut created successfully.');
+            ->with('success', 'Амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -69,7 +69,7 @@ class CauseCutController extends Controller
         $causeCut->update($request->all());
 
         return redirect()->route('cause_cuts.index')
-            ->with('success', 'Cause cut updated successfully.');
+            ->with('success', 'Амжилттай засагдлаа.');
     }
 
     /**
@@ -80,6 +80,6 @@ class CauseCutController extends Controller
         $causeCut->delete();
 
         return redirect()->route('cause_cuts.index')
-            ->with('success', 'Cause cut deleted successfully.');
+            ->with('success', 'Амжилттай устгагдлаа.');
     }
 }

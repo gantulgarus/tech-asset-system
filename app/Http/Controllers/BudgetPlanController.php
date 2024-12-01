@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\BudgetPlan;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,7 +49,9 @@ class BudgetPlanController extends Controller
             'file_path' => $filePath,
         ]);
 
-        return redirect()->route('budget-plans.index')->with('success', 'Амжилттай хадгаллаа.');
+        LogActivity::addToLog("Батлагдсан төсөв амжилттай хадгалагдлаа.");
+
+        return redirect()->route('budget-plans.index')->with('success', 'Батлагдсан төсөв амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -91,7 +94,9 @@ class BudgetPlanController extends Controller
             'year' => $request->year,
         ]);
 
-        return redirect()->route('budget-plans.index')->with('success', 'Амжилттай хадгаллаа.');
+        LogActivity::addToLog("Батлагдсан төсөв амжилттай засагдлаа.");
+
+        return redirect()->route('budget-plans.index')->with('success', 'Батлагдсан төсөв амжилттай засагдлаа.');
     }
 
     /**
@@ -104,6 +109,8 @@ class BudgetPlanController extends Controller
         }
         $budgetPlan->delete();
 
-        return redirect()->route('budget-plans.index')->with('success', 'Амжилттай устгалаа.');
+        LogActivity::addToLog("Батлагдсан төсөв амжилттай устгагдлаа.");
+
+        return redirect()->route('budget-plans.index')->with('success', 'Батлагдсан төсөв амжилттай устгагдлаа.');
     }
 }

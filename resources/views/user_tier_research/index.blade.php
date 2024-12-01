@@ -17,7 +17,7 @@
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
-                        <th class="bg-body-secondary">№</th>
+                        <th class="bg-body-secondary">Д/д</th>
                         <th class="bg-body-secondary">Аймаг</th>
                         <th class="bg-body-secondary">Сум</th>
                         <th class="bg-body-secondary">Хэрэглэгчийн нэр</th>
@@ -38,7 +38,7 @@
                             <td>{{ $user->province->name }}</td>
                             <td>{{ $user->sum?->name }}</td>
                             <td>{{ $user->username }}</td>
-                            <td>{{ $user->user_tier }}</td>
+                            <td>{{ $user->user_tier }}-р зэрэг</td>
                             <td>
                                 <a href="{{ asset('storage/' . $user->source_con_schema) }}"
                                     data-lightbox="photos"><img class="img-fluid img-thumbnail" style="height: 50px; width: 300px; object-fit: cover;"

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Province;
 use App\Models\Sum;
+use App\Models\Province;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\UserTierResearch;
 
@@ -55,8 +56,10 @@ class UserTierResearchController extends Controller
 
         UserTierResearch::create($validatedData);
 
+        LogActivity::addToLog("1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай хадгалагдлаа.");
+
         return redirect()->route('user_tier_research.index')
-            ->with('success', 'User Tier Research created successfully.');
+            ->with('success', '1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -72,15 +75,44 @@ class UserTierResearchController extends Controller
      */
     public function edit(UserTierResearch $userTierResearch)
     {
-        return view('user_tier_research.edit', compact('userTierResearch'));
+        $provinces = Province::orderBy('name')->get();
+        $sums = Sum::orderBy('name')->get();
+
+        return view('user_tier_research.edit', compact('userTierResearch', 'provinces', 'sums'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, UserTierResearch $userTierResearch)
     {
-        //
+        $validatedData = $request->validate([
+            'province_id' => 'required|integer',
+            'username' => 'required|string',
+            'user_tier' => 'required|integer|in:1,2',
+            'source_con_schema' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'diesel_generator' => 'required|string',
+            'motor' => 'required|string',
+            'backup_power' => 'required|integer',
+            'backup_status' => 'nullable|string',
+            'contact' => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('schema')) {
+            $file = $request->file('schema');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $validatedData['source_con_schema'] = 'images/' . $filename;
+
+            // Store new file
+            $file->storeAs('images', $filename, 'public');
+        }
+
+        $userTierResearch->update($validatedData);
+
+        LogActivity::addToLog("1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай шинэчлэгдлээ.");
+
+        return redirect()->route('user_tier_research.index')
+            ->with('success', '1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай шинэчлэгдлээ.');
     }
 
     /**
@@ -90,7 +122,9 @@ class UserTierResearchController extends Controller
     {
         $userTierResearch->delete();
 
+        LogActivity::addToLog("1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай устгагдлаа.");
+
         return redirect()->route('user_tier_research.index')
-            ->with('success', 'User Tier Research deleted successfully.');
+            ->with('success', '1, 2-р зэрэглэлийн Хэрэглэгчийн судалгаа амжилттай устгагдлаа.');
     }
 }

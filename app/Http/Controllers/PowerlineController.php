@@ -6,6 +6,7 @@ use App\Models\Volt;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Powerline;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\PowerlineGeojson;
 
@@ -70,7 +71,9 @@ class PowerlineController extends Controller
 
         Powerline::create($request->all());
 
-        return redirect()->route('powerlines.index')->with('success', 'Powerline created successfully.');
+        LogActivity::addToLog("Шугамын мэдээлэл амжилттай хадгаллаа.");
+
+        return redirect()->route('powerlines.index')->with('success', 'Шугамын мэдээлэл амжилттай хадгаллаа.');
     }
 
     /**
@@ -114,7 +117,9 @@ class PowerlineController extends Controller
 
         $powerline->update($request->all());
 
-        return redirect()->route('powerlines.index')->with('success', 'Powerline updated successfully.');
+        LogActivity::addToLog("Шугамын мэдээлэл амжилттай засагдлаа.");
+
+        return redirect()->route('powerlines.index')->with('success', 'Шугамын мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -124,6 +129,8 @@ class PowerlineController extends Controller
     {
         $powerline->delete();
 
-        return redirect()->route('powerlines.index')->with('success', 'Powerline deleted successfully.');
+        LogActivity::addToLog("Шугамын мэдээлэл амжилттай устгагдлаа.");
+
+        return redirect()->route('powerlines.index')->with('success', 'Шугамын мэдээлэл амжилттай устгагдлаа.');
     }
 }

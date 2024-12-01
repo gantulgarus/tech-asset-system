@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkType;
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\MaintenancePlan;
 
@@ -46,8 +47,10 @@ class MaintenancePlanController extends Controller
 
         $equipment = Equipment::find($plan->equipment_id);
 
+        LogActivity::addToLog("Олон жилийн график амжилттай хадгалагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Maintenance Plan created successfully.');
+            ->with('success', 'Олон жилийн график амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -84,8 +87,10 @@ class MaintenancePlanController extends Controller
 
         $equipment = Equipment::find($maintenancePlan->equipment_id);
 
+        LogActivity::addToLog("Олон жилийн график амжилттай засагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Maintenance Plan created successfully.');
+            ->with('success', 'Олон жилийн график амжилттай засагдлаа.');
     }
 
     /**
@@ -97,7 +102,9 @@ class MaintenancePlanController extends Controller
         // return redirect()->route('maintenance-plans.index')->with('success', 'Maintenance Plan deleted successfully.');
         $equipment = Equipment::find($maintenancePlan->equipment_id);
 
+        LogActivity::addToLog("Олон жилийн график амжилттай устгагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Maintenance Plan created successfully.');
+            ->with('success', 'Олон жилийн график амжилттай устгагдлаа.');
     }
 }

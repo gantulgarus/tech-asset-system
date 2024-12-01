@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Хүчдлийн түвшин</label>
+                                <label for="name" class="form-label">Хүчдэлийн түвшин</label>
                                 <div class="form-group mb-3">
                                     <select name="volt_ids[]" id="volt_ids" class="form-control" multiple>
                                         @foreach ($volts as $volt)

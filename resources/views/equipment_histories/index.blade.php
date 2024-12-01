@@ -10,7 +10,7 @@
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
-                        <th class="bg-body-secondary">№</th>
+                        <th class="bg-body-secondary">Д/д</th>
                         <th class="bg-body-secondary">Тоноглол</th>
                         <th class="bg-body-secondary">Ажлын төрөл</th>
                         <th class="bg-body-secondary">Огноо</th>

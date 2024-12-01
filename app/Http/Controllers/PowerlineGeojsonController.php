@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Powerline;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\PowerlineGeojson;
 use Illuminate\Support\Facades\Storage;
@@ -54,7 +55,9 @@ class PowerlineGeojsonController extends Controller
             'path' => $path,
         ]);
 
-        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON file uploaded successfully.');
+        LogActivity::addToLog("GeoJSON файл амжилттай хадгалагдлаа.");
+
+        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON файл амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -104,7 +107,9 @@ class PowerlineGeojsonController extends Controller
             'powerline_id' => $request->powerline_id,
         ]);
 
-        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON file updated successfully.');
+        LogActivity::addToLog("GeoJSON файл амжилттай засагдлаа.");
+
+        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON файл амжилттай засагдлаа.');
     }
 
     /**
@@ -120,6 +125,8 @@ class PowerlineGeojsonController extends Controller
         // Delete the database record
         $geojsonFile->delete();
 
-        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON file deleted successfully.');
+        LogActivity::addToLog("GeoJSON файл амжилттай устгагдлаа.");
+
+        return redirect()->route('powerlinegeojson.index')->with('success', 'GeoJSON файл амжилттай устгагдлаа.');
     }
 }

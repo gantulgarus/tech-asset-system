@@ -6,6 +6,7 @@ use App\Models\Sum;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Province;
+use App\Models\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProtectionZoneViolation;
@@ -89,8 +90,10 @@ class ProtectionZoneViolationController extends Controller
         // Save the record
         $violation->save();
 
+        LogActivity::addToLog("Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай хадгалагдлаа.");
+
         return redirect()->route('protection-zone-violations.index')
-            ->with('success', 'Violation created successfully.');
+            ->with('success', 'Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -136,8 +139,10 @@ class ProtectionZoneViolationController extends Controller
 
         $violation->update($validated);
 
+        LogActivity::addToLog("Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай засагдлаа.");
+
         return redirect()->route('protection-zone-violations.index')
-            ->with('success', 'Violation updated successfully.');
+            ->with('success', 'Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -149,7 +154,9 @@ class ProtectionZoneViolationController extends Controller
 
         $violation->delete();
 
+        LogActivity::addToLog("Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай устгагдлаа.");
+
         return redirect()->route('protection-zone-violations.index')
-            ->with('success', 'Violation deleted successfully.');
+            ->with('success', 'Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай устгагдлаа.');
     }
 }

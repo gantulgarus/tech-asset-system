@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -34,8 +35,10 @@ class BranchController extends Controller
             'location' => 'required',
         ]);
 
+        LogActivity::addToLog("Салбар амжилттай хадгалагдлаа.");
+
         Branch::create($request->all());
-        return redirect()->route('branches.index')->with('success', 'Branch created successfully.');
+        return redirect()->route('branches.index')->with('success', 'Салбар амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -65,7 +68,10 @@ class BranchController extends Controller
         ]);
 
         $branch->update($request->all());
-        return redirect()->route('branches.index')->with('success', 'Branch updated successfully.');
+
+        LogActivity::addToLog("Салбар амжилттай засагдлаа.");
+
+        return redirect()->route('branches.index')->with('success', 'Салбар амжилттай засагдлаа.');
     }
 
     /**
@@ -74,6 +80,9 @@ class BranchController extends Controller
     public function destroy(Branch $branch)
     {
         $branch->delete();
-        return redirect()->route('branches.index')->with('success', 'Branch deleted successfully.');
+
+        LogActivity::addToLog("Салбар амжилттай устгагдлаа.");
+
+        return redirect()->route('branches.index')->with('success', 'Салбар амжилттай устгагдлаа.');
     }
 }

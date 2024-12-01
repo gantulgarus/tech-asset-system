@@ -40,12 +40,12 @@ class EquipmentExport implements FromCollection, WithHeadings, WithStyles
     public function headings(): array
     {
         return [
-            '№',
+            'Д/д',
             'Салбар',
             'Дэд станц',
             'Тоноглолын төрөл',
             'ША-ны нэр',
-            'Хүчдлийн түвшин',
+            'Хүчдэлийн түвшин',
             'Тип марк',
             'Үйлдвэрлэгдсэн он',
         ];

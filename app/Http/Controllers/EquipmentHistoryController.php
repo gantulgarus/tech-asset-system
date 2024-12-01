@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\EquipmentHistory;
 use Illuminate\Support\Facades\Auth;
@@ -48,8 +49,10 @@ class EquipmentHistoryController extends Controller
         $history = EquipmentHistory::create($input);
         $equipment = Equipment::find($history->equipment_id);
 
+        LogActivity::addToLog("Тоноглолын түүх мэдээлэл амжилттай хадгалагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Equipment history created successfully.');
+            ->with('success', 'Тоноглолын түүх мэдээлэл амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -86,8 +89,10 @@ class EquipmentHistoryController extends Controller
         $equipmentHistory->update($request->all());
         $equipment = Equipment::find($equipmentHistory->equipment_id);
 
+        LogActivity::addToLog("Тоноглолын түүх мэдээлэл амжилттай засагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Equipment history updated successfully.');
+            ->with('success', 'Тоноглолын түүх мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -98,7 +103,9 @@ class EquipmentHistoryController extends Controller
         $equipmentHistory->delete();
         $equipment = Equipment::find($equipmentHistory->equipment_id);
 
+        LogActivity::addToLog("Тоноглолын түүх мэдээлэл амжилттай устгагдлаа.");
+
         return redirect()->route('equipment.show', $equipment)
-            ->with('success', 'Equipment history deleted successfully.');
+            ->with('success', 'Тоноглолын түүх мэдээлэл амжилттай устгагдлаа.');
     }
 }

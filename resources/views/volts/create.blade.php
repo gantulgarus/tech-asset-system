@@ -18,7 +18,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Нэр</label>
-                                <input type="text" name="name" class="form-control" placeholder="Хүчдлийн түвшний утга">
+                                <input type="text" name="name" class="form-control" placeholder="Хүчдэлийн түвшний утга">
                                 @error('name')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

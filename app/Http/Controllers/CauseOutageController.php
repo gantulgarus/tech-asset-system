@@ -37,7 +37,7 @@ class CauseOutageController extends Controller
         CauseOutage::create($request->all());
 
         return redirect()->route('cause_outages.index')
-            ->with('success', 'Cause of outage created successfully.');
+            ->with('success', 'Амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -69,7 +69,7 @@ class CauseOutageController extends Controller
         $causeOutage->update($request->all());
 
         return redirect()->route('cause_outages.index')
-            ->with('success', 'Cause of outage updated successfully.');
+            ->with('success', 'Амжилттай засагдлаа.');
     }
 
     /**
@@ -80,6 +80,6 @@ class CauseOutageController extends Controller
         $causeOutage->delete();
 
         return redirect()->route('cause_outages.index')
-            ->with('success', 'Cause of outage deleted successfully.');
+            ->with('success', 'Амжилттай устгагдлаа.');
     }
 }

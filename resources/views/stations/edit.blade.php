@@ -19,7 +19,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Хүчдлийн түвшин</label>
+                                <label for="station_type" class="form-label">Төрөл:</label>
+                                <select name="station_type" id="station_type" class="form-select">
+                                    <option value="Дэд станц" {{ $station->station_type == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                    <option value="Хуваарилах байгууламж" {{ $station->station_type == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Хүчдэлийн түвшин</label>
                                 <div class="form-group mb-3">
                                     <select name="volt_ids[]" id="volt_ids" class="form-control" multiple>
                                         @foreach ($volts as $volt)

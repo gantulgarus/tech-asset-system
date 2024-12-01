@@ -21,7 +21,7 @@
             <table class="table table-bordered">
                 <thead class="fw-semibold text-nowrap">
                 <tr class="align-middle">
-                    <th class="bg-body-secondary">№</th>
+                    <th class="bg-body-secondary">Д/д</th>
                     <th class="bg-body-secondary">Нэр</th>
                     <th class="bg-body-secondary">Имэйл</th>
                     <th class="bg-body-secondary">Салбар</th>

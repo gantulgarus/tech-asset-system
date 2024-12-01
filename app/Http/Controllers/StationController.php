@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Schema;
 use App\Models\Station;
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Exports\StationsExport;
 use Illuminate\Support\Facades\DB;
@@ -85,11 +86,13 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
+        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type']));
+
+        LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
         $station->volts()->attach($request->volt_ids);
 
-        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй бүртгэгдлээ.');
+        return redirect()->route('stations.index')->with('success', 'Дэд станцын мэдээлэл амжилттай хадгаллаа.');
     }
 
     /**
@@ -132,11 +135,13 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station']));
+        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type']));
+
+        LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
         $station->volts()->sync($request->volt_ids);
 
-        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй засагдлаа.');
+        return redirect()->route('stations.index')->with('success', 'Дэд станцын мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -145,7 +150,10 @@ class StationController extends Controller
     public function destroy(Station $station)
     {
         $station->delete();
-        return redirect()->route('stations.index')->with('success', 'Мэдээлэл амжилттэй устгагдлаа.');
+
+        LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай устгалаа.");
+
+        return redirect()->route('stations.index')->with('success', 'Дэд станцын мэдээлэл амжилттай устгалаа.');
     }
     /**
      * Export stations to Excel.

@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\Powerline;
+use App\Models\LogActivity;
 use App\Models\OrderJournal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,5 +128,13 @@ class HomeController extends Controller
             ->get();
 
         return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId'));
+    }
+
+    public function logActivity()
+    {
+        $logs = LogActivity::latest()->get();
+        // dd($logs);
+
+        return view('log-activity', compact('logs'));
     }
 }

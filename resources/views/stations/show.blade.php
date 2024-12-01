@@ -47,7 +47,7 @@
                                                     <td>{{ $station->desc }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Хүчдлийн түвшин /кВ/</th>
+                                                    <th>Хүчдэлийн түвшин /кВ/</th>
                                                     <td>
                                                         @foreach ($station->volts as $volt)
                                                             <span>{{ $volt->name }}</span>
@@ -80,12 +80,12 @@
                                 <table class="table table-bordered table-sm" style="font-size: 12px;">
                                     <thead>
                                         <tr>
-                                            <th style="width: 50px;">№</th>
+                                            <th style="width: 50px;">Д/д</th>
                                             <th>Салбар</th>
                                             <th>Дэд станц</th>
                                             <th>Тоноглолын төрөл</th>
                                             <th>Шуурхай ажиллагааны нэр</th>
-                                            <th>Хүчдлийн түвшин</th>
+                                            <th>Хүчдэлийн түвшин</th>
                                             <th>Тип марк</th>
                                             <th>Үйлдвэрлэгдсэн он</th>
                                             <th>Үйлдэл</th>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branch;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Branch;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,7 +51,9 @@ class UserController extends Controller
 
         User::create($input);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        LogActivity::addToLog("Хэрэглэгч амжилттай бүртгэгдлээ.");
+
+        return redirect()->route('users.index')->with('success', 'Хэрэглэгч амжилттай бүртгэгдлээ.');
     }
 
     /**
@@ -96,7 +99,9 @@ class UserController extends Controller
 
         $user->update($input);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        LogActivity::addToLog("Хэрэглэгч амжилттай засагдлаа.");
+
+        return redirect()->route('users.index')->with('success', 'Хэрэглэгч амжилттай засагдлаа.');
     }
 
     /**
@@ -106,6 +111,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        LogActivity::addToLog("Хэрэглэгч амжилттай устгагдлаа.");
+
+        return redirect()->route('users.index')->with('success', 'Хэрэглэгч амжилттай устгагдлаа.');
     }
 }

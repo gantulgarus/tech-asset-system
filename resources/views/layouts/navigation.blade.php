@@ -114,7 +114,7 @@
                     <svg class="nav-icon" style="width: 8px; height: 8px;" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="small-white-svg">
                         <path d="m256 8c-137 0-248 111-248 248s111 248 248 248 248-111 248-248-111-248-248-248z"/>
                       </svg>
-                    Хүчдлийн түвшин
+                    Хүчдэлийн түвшин
                 </a>
             </li>
             

@@ -18,7 +18,7 @@
         <table class="table table-bordered table-sm" style="font-size: 12px;">
             <thead>
                 <tr>
-                    <th>№</th>
+                    <th>Д/д</th>
                     <th>Дэд станц</th>
                     <th>Нэр</th>
                     <th>Зураг</th>

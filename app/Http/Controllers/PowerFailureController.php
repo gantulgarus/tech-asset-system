@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Station;
 use App\Models\Equipment;
+use App\Helpers\LogActivity;
 use App\Models\PowerFailure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,8 +52,10 @@ class PowerFailureController extends Controller
 
         PowerFailure::create($input);
 
+        LogActivity::addToLog("Гэмдлийн мэдээлэл амжилттай хадгаллаа.");
+
         return redirect()->route('power_failures.index')
-            ->with('success', 'Power failure recorded successfully.');
+            ->with('success', 'Гэмдлийн мэдээлэл амжилттай хадгаллаа.');
     }
 
     /**
@@ -91,8 +94,10 @@ class PowerFailureController extends Controller
 
         $powerFailure->update($request->all());
 
+        LogActivity::addToLog("Гэмдлийн мэдээлэл амжилттай засагдлаа.");
+
         return redirect()->route('power_failures.index')
-            ->with('success', 'Power failure updated successfully.');
+            ->with('success', 'Гэмдлийн мэдээлэл амжилттай засагдлаа.');
     }
 
     /**
@@ -102,7 +107,9 @@ class PowerFailureController extends Controller
     {
         $powerFailure->delete();
 
+        LogActivity::addToLog("Гэмдлийн мэдээлэл амжилттай устгадлаа.");
+
         return redirect()->route('power_failures.index')
-            ->with('success', 'Power failure deleted successfully.');
+            ->with('success', 'Гэмдлийн мэдээлэл амжилттай устгадлаа.');
     }
 }

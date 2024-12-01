@@ -22,7 +22,7 @@
                                             <td>{{ $powerline->name }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Хүчдлийн түвшин /кВ/</th>
+                                            <th>Хүчдэлийн түвшин /кВ/</th>
                                             <td>{{ $powerline->volt->name }}</td>
                                         </tr>
                                         <tr>

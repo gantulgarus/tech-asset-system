@@ -36,7 +36,7 @@ class EquipmentTypeController extends Controller
 
         EquipmentType::create($request->all());
 
-        return redirect()->route('equipment-types.index')->with('success', 'Equipment Type created successfully.');
+        return redirect()->route('equipment-types.index')->with('success', 'Амжилттай хадгалагдлаа.');
     }
 
     /**
@@ -70,7 +70,7 @@ class EquipmentTypeController extends Controller
         $equipmentType = EquipmentType::findOrFail($id);
         $equipmentType->update($request->all());
 
-        return redirect()->route('equipment-types.index')->with('success', 'Equipment Type updated successfully.');
+        return redirect()->route('equipment-types.index')->with('success', 'Амжилттай засагдлаа.');
     }
 
     /**
@@ -81,6 +81,6 @@ class EquipmentTypeController extends Controller
         $equipmentType = EquipmentType::findOrFail($id);
         $equipmentType->delete();
 
-        return redirect()->route('equipment-types.index')->with('success', 'Equipment Type deleted successfully.');
+        return redirect()->route('equipment-types.index')->with('success', 'Амжилттай устгагдлаа.');
     }
 }

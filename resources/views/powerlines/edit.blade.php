@@ -42,7 +42,7 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="volt_id" class="form-label">Хүчдлийн түвшин</label>
+                                <label for="volt_id" class="form-label">Хүчдэлийн түвшин</label>
                                 <div class="form-group mb-3">
                                     <select name="volt_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
