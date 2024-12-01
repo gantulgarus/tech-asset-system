@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Volt;
+use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\Protection;
@@ -24,6 +25,7 @@ class PowerOutageController extends Controller
         $query = PowerOutage::query();
 
         $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
             ->select('power_outages.*', 'stations.name as station_name')
             ->orderBy('power_outages.start_time', 'desc');
 
@@ -31,6 +33,11 @@ class PowerOutageController extends Controller
         if ($request->filled('station')) {
             // dd($request->input('station'));
             $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        // Apply branch filter
+        if ($request->filled('branch_id')) {
+            $query->where('stations.branch_id', $request->input('branch_id'));
         }
 
         if ($request->filled('starttime') && $request->filled('endtime')) {
@@ -46,11 +53,11 @@ class PowerOutageController extends Controller
 
         // Paginate results
         $powerOutages = $query->paginate(20)->appends($request->query());
-
+        $branches = Branch::orderBy('name', 'asc')->get();
         $volts = Volt::all();
 
         // $powerOutages = PowerOutage::paginate(10);
-        return view('power_outages.index', compact('powerOutages', 'volts'));
+        return view('power_outages.index', compact('powerOutages', 'volts', 'branches'));
     }
 
     /**

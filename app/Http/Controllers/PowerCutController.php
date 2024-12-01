@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Volt;
+use App\Models\Branch;
 use App\Models\Station;
 use App\Models\CauseCut;
 use App\Models\PowerCut;
@@ -23,6 +24,7 @@ class PowerCutController extends Controller
         $query = PowerCut::query();
 
         $query->join('stations', 'power_cuts.station_id', '=', 'stations.id')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
             ->select('power_cuts.*', 'stations.name as station_name')
             ->orderBy('power_cuts.start_time', 'desc');
 
@@ -30,6 +32,11 @@ class PowerCutController extends Controller
         if ($request->filled('station')) {
             // dd($request->input('station'));
             $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        // Apply branch filter
+        if ($request->filled('branch_id')) {
+            $query->where('stations.branch_id', $request->input('branch_id'));
         }
 
         if ($request->filled('starttime') && $request->filled('endtime')) {
@@ -45,10 +52,10 @@ class PowerCutController extends Controller
 
         // Paginate results
         $powerCuts = $query->paginate(20)->appends($request->query());
-
+        $branches = Branch::orderBy('name', 'asc')->get();
         $volts = Volt::all();
 
-        return view('power_cuts.index', compact('powerCuts', 'volts'));
+        return view('power_cuts.index', compact('powerCuts', 'volts', 'branches'));
     }
 
     /**

@@ -70,6 +70,7 @@
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-library') }}"></use>
             </svg> {{ __('Тайлан') }}</a></li> --}}
+    @if (Auth::user()->role?->name == 'admin')    
     <li class="nav-title">Тохиргоо</li>
     <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
             <svg class="nav-icon">
@@ -97,4 +98,5 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('log-activity') }}">
         <i class="fas fa-clipboard-list nav-icon"></i>
         {{ __('Лог') }}</a></li>
+    @endif
 </ul>

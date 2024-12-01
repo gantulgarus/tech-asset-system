@@ -7,6 +7,7 @@ use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\OrderType;
 use App\Models\OrderStatus;
+use App\Models\JournalStatusChange;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -67,5 +68,10 @@ class OrderJournal extends Model
     public function receivedUser()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function statusChanges()
+    {
+        return $this->hasMany(JournalStatusChange::class);
     }
 }

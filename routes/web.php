@@ -78,9 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('maintenance-plans', MaintenancePlanController::class);
     Route::get('maintenance-plan/{equipment}/create', [MaintenancePlanController::class, 'create'])->name('maintenance-plans.create');
     Route::resource('order-journals', OrderJournalController::class);
-    Route::put('/order-journals/{orderJournal}/receive', [OrderJournalController::class, 'receive'])->name('order-journals.receive');
-    Route::put('/order-journals/{orderJournal}/approve', [OrderJournalController::class, 'approve'])->name('order-journals.approve');
-    Route::put('/order-journals/{orderJournal}/cancel', [OrderJournalController::class, 'cancel'])->name('order-journals.cancel');
+    Route::get('export-order-journal', [OrderJournalController::class, 'export'])->name('export-order-journal');
+    Route::post('/order-update-status', [OrderJournalController::class, 'updateStatus'])->name('order-update-status');
+    Route::get('/order-journals/{orderJournal}/status-changes', [OrderJournalController::class, 'getStatusChanges']);
     Route::resource('budget-plans', BudgetPlanController::class);
     Route::get('log-activity', [HomeController::class, 'logActivity'])->name('log-activity');
 });

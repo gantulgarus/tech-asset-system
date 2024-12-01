@@ -17,6 +17,16 @@
                     <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
                         <div class="row g-2">
                             <div class="col-md-2">
+                                <select name="branch_id" class="form-select form-select-sm">
+                                    <option value="">Салбар</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                            {{ $branch->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц" value="{{ request('station') }}">
                             </div>
                             <div class="col-md-2">

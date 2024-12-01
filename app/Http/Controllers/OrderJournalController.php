@@ -2,23 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Models\OrderType;
 use App\Helpers\LogActivity;
 use App\Models\OrderJournal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Exports\OrderJournalExport;
+use App\Models\JournalStatusChange;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderJournalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orderJournals = OrderJournal::latest()->paginate(25);
-        return view('order-journals.index', compact('orderJournals'));
+        // $orderJournals = OrderJournal::latest()->paginate(25);
+        $query = OrderJournal::query();
+
+        // Get the authenticated user's branch_id
+        $userBranchId = auth()->user()->branch_id;
+
+        // Check if the user's branch_id is not 6
+        if ($userBranchId != 6) {
+            $query->where('branch_id', $userBranchId);
+        }
+
+        // Apply branch filter from the request if branch_id = 6 or the user wants to filter
+        if ($userBranchId == 6 && $request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        // // Apply branch filter
+        // if ($request->filled('branch_id')) {
+        //     $query->where('branch_id', $request->input('branch_id'));
+        // }
+        if ($request->filled('order_type_id')) {
+            $query->where('order_type_id', $request->input('order_type_id'));
+        }
+
+        if ($request->filled('starttime') && $request->filled('endtime')) {
+            $query->whereBetween('created_at', [$request->input('starttime'), $request->input('endtime')]);
+        }
+
+        // Paginate results
+        $orderJournals = $query->paginate(20)->appends($request->query());
+
+        $branches = Branch::orderBy('name', 'asc')->get();
+        $orderTypes = OrderType::all();
+
+        return view('order-journals.index', compact('orderJournals', 'branches', 'orderTypes'));
     }
 
     /**
@@ -26,7 +64,17 @@ class OrderJournalController extends Controller
      */
     public function create()
     {
-        $stations = Station::all();
+        $userBranchId = auth()->user()->branch_id;
+
+        // Retrieve stations conditionally
+        if ($userBranchId != 6) {
+            // If the user's branch_id is not 6, retrieve only stations for their branch
+            $stations = Station::where('branch_id', $userBranchId)->get();
+        } else {
+            // If the user's branch_id is 6, retrieve all stations
+            $stations = Station::all();
+        }
+
         $equipments = Equipment::all();
         $orderTypes = OrderType::all();
 
@@ -82,7 +130,17 @@ class OrderJournalController extends Controller
      */
     public function edit(OrderJournal $orderJournal)
     {
-        $stations = Station::all();
+        $userBranchId = auth()->user()->branch_id;
+
+        // Retrieve stations conditionally
+        if ($userBranchId != 6) {
+            // If the user's branch_id is not 6, retrieve only stations for their branch
+            $stations = Station::where('branch_id', $userBranchId)->get();
+        } else {
+            // If the user's branch_id is 6, retrieve all stations
+            $stations = Station::all();
+        }
+
         $equipments = Equipment::all();
         $orderTypes = OrderType::all();
 
@@ -121,49 +179,59 @@ class OrderJournalController extends Controller
             ->with('success', 'Захиалга амжилттай устгагдлаа.');
     }
 
-    public function receive(Request $request, OrderJournal $orderJournal)
+
+    public function updateStatus(Request $request)
     {
-        $user = Auth::user();
-        // Update the order status to 2
-        $orderJournal->update([
-            'order_status_id' => $request->order_status_id,
-            'received_user_id' => $user->id,
-            'received_at' => now(),  // Set the received_at timestamp
+        $request->validate([
+            'order_status_id' => 'required|integer',
+            'order_journal_id' => 'required|exists:order_journals,id',
+            'comment' => 'required|string',
         ]);
 
-        LogActivity::addToLog("Захиалга амжилттай хүлээн авлаа.");
+        // Update the order journal's status
+        $orderJournal = OrderJournal::find($request->order_journal_id);
+        $orderJournal->order_status_id = $request->order_status_id;
+        $orderJournal->save();
 
-        return redirect()->route('order-journals.index')
-            ->with('success', 'Захиалга амжилттай хүлээн авлаа.');
+        // Save the comment in a separate table
+        JournalStatusChange::create([
+            'order_journal_id' => $request->order_journal_id,
+            'status_id' => $request->order_status_id,
+            'comment' => $request->comment,
+            'changed_by' => auth()->id(),
+        ]);
+
+        return response()->json(['message' => 'Статус амжилттай өөрчлөгдлөө!']);
     }
 
-    public function approve(Request $request, OrderJournal $orderJournal)
+    public function getStatusChanges(OrderJournal $orderJournal)
     {
-        $user = Auth::user();
-        // Update the order status to 3 (Approved)
-        $orderJournal->update([
-            'order_status_id' => $request->order_status_id,
-            'approved_user_id' => $user->id,
-            'approved_at' => now(),  // Set the approved_at timestamp
-        ]);
+        $statusChanges = $orderJournal->statusChanges()
+            ->with(['status', 'changedBy'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        LogActivity::addToLog("Захиалга амжилттай хүлээн батлагдлаа.");
-
-        return redirect()->route('order-journals.index')
-            ->with('success', 'Захиалга амжилттай хүлээн батлагдлаа.');
+        return response()->json($statusChanges);
     }
 
-    public function cancel(Request $request, OrderJournal $orderJournal)
+
+
+    public function export(Request $request)
     {
-        // Update the order status to 4 (Cancelled)
-        $orderJournal->update([
-            'order_status_id' => $request->order_status_id,
-            'canceled_at' => now(),  // Set the canceled_at timestamp
-        ]);
+        $query = OrderJournal::query();
 
-        LogActivity::addToLog("Захиалга цуцлагдлаа.");
+        // Apply filters
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('order_type_id')) {
+            $query->where('order_type_id', $request->input('order_type_id'));
+        }
 
-        return redirect()->route('order-journals.index')
-            ->with('success', 'Захиалга цуцлагдлаа.');
+        // Get the filtered data
+        $orderJournals = $query->get();
+
+
+        return Excel::download(new OrderJournalExport($orderJournals), 'order_journal_data.xlsx');
     }
 }
