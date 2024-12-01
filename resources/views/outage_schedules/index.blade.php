@@ -150,6 +150,9 @@
                 });
 
                 const currentDate = new Date().toISOString().slice(0, 10);
+                const currentYear = new Date().getFullYear(); // Get the current year
+                const currentMonth = new Date().getMonth() + 1; // Get the current month (0-indexed, so add 1)
+
 
 
                 // Prepare custom content for the print
@@ -167,7 +170,7 @@
                     </div>
                     <br>
                     <div style="text-align: center;">
-                        <h3>Таслалтын график</h3>
+                        <h4>БЗӨБЦТС ТӨХК-ИЙН ${currentYear} ОНЫ ${currentMonth} САРЫН ТАСЛАЛТЫН ГРАФИК</h4>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
                         <div style="text-align: left; font-size: 12px;">
