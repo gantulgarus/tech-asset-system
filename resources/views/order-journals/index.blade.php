@@ -266,7 +266,7 @@
                             <td>${new Date(change.created_at).toISOString().slice(0, 16).replace('T', ' ')}</td>
                             <td>${change.status.name}</td>
                             <td>${change.comment}</td>
-                            <td>${change.changed_by.name}</td>
+                            <td>${change.changed_by.division} ${change.changed_by.name}</td>
                         </tr>`;
                             tableBody.innerHTML += row;
                         });
