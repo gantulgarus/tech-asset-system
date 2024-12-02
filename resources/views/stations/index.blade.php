@@ -18,7 +18,7 @@
             <div class="mb-2">
                 <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
                     <div class="row g-2">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <select name="branch_id" class="form-select form-select-sm">
                                 <option value="">Салбар</option>
                                 @foreach($branches as $branch)
@@ -26,14 +26,14 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <select name="station_type" class="form-select form-select-sm">
                                 <option value="">Төрөл</option>
                                 <option value="Дэд станц" {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
                                 <option value="Хуваарилах байгууламж" {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <select name="volt_id" class="form-select form-select-sm">
                                 <option value="">Хүчдэлийн түвшин</option>
                                 @foreach($volts as $volt)
@@ -41,16 +41,26 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <select name="is_user_station" class="form-select form-select-sm">
                                 <option value="">Эзэмшил</option>
                                     <option value="0" {{ request('is_user_station') === 0 ? 'selected' : '' }}>Хэрэглэгчийн</option>
                                     <option value="1" {{ request('is_user_station') === 1 ? 'selected' : '' }}>Өөрийн</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        
+                        <div class="col-md-1">
                             <input type="number" name="create_year" placeholder="Ашиглалтад орсон он" class="form-control form-control-sm" value="{{ request('create_year') }}">
                         </div>
+
+                        <div class="col-md-1">
+                            <select name="station_category" class="form-select form-select-sm">
+                                <option value="">Ангилал</option>
+                                    <option value="Түгээх" {{ request('station_category') === 'Түгээх' ? 'selected' : '' }}>Түгээх</option>
+                                    <option value="Дамжуулах" {{ request('station_category') === 'Дамжуулах' ? 'selected' : '' }}>Дамжуулах</option>
+                            </select>
+                        </div>
+                        
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
                             <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
@@ -70,6 +80,7 @@
                         <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
                         <th class="bg-body-secondary">Эзэмшил</th>
                         <th class="bg-body-secondary">Эх үүсвэр</th>
+                        <th class="bg-body-secondary">Ангилал</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -90,6 +101,7 @@
                             <td>{{ $station->installed_capacity }}</td>
                             <td>{{ $station->is_user_station == 0 ? 'Хэрэглэгчийн' : 'Өөрийн' }}</td>
                             <td>{{ $station->desc }}</td>
+                            <td>{{ $station->station_category }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

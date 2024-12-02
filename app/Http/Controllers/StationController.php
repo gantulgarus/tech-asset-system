@@ -49,6 +49,10 @@ class StationController extends Controller
             $query->where('station_type', $request->station_type);
         }
 
+        if ($request->filled('station_category')) {
+            $query->where('station_category', $request->station_category);
+        }
+
 
         $stations = $query->paginate(25)->appends($request->query());
 
@@ -86,7 +90,7 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type']));
+        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type', 'station_category']));
 
         LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
@@ -135,7 +139,7 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type']));
+        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type', 'station_category']));
 
         LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
@@ -187,6 +191,10 @@ class StationController extends Controller
 
         if ($request->filled('create_year')) {
             $query->where('create_year', $request->create_year);
+        }
+
+        if ($request->filled('station_category')) {
+            $query->where('station_category', $request->station_category);
         }
 
         // Get the filtered data

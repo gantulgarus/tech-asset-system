@@ -14,7 +14,7 @@ class Station extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'branch_id', 'create_year', 'installed_capacity', 'desc', 'uuid', 'is_user_station', 'station_type',];
+    protected $fillable = ['name', 'branch_id', 'create_year', 'installed_capacity', 'desc', 'uuid', 'is_user_station', 'station_type', 'station_category'];
 
     protected static function boot()
     {

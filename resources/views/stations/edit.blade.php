@@ -26,28 +26,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Хүчдэлийн түвшин</label>
-                                <div class="form-group mb-3">
-                                    <select name="volt_ids[]" id="volt_ids" class="form-control" multiple>
-                                        @foreach ($volts as $volt)
-                                            <option value="{{ $volt->id }}" {{ collect(old('volt_ids', $station->volts->pluck('id')))->contains($volt->id) ? 'selected' : '' }}>
-                                                {{ $volt->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('volt_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
-                                    <select  id="country-dropdown" name="branch_id" class="form-control">
+                                    <select  id="country-dropdown" name="branch_id" class="form-select">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}" {{ old('branch_id', $station->branch_id) == $branch->id ? 'selected' : '' }}>
@@ -61,6 +45,25 @@
                                 @enderror
                             </div>
                         </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Хүчдэлийн түвшин</label>
+                                <div class="form-group mb-3">
+                                    <select name="volt_ids[]" id="volt_ids" class="form-select" multiple>
+                                        @foreach ($volts as $volt)
+                                            <option value="{{ $volt->id }}" {{ collect(old('volt_ids', $station->volts->pluck('id')))->contains($volt->id) ? 'selected' : '' }}>
+                                                {{ $volt->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('volt_id')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
                         
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -92,13 +95,22 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="is_user_station" class="form-label">Хэрэглэгчийн дэд станц мөн эсэх</label>
-                                <select name="is_user_station" class="form-control">
+                                <select name="is_user_station" class="form-select">
                                     <option value="0" {{ old('is_user_station', $station->is_user_station) == 0 ? 'selected' : '' }}>Хэрэглэгчийн</option>
                                     <option value="1" {{ old('is_user_station', $station->is_user_station) == 1 ? 'selected' : '' }}>Өөрийн</option>
                                 </select>
                                 @error('is_user_station')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="station_category" class="form-label">Станцын ангилал</label>
+                                <select name="station_category" id="station_category" class="form-select">
+                                    <option value="Түгээх" {{ old('station_category', $station->station_category) == 'Түгээх' ? 'selected' : '' }}>Түгээх</option>
+                                    <option value="Дамжуулах" {{ old('station_category', $station->station_category) == 'Дамжуулах' ? 'selected' : '' }}>Дамжуулах</option>
+                                </select>
                             </div>
                         </div>
                         

@@ -35,6 +35,7 @@ class StationsExport implements FromCollection, WithHeadings, WithStyles
                 'Capacity' => $station->installed_capacity,
                 'Ownership' => $station->is_user_station == 0 ? 'Хэрэглэгчийн' : 'Өөрийн',
                 'Description' => $station->desc,
+                'Category' => $station->station_category,
             ];
         });
     }
@@ -51,6 +52,7 @@ class StationsExport implements FromCollection, WithHeadings, WithStyles
             'Суурилагдсан хүчин чадал кВА',
             'Эзэмшил',
             'Эх үүсвэр',
+            'Станцын ангилал',
         ];
     }
 
