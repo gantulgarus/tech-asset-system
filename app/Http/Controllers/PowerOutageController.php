@@ -11,7 +11,10 @@ use App\Models\CauseOutage;
 use App\Models\PowerOutage;
 use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
+use App\Exports\PowerOutageExport;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use App\DataTables\PowerOutageDataTable;
 
 class PowerOutageController extends Controller
@@ -202,5 +205,44 @@ class PowerOutageController extends Controller
 
         return redirect()->route('power_outages.index')
             ->with('success', 'Тасралтын мэдээлэл амжилттай устгалаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $query = PowerOutage::query();
+
+        // Apply filters
+        $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
+            ->select('power_outages.*', 'stations.name as station_name')
+            ->orderBy('power_outages.start_time', 'desc');
+
+        // Apply branch filter
+        if ($request->filled('branch_id')) {
+            $query->where('stations.branch_id', $request->input('branch_id'));
+        }
+
+        // Apply filters
+        if ($request->filled('station')) {
+            // dd($request->input('station'));
+            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        if ($request->filled('starttime') && $request->filled('endtime')) {
+            $query->whereBetween('power_outages.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        }
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('equipment.volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
+            });
+        }
+
+        // Get the filtered data
+        $powerOutages = $query->get();
+
+
+        return Excel::download(new PowerOutageExport($powerOutages), 'tasralt.xlsx');
     }
 }

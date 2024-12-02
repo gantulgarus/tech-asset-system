@@ -207,6 +207,26 @@
             }
         }
 
+        function calculateUDE() {
+            const voltage = parseFloat($('input[name="current_voltage"]').val()); // U
+            const amperage = parseFloat($('input[name="current_amper"]').val());  // I
+            const cosf = parseFloat($('input[name="cosf"]').val());              // cos(f)
+            const duration = parseFloat($('input[name="duration"]').val());      // t in minutes
+
+            if (!isNaN(voltage) && !isNaN(amperage) && !isNaN(cosf) && !isNaN(duration)) {
+                // Convert duration from minutes to hours
+                const timeInHours = duration / 60;
+
+                // UDE Formula: U * I * cos(f) * 1.73 * t
+                const udeValue = voltage * amperage * cosf * 1.73 * timeInHours;
+
+                // Update the UDE field
+                $('input[name="ude"]').val(udeValue.toFixed(2)); // Round to 2 decimal places
+            } else {
+                $('input[name="ude"]').val(''); // Clear the field if any value is missing
+            }
+        }
+
         $(document).ready(function() {
             $('#station-dropdown').select2();
             $('#equipment-dropdown').select2();
@@ -251,6 +271,16 @@
                     }
                 });
             }
+
+            // Attach change event handlers to the relevant fields
+            $('input[name="current_voltage"], input[name="current_amper"], input[name="cosf"], input[name="duration"]').on('input', calculateUDE);
+
+            // Recalculate UDE whenever the duration is recalculated
+            $('#start_time, #end_time').on('change', function() {
+                calculateDuration();
+                calculateUDE();
+            });
+
         });
     </script>
 @endsection

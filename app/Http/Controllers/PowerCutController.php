@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PowerCutExport;
 use App\Models\Volt;
 use App\Models\Branch;
 use App\Models\Station;
@@ -11,6 +12,7 @@ use App\Models\Equipment;
 use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PowerCutController extends Controller
 {
@@ -160,5 +162,43 @@ class PowerCutController extends Controller
         LogActivity::addToLog("Таслалтын мэдээлэл амжилттай устгалаа.");
 
         return redirect()->route('power_cuts.index')->with('success', 'Таслалтын мэдээлэл амжилттай устгалаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $query = PowerCut::query();
+
+        $query->join('stations', 'power_cuts.station_id', '=', 'stations.id')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
+            ->select('power_cuts.*', 'stations.name as station_name')
+            ->orderBy('power_cuts.start_time', 'desc');
+
+        // Apply filters
+        if ($request->filled('station')) {
+            // dd($request->input('station'));
+            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        // Apply branch filter
+        if ($request->filled('branch_id')) {
+            $query->where('stations.branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('starttime') && $request->filled('endtime')) {
+            $query->whereBetween('power_cuts.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        }
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('equipment.volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
+            });
+        }
+
+        // Paginate results
+        $powerCuts = $query->get();
+
+
+        return Excel::download(new PowerCutExport($powerCuts), 'taslalt.xlsx');
     }
 }

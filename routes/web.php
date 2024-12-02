@@ -60,8 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/power_outages', [PowerOutageController::class, 'index'])->name('power_outages.index');
     Route::post('/power_outage/{id}/upload-act', [PowerOutageController::class, 'uploadAct'])->name('power_outage.upload-act');
     Route::get('/power_outage/{id}/upload', [PowerOutageController::class, 'showUploadPage'])->name('power_outage.upload');
+    Route::get('export-power-outage', [PowerOutageController::class, 'export'])->name('export-power-outage');
     Route::resource('power_failures', PowerFailureController::class);
+    Route::get('export-power-failure', [PowerFailureController::class, 'export'])->name('export-power-failure');
     Route::resource('power_cuts', PowerCutController::class);
+    Route::get('export-power-cut', [PowerCutController::class, 'export'])->name('export-power-cut');
     Route::resource('schemas', SchemaController::class);
     Route::resource('powerlines', PowerlineController::class);
     Route::resource('equipment-histories', EquipmentHistoryController::class);

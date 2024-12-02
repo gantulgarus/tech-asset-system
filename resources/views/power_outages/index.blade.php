@@ -13,6 +13,7 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('power_outages.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+                <a href="{{ route('export-power-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
                 <div class="mb-2">
                     <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
                         <div class="row g-2">

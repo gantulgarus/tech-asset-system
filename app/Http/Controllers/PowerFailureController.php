@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PowerFailureExport;
 use App\Models\Volt;
+use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
 use App\Helpers\LogActivity;
-use App\Models\Branch;
 use App\Models\PowerFailure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PowerFailureController extends Controller
 {
@@ -138,5 +140,35 @@ class PowerFailureController extends Controller
 
         return redirect()->route('power_failures.index')
             ->with('success', 'Гэмдлийн мэдээлэл амжилттай устгадлаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $query = PowerFailure::query();
+
+        $query->join('stations', 'power_failures.station_id', '=', 'stations.id')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
+            ->select('power_failures.*', 'stations.name as station_name', 'branches.name as branch_name');
+
+        // Apply filters
+        if ($request->filled('station')) {
+            // dd($request->input('station'));
+            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+        }
+
+        // Apply branch filter
+        if ($request->filled('branch_id')) {
+            $query->where('stations.branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('starttime') && $request->filled('endtime')) {
+            $query->whereBetween('power_failures.failure_date', [$request->input('starttime'), $request->input('endtime')]);
+        }
+
+        // Paginate results
+        $powerFailures = $query->get();
+
+
+        return Excel::download(new PowerFailureExport($powerFailures), 'gemtel.xlsx');
     }
 }
