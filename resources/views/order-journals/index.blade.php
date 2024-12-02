@@ -60,7 +60,7 @@
                             <th class="bg-body-secondary">Д/д</th>
                             <th class="bg-body-secondary">Салбар</th>
                             <th class="bg-body-secondary">Төрөл</th>
-                            <th class="bg-body-secondary">Дугаар</th>
+                            <th class="bg-body-secondary">Захиалгын дугаар</th>
                             <th class="bg-body-secondary">Төлөв</th>
                             <th class="bg-body-secondary">Огноо</th>
                             <th class="bg-body-secondary">Дэд станц, шугам тоноглолын нэр</th>

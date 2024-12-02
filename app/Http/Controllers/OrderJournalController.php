@@ -95,8 +95,8 @@ class OrderJournalController extends Controller
         $latestOrder = OrderJournal::whereYear('created_at', $currentYear)->orderBy('id', 'desc')->first();
 
         // If there is an order in the current year, increment the number, otherwise start from 1
-        $orderNumber = $latestOrder ? $latestOrder->order_number + 1 : 1;
-        $input['order_number'] = $orderNumber;
+        // $orderNumber = $latestOrder ? $latestOrder->order_number + 1 : 1;
+        // $input['order_number'] = $orderNumber;
 
         $request->validate([
             'order_type_id' => 'required',
