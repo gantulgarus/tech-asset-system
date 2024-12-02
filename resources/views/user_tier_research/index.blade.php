@@ -34,6 +34,19 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <input type="text" id="username" name="username"
+                                    class="form-control form-control-sm" placeholder="Хэрэглэгчийн нэр"
+                                    value="{{ request('username') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <select name="user_tier" class="form-select form-select-sm">
+                                <option value="">Хэрэглэгчийн зэрэг</option>
+                                    <option value="1" {{ request('user_tier') === 0 ? 'selected' : '' }}>1-р зэрэг</option>
+                                    <option value="2" {{ request('user_tier') === 1 ? 'selected' : '' }}>2-р зэрэг</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
                             <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
                         </div>
@@ -106,4 +119,18 @@
     
 </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#reset-filters').on('click', function() {
+                // Clear all the input fields
+                $('#filter-form').find('input[type="text"], select').val('');
+                // Submit the form to reload without filters
+                $('#filter-form').submit();
+            });
+
+        });
+    </script>
 @endsection

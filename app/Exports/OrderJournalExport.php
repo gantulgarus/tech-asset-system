@@ -35,6 +35,7 @@ class OrderJournalExport implements FromCollection, WithHeadings, WithStyles
                 'Content' => $journal->content,
                 'StartDate' => $journal->start_date,
                 'EndDate' => $journal->end_date,
+                'TransferredBy' => $journal->transferred_by,
             ];
         });
     }
@@ -52,6 +53,7 @@ class OrderJournalExport implements FromCollection, WithHeadings, WithStyles
             'Захиалгын агуулга',
             'Таслах өдөр, цаг',
             'Залгах өдөр, цаг',
+            'Захиалга дамжуулсан ажилтны нэр',
         ];
     }
 

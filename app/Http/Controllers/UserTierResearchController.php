@@ -28,6 +28,12 @@ class UserTierResearchController extends Controller
         if ($request->filled('sum_id')) {
             $query->where('sum_id', $request->input('sum_id'));
         }
+        if ($request->filled('username')) {
+            $query->where('username', 'like', '%' . $request->input('username') . '%');
+        }
+        if ($request->filled('user_tier')) {
+            $query->where('user_tier', $request->input('user_tier'));
+        }
 
         // Paginate results
         $userTierResearches = $query->paginate(20)->appends($request->query());

@@ -92,6 +92,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="transferred_by" class="form-label">Захиалга дамжуулсан ажилтны нэр оруулах </label>
+                                <input type="text" name="transferred_by" class="form-control" value="{{ $orderJournal->transferred_by }}">
+                                @error('transferred_by')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>

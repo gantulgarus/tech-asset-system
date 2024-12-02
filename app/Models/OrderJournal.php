@@ -33,6 +33,7 @@ class OrderJournal extends Model
         'real_end_date',
         'approved_at',
         'canceled_at',
+        'transferred_by'
     ];
 
     public function branch()

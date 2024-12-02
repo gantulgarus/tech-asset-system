@@ -67,6 +67,7 @@
                             <th class="bg-body-secondary">Захиалгын агуулга</th>
                             <th class="bg-body-secondary">Таслах өдөр, цаг</th>
                             <th class="bg-body-secondary">Залгах өдөр, цаг</th>
+                            <th class="bg-body-secondary">Захиалга дамжуулсан ажилтны нэр</th>
                             {{-- <th class="bg-body-secondary">Хүлээн авсан</th>
                             <th class="bg-body-secondary">Захиалга баталсан</th> --}}
                             <th class="bg-body-secondary">Үйлдэл</th>
@@ -108,6 +109,7 @@
                                 <td>{{ $orderJournal->content }}</td>
                                 <td>{{ $orderJournal->start_date }}</td>
                                 <td>{{ $orderJournal->end_date }}</td>
+                                <td>{{ $orderJournal->transferred_by }}</td>
                                 {{-- <td>{{ $orderJournal->received_at . ': ' . $orderJournal->receivedUser?->name }}</td>
                                 <td>{{ $orderJournal->approved_at . ': ' . $orderJournal->approvedUser?->name }}</td> --}}
                                 <td>
