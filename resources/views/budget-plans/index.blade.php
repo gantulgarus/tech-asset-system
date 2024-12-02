@@ -10,7 +10,34 @@
              Батлагдсан төсөв
         </div>
         <div class="card-body">
-            <a href="{{ route('budget-plans.create') }}" class="btn btn-primary btn-sm mb-2">Нэмэх</a>
+            <a href="{{ route('budget-plans.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <div class="mb-2">
+                <form method="GET" action="{{ route('budget-plans.index') }}" id="filter-form">
+                    <div class="row g-2">
+                        <div class="col-md-2">
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option value="">Салбар</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="name" id="name" class="form-control form-control-sm" placeholder="Нэр" value="{{ request('name') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="year" id="year" class="form-control form-control-sm" placeholder="Жил" value="{{ request('year') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">
@@ -65,4 +92,22 @@
     </div>
     
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+
+$(document).ready(function() {
+            $('#starttime').flatpickr();
+            $('#endtime').flatpickr();
+
+            $('#reset-filters').on('click', function() {
+                // Clear all the input fields
+                $('#filter-form').find('input[type="text"], select').val('');
+                // Submit the form to reload without filters
+                $('#filter-form').submit();
+            });
+        });
+
+    </script>
 @endsection

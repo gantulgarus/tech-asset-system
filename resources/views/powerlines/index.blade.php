@@ -35,7 +35,11 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <input type="text" id="create_year" name="create_year" class="form-control form-control-sm" placeholder="Ашиглалтад орсон он" value="{{ request('create_year') }}">
+                        </div>
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
                         </div>
                     </div>
                 </form>
@@ -102,4 +106,20 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#create_year').flatpickr();
+
+            $('#reset-filters').on('click', function() {
+                // Clear all the input fields
+                $('#filter-form').find('input[type="text"], select').val('');
+                // Submit the form to reload without filters
+                $('#filter-form').submit();
+            });
+
+        });
+    </script>
 @endsection

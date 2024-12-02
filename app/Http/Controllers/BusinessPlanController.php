@@ -12,10 +12,33 @@ class BusinessPlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $businessPlans = BusinessPlan::all();
-        return view('business_plans.index', compact('businessPlans'));
+        // $businessPlans = BusinessPlan::all();
+
+        // $orderJournals = OrderJournal::latest()->paginate(25);
+        $query = BusinessPlan::query();
+
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('plan_type')) {
+            $query->where('plan_type', $request->input('plan_type'));
+        }
+
+        if ($request->filled('infrastructure_name')) {
+            $query->where('infrastructure_name', 'like', '%' . $request->input('infrastructure_name') . '%');
+        }
+
+        if ($request->filled('task_name')) {
+            $query->where('task_name', 'like', '%' . $request->input('task_name') . '%');
+        }
+
+        $businessPlans = $query->paginate(25)->appends($request->query());
+
+        $branches = Branch::all();
+
+        return view('business_plans.index', compact('businessPlans', 'branches'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**

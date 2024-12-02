@@ -31,15 +31,23 @@ class ProtectionZoneViolationController extends Controller
         if ($request->filled('sum_id')) {
             $query->where('sum_id', $request->input('sum_id'));
         }
+        if ($request->filled('station_id')) {
+            $query->where('station_id', $request->input('station_id'));
+        }
+
+        if ($request->filled('output_name')) {
+            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+        }
 
         // Paginate results
         $violations = $query->paginate(20)->appends($request->query());
 
         $branches = Branch::all();
+        $stations = Station::all();
         $provinces = Province::all();
         $sums = Sum::all();
 
-        return view('protection_zone_violations.index', compact('violations', 'branches', 'provinces', 'sums'));
+        return view('protection_zone_violations.index', compact('violations', 'branches', 'provinces', 'sums', 'stations'));
     }
 
     /**

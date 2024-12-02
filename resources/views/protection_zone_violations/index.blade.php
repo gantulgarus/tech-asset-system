@@ -19,6 +19,17 @@
                 <form method="GET" action="{{ route('protection-zone-violations.index') }}" id="filter-form">
                     <div class="row g-2">
                         <div class="col-md-2">
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option value="">Салбар</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <select name="province_id" class="form-select form-select-sm">
                                 <option value="">Аймаг</option>
                                 @foreach($provinces as $province)
@@ -33,6 +44,17 @@
                                     <option value="{{ $sum->id }}" {{ request('sum_id') == $sum->id ? 'selected' : '' }}>{{ $sum->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="station_id" class="form-select form-select-sm">
+                                <option value="">Дэд станц</option>
+                                @foreach($stations as $station)
+                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="output_name" id="output_name" class="form-control form-control-sm" placeholder="Гаргалгааны нэр, тулгуурын дугаар" value="{{ request('output_name') }}">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
@@ -103,4 +125,18 @@
     </div>
 
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#reset-filters').on('click', function() {
+                // Clear all the input fields
+                $('#filter-form').find('input[type="text"], select').val('');
+                // Submit the form to reload without filters
+                $('#filter-form').submit();
+            });
+
+        });
+    </script>
 @endsection

@@ -32,6 +32,10 @@ class PowerlineController extends Controller
             $query->where('volt_id', $request->input('volt_id'));
         }
 
+        if ($request->filled('create_year')) {
+            $query->where('create_year', $request->input('create_year'));
+        }
+
         $powerlines = $query->orderBy('station_id', 'asc')->paginate(25)->appends($request->query());
 
         $stations = Station::orderBy('name', 'asc')->get();

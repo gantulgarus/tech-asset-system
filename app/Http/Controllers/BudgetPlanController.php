@@ -13,10 +13,28 @@ class BudgetPlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $budgetPlans = BudgetPlan::with('branch')->paginate(25);
-        return view('budget-plans.index', compact('budgetPlans'));
+        // $budgetPlans = BudgetPlan::with('branch')->paginate(25);
+        $query = BudgetPlan::query();
+
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('year')) {
+            $query->where('year', 'like', '%' . $request->input('year') . '%');
+        }
+
+        $budgetPlans = $query->paginate(25)->appends($request->query());
+
+        $branches = Branch::all();
+
+        return view('budget-plans.index', compact('budgetPlans', 'branches'));
     }
 
     /**
