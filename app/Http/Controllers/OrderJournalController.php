@@ -29,12 +29,12 @@ class OrderJournalController extends Controller
         $userBranchId = auth()->user()->branch_id;
 
         // Check if the user's branch_id is not 6
-        if ($userBranchId != 6) {
+        if ($userBranchId != 8) {
             $query->where('branch_id', $userBranchId);
         }
 
         // Apply branch filter from the request if branch_id = 6 or the user wants to filter
-        if ($userBranchId == 6 && $request->filled('branch_id')) {
+        if ($userBranchId == 8 && $request->filled('branch_id')) {
             $query->where('branch_id', $request->input('branch_id'));
         }
 
@@ -63,7 +63,7 @@ class OrderJournalController extends Controller
         $userBranchId = auth()->user()->branch_id;
 
         // Retrieve stations conditionally
-        if ($userBranchId != 6) {
+        if ($userBranchId != 8) {
             // If the user's branch_id is not 6, retrieve only stations for their branch
             $stations = Station::where('branch_id', $userBranchId)->get();
         } else {
@@ -129,7 +129,7 @@ class OrderJournalController extends Controller
         $userBranchId = auth()->user()->branch_id;
 
         // Retrieve stations conditionally
-        if ($userBranchId != 6) {
+        if ($userBranchId != 8) {
             // If the user's branch_id is not 6, retrieve only stations for their branch
             $stations = Station::where('branch_id', $userBranchId)->get();
         } else {

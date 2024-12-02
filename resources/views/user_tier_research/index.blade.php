@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     @if (session('success'))
         <div class="alert alert-success mb-1 mt-1">
             {{ session('success') }}
@@ -14,6 +14,32 @@
         </div>
         <div class="card-body">
             <a href="{{ route('user_tier_research.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <div class="mb-2">
+                <form method="GET" action="{{ route('user_tier_research.index') }}" id="filter-form">
+                    <div class="row g-2">
+                        <div class="col-md-2">
+                            <select name="province_id" class="form-select form-select-sm">
+                                <option value="">Аймаг</option>
+                                @foreach($provinces as $province)
+                                    <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>{{ $province->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="sum_id" class="form-select form-select-sm">
+                                <option value="">Сум</option>
+                                @foreach($sums as $sum)
+                                    <option value="{{ $sum->id }}" {{ request('sum_id') == $sum->id ? 'selected' : '' }}>{{ $sum->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
