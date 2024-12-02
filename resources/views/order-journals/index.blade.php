@@ -263,7 +263,7 @@
                         data.forEach(change => {
                             const row = `
                         <tr>
-                            <td>${change.created_at}</td>
+                            <td>${new Date(change.created_at).toISOString().slice(0, 16).replace('T', ' ')}</td>
                             <td>${change.status.name}</td>
                             <td>${change.comment}</td>
                             <td>${change.changed_by.name}</td>
@@ -272,13 +272,13 @@
                         });
                     } else {
                         tableBody.innerHTML =
-                            '<tr><td colspan="4" class="text-center">No status changes available.</td></tr>';
+                            '<tr><td colspan="4" class="text-center">Хоосон байна.</td></tr>';
                     }
                 })
                 .catch(error => {
                     console.error('Error loading status changes:', error);
                     tableBody.innerHTML =
-                        '<tr><td colspan="4" class="text-center text-danger">Failed to load data.</td></tr>';
+                        '<tr><td colspan="4" class="text-center text-danger">Өгөгдөл татахад алдаа гарлаа.</td></tr>';
                 });
         }
 
