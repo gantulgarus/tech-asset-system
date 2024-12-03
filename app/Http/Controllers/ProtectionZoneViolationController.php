@@ -6,7 +6,7 @@ use App\Models\Sum;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Province;
-use App\Models\LogActivity;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProtectionZoneViolation;

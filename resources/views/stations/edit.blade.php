@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_category" class="form-label">Станцын ангилал</label>
+                                <label for="station_category" class="form-label">Эх үүсвэрийн харьяалал</label>
                                 <select name="station_category" id="station_category" class="form-select">
                                     <option value="Түгээх" {{ old('station_category', $station->station_category) == 'Түгээх' ? 'selected' : '' }}>Түгээх</option>
                                     <option value="Дамжуулах" {{ old('station_category', $station->station_category) == 'Дамжуулах' ? 'selected' : '' }}>Дамжуулах</option>

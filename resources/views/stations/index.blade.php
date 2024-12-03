@@ -80,7 +80,7 @@
                         <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
                         <th class="bg-body-secondary">Эзэмшил</th>
                         <th class="bg-body-secondary">Эх үүсвэр</th>
-                        <th class="bg-body-secondary">Ангилал</th>
+                        <th class="bg-body-secondary">Эх үүсвэрийн харьяалал</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>

@@ -103,7 +103,7 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_category" class="form-label">Станцын ангилал</label>
+                                <label for="station_category" class="form-label">Эх үүсвэрийн харьяалал</label>
                                 <select name="station_category" id="station_category" class="form-select">
                                     <option value="Түгээх">Түгээх</option>
                                     <option value="Дамжуулах">Дамжуулах</option>
