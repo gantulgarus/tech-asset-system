@@ -68,10 +68,9 @@ class PowerCutController extends Controller
     {
         $stations = Station::all();
         $equipments = Equipment::all();
-        $causeCuts = CauseCut::all();
         $orderTypes = OrderType::all();
 
-        return view('power_cuts.create', compact('stations', 'equipments', 'causeCuts', 'orderTypes'));
+        return view('power_cuts.create', compact('stations', 'equipments', 'orderTypes'));
     }
 
     /**
@@ -91,6 +90,7 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
+            'order_type_id' => 'required',
         ]);
 
         PowerCut::create($input);
@@ -115,10 +115,9 @@ class PowerCutController extends Controller
     {
         $stations = Station::all();
         $equipments = Equipment::all();
-        $causeCuts = CauseCut::all();
         $orderTypes = OrderType::all();
 
-        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'causeCuts', 'orderTypes'));
+        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'orderTypes'));
     }
 
     /**
@@ -126,7 +125,9 @@ class PowerCutController extends Controller
      */
     public function update(Request $request, PowerCut $powerCut)
     {
-        $validatedData = $request->validate([
+        $input = $request->all();
+
+        $request->validate([
             'station_id' => 'required',
             'equipment_id' => 'required',
             'current_voltage' => 'required|numeric',
@@ -134,9 +135,10 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
+            'order_type_id' => 'required',
         ]);
 
-        $powerCut->update($validatedData);
+        $powerCut->update($input);
 
         LogActivity::addToLog("Таслалтын мэдээлэл амжилттай засагдлаа.");
 
