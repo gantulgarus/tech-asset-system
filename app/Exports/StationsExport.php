@@ -52,7 +52,7 @@ class StationsExport implements FromCollection, WithHeadings, WithStyles
             'Суурилагдсан хүчин чадал кВА',
             'Эзэмшил',
             'Эх үүсвэр',
-            'Станцын ангилал',
+            'Эх үүсвэрийн харьяалал',
         ];
     }
 

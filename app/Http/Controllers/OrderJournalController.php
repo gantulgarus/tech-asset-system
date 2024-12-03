@@ -14,6 +14,7 @@ use App\Exports\OrderJournalExport;
 use App\Models\JournalStatusChange;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\Console\Input\Input;
 
 class OrderJournalController extends Controller
 {
@@ -84,6 +85,17 @@ class OrderJournalController extends Controller
     {
         $input = $request->all();
         $user = Auth::user();
+
+        $hour = now()->hour; // Get the current hour (24-hour format)
+
+        // Check if the user is allowed to bypass restrictions
+        $canBypass = $user->role->name == 'admin' || $user->can_bypass_restrictions;
+
+        if (!$canBypass && ($hour < 9 || $hour > 11) && ($input['order_type_id'] ?? null) != 3) {
+            return redirect()->back()->withErrors(['error' => 'Зөвхөн 09:00 цагаас 11:00 цагийн хооронд захиалга бүртгэх боломжтой.']);
+        }
+
+
         $input['branch_id'] = $user->branch_id;
         $input['created_user_id'] = $user->id;
         $input['order_status_id'] = 1; // Илгээсэн

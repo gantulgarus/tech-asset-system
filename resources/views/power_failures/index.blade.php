@@ -51,7 +51,7 @@
                             <th class="bg-body-secondary">Тоноглол</th>
                             <th class="bg-body-secondary">Илрүүлсэн огноо</th>
                             <th class="bg-body-secondary">Илрүүлсэн хүн</th>
-                            <th class="bg-body-secondary">Гэмтлийн шинж байдал</th>
+                            <th class="bg-body-secondary">Илэрсэн гэмтэл</th>
                             <th class="bg-body-secondary">Гэмтлийн талаар мэдэгдсэн хүн</th>
                             <th class="bg-body-secondary">Авсан арга хэмжээ</th>
                             <th class="bg-body-secondary">Гэмтэл арилгасан хүн</th>

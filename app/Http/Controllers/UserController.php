@@ -115,4 +115,17 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Хэрэглэгч амжилттай устгагдлаа.');
     }
+
+    public function toggleBypass($id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Toggle the can_bypass_restrictions field
+        $user->can_bypass_restrictions = !$user->can_bypass_restrictions;
+        $user->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Амжилттай нээлээ.');
+    }
 }

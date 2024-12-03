@@ -28,6 +28,7 @@
                     <th class="bg-body-secondary">Хандах эрх</th>
                     <th class="bg-body-secondary">Албан тушаал</th>
                     <th class="bg-body-secondary">Утас</th>
+                    <th class="bg-body-secondary">Захиалга бүртгэх эрх</th>
                     <th class="bg-body-secondary">Үйлдэл</th>
                 </tr>
                 </thead>
@@ -42,12 +43,28 @@
                         <td>{{ $user->division }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
+                            @if($user->can_bypass_restrictions)
+                                <span class="badge bg-success">Нээлттэй</span>
+                            @else
+                                <span class="badge bg-danger">Хаалттай</span>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('users.toggle-bypass', $user->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm {{ $user->can_bypass_restrictions ? 'btn-danger' : 'btn-success' }}">
+                                    {{ $user->can_bypass_restrictions ? 'Хаах' : 'Нээх' }}
+                                </button>
+                            </form>
+                            <br>
+                            @if (Auth::user()->role->name == 'admin')    
                             <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">Засах</a>
                             <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Устгах</button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

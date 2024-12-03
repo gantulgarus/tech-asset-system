@@ -57,6 +57,7 @@
                             <th class="bg-body-secondary">Д/д</th>
                             <th class="bg-body-secondary">Дэд станц</th>
                             <th class="bg-body-secondary">Тоноглол</th>
+                            <th class="bg-body-secondary">Захиалгын төрөл</th>
                             <th class="bg-body-secondary">Таслалт шалтгаан</th>
                             <th class="bg-body-secondary">U кВ</th>
                             <th class="bg-body-secondary">I</th>
@@ -75,9 +76,10 @@
                         @foreach ($powerCuts as $powerCut)
                             <tr class="align-middle">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $powerCut->station->name }}</td>
-                                <td>{{ $powerCut->equipment->name }}</td>
-                                <td>{{ $powerCut->causeCut->name }}</td>
+                                <td>{{ $powerCut->station?->name }}</td>
+                                <td>{{ $powerCut->equipment?->name }}</td>
+                                <td>{{ $powerCut->orderType?->name }}</td>
+                                <td>{{ $powerCut->cause_cut }}</td>
                                 <td>{{ $powerCut->current_voltage }}</td>
                                 <td>{{ $powerCut->current_amper }}</td>
                                 <td>{{ $powerCut->current_power }}</td>

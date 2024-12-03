@@ -10,6 +10,7 @@ use App\Models\CauseCut;
 use App\Models\PowerCut;
 use App\Models\Equipment;
 use App\Helpers\LogActivity;
+use App\Models\OrderType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -68,8 +69,9 @@ class PowerCutController extends Controller
         $stations = Station::all();
         $equipments = Equipment::all();
         $causeCuts = CauseCut::all();
+        $orderTypes = OrderType::all();
 
-        return view('power_cuts.create', compact('stations', 'equipments', 'causeCuts'));
+        return view('power_cuts.create', compact('stations', 'equipments', 'causeCuts', 'orderTypes'));
     }
 
     /**
@@ -84,17 +86,11 @@ class PowerCutController extends Controller
         $request->validate([
             'station_id' => 'required',
             'equipment_id' => 'required',
-            'cause_cut_id' => 'required',
             'current_voltage' => 'required|numeric',
             'current_amper' => 'required|numeric',
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            // 'duration' => 'required',
-            // 'ude' => 'required|numeric',
-            // 'approved_by' => 'required',
-            // 'created_by' => 'required',
-            // 'order_number' => 'required',
         ]);
 
         PowerCut::create($input);
@@ -120,8 +116,9 @@ class PowerCutController extends Controller
         $stations = Station::all();
         $equipments = Equipment::all();
         $causeCuts = CauseCut::all();
+        $orderTypes = OrderType::all();
 
-        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'causeCuts'));
+        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'causeCuts', 'orderTypes'));
     }
 
     /**
@@ -132,17 +129,11 @@ class PowerCutController extends Controller
         $validatedData = $request->validate([
             'station_id' => 'required',
             'equipment_id' => 'required',
-            'cause_cut_id' => 'required',
             'current_voltage' => 'required|numeric',
             'current_amper' => 'required|numeric',
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            // 'duration' => 'required',
-            // 'ude' => 'required|numeric',
-            // 'approved_by' => 'required',
-            // 'created_by' => 'required',
-            // 'order_number' => 'required',
         ]);
 
         $powerCut->update($validatedData);

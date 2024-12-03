@@ -1,3 +1,15 @@
+@php
+    $today = now(); // Get the current date and time
+    $day = $today->day; // Get the day of the month
+    $disableButton = ($day > 25); // Disable button condition
+@endphp
+<style>
+    .btn[disabled] {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+
 @extends('layouts.admin')
 
 @section('content')
@@ -12,9 +24,10 @@
                 Таслалтын график
             </div>
             <div class="card-body">
-                <a href="{{ route('outage_schedules.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-                <a href="{{ route('export-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-                <a href="#" id="print-table" class="btn btn-secondary btn-sm mb-2">Хэвлэх</a>
+                <a href="{{ route('outage_schedules.create') }}" class="btn btn-dark btn-sm mb-2"
+                    @if ($disableButton) disabled @endif>Нэмэх</a>
+                <a href="{{ route('export-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2" >Экспорт</a>
+                <a href="#" id="print-table" class="btn btn-info btn-sm mb-2">Хэвлэх</a>
 
                 <div class="mb-2">
                     <form method="GET" action="{{ route('outage_schedules.index') }}" id="filter-form">
@@ -151,7 +164,8 @@
 
                 const currentDate = new Date().toISOString().slice(0, 10);
                 const currentYear = new Date().getFullYear(); // Get the current year
-                const currentMonth = new Date().getMonth() + 1; // Get the current month (0-indexed, so add 1)
+                const currentMonth = new Date().getMonth() +
+                1; // Get the current month (0-indexed, so add 1)
 
 
 
@@ -224,7 +238,7 @@
                     </html>
                 `);
                 printWindow.document
-            .close(); // Close the document to ensure styles and content are ready for print
+                    .close(); // Close the document to ensure styles and content are ready for print
 
                 // Trigger the print dialog for the new window
                 printWindow.print();

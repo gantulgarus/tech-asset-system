@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container mt-2">
+        @if ($errors->has('error'))
+            <div class="alert alert-danger">
+                {{ $errors->first('error') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-header">
                 Захиалга бүртгэх

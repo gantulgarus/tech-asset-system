@@ -48,18 +48,27 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="cause_cut_id" class="form-label">Таслалтын шалтгаан</label>
+                                <label for="order_type_id" class="form-label">Захиалгын төрөл</label>
                                 <div class="form-group mb-3">
-                                    <select id="cause-dropdown" name="cause_cut_id" class="form-control">
+                                    <select id="order-type-dropdown" name="order_type_id" class="form-select">
                                         <option value="">-- Сонгох --</option>
-                                        @foreach ($causeCuts as $cause)
-                                            <option value="{{ $cause->id }}" {{ old('cause_cut_id') == $cause->id ? 'selected' : '' }}>
-                                                {{ $cause->name }}
+                                        @foreach ($orderTypes as $type)
+                                            <option value="{{ $type->id }}" {{ old('order_type_id') == $type->id ? 'selected' : '' }}>
+                                                {{ $type->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('cause_cut_id')
+                                @error('order_type_id')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cause_cut" class="form-label">Таслалтын шалтгаан</label>
+                                <input type="text" name="cause_cut" class="form-control" value="{{ old('cause_cut') }}">
+                                @error('cause_cut')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="failure_detail" class="form-label">Гэмтлийн шинж байдал</label>
+                                <label for="failure_detail" class="form-label">Илэрсэн гэмтэл</label>
                                 <input type="text" name="failure_detail" class="form-control" value="{{ $powerFailure->failure_detail }}">
                                 @error('failure_detail')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
