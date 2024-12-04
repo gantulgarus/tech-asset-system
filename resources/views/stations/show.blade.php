@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
+<div class="container">
+        <a href="{{ route('stations.index') }}" class="btn btn-secondary mb-2">Буцах</a>
         <div class="row">
-            
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">

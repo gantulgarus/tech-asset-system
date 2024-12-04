@@ -23,9 +23,17 @@ class StationController extends Controller
     {
         $query = Station::query();
 
+        if ($request->filled('station_type')) {
+            $query->where('station_type', $request->station_type);
+        }
+
         if ($request->filled('branch_id')) {
             // dd($request->input('station'));
             $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
         if ($request->filled('volt_id')) {
@@ -35,18 +43,20 @@ class StationController extends Controller
             });
         }
 
-        if ($request->filled('is_user_station')) {
-            // dd($request->input('station'));
-            $query->where('is_user_station', $request->input('is_user_station'));
-        }
-
         if ($request->filled('create_year')) {
-            // dd($request->input('station'));
             $query->where('create_year', $request->input('create_year'));
         }
 
-        if ($request->filled('station_type')) {
-            $query->where('station_type', $request->station_type);
+        if ($request->filled('installed_capacity')) {
+            $query->where('installed_capacity', $request->input('installed_capacity'));
+        }
+
+        if ($request->filled('desc')) {
+            $query->where('desc', 'like', '%' . $request->input('desc') . '%');
+        }
+
+        if ($request->filled('is_user_station')) {
+            $query->where('is_user_station', $request->input('is_user_station'));
         }
 
         if ($request->filled('station_category')) {
@@ -166,31 +176,40 @@ class StationController extends Controller
     {
         $query = Station::query();
 
-        // Apply filters
-        if ($request->filled('branch_id')) {
-            $query->where('branch_id', $request->branch_id);
-        }
-
         if ($request->filled('station_type')) {
             $query->where('station_type', $request->station_type);
         }
 
-        if ($request->has('volt_id')) {
-            $query->whereExists(function ($query) use ($request) {
-                $query->select(DB::raw(1))
-                    ->from('volts')
-                    ->join('station_volt', 'volts.id', '=', 'station_volt.volt_id')
-                    ->whereRaw('stations.id = station_volt.station_id')
-                    ->where('volts.id', $request->volt_id);
+        if ($request->filled('branch_id')) {
+            // dd($request->input('station'));
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
             });
         }
 
-        if ($request->filled('is_user_station')) {
-            $query->where('is_user_station', $request->is_user_station);
+        if ($request->filled('create_year')) {
+            $query->where('create_year', $request->input('create_year'));
         }
 
-        if ($request->filled('create_year')) {
-            $query->where('create_year', $request->create_year);
+        if ($request->filled('installed_capacity')) {
+            $query->where('installed_capacity', $request->input('installed_capacity'));
+        }
+
+        if ($request->filled('desc')) {
+            $query->where('desc', 'like', '%' . $request->input('desc') . '%');
+        }
+
+        if ($request->filled('is_user_station')) {
+            $query->where('is_user_station', $request->input('is_user_station'));
         }
 
         if ($request->filled('station_category')) {

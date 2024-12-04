@@ -111,6 +111,7 @@
                             </div>
                         </div>
                         <div class="col-12">
+                            <a href="{{ route('stations.index') }}" class="btn btn-secondary">Буцах</a>
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>
                     </div>

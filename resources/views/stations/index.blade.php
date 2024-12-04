@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid mt-4">
+<div class="container-fluid">
     @if (session('success'))
         <div class="alert alert-success mb-1 mt-1">
             {{ session('success') }}
@@ -15,9 +15,17 @@
         <div class="card-body">
             <a href="{{ route('stations.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
             <a href="{{ route('export', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-            <div class="mb-2">
+            <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters">Цэвэрлэх</button>
+            {{-- <div class="mb-2">
                 <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
                     <div class="row g-2">
+                        <div class="col-md-1">
+                            <select name="station_type" class="form-select form-select-sm">
+                                <option value="">Төрөл</option>
+                                <option value="Дэд станц" {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                <option value="Хуваарилах байгууламж" {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
+                            </select>
+                        </div>
                         <div class="col-md-1">
                             <select name="branch_id" class="form-select form-select-sm">
                                 <option value="">Салбар</option>
@@ -27,11 +35,7 @@
                             </select>
                         </div>
                         <div class="col-md-1">
-                            <select name="station_type" class="form-select form-select-sm">
-                                <option value="">Төрөл</option>
-                                <option value="Дэд станц" {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
-                                <option value="Хуваарилах байгууламж" {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
-                            </select>
+                            <input type="text" name="name" placeholder="ДС нэр" class="form-control form-control-sm" value="{{ request('name') }}">
                         </div>
                         <div class="col-md-1">
                             <select name="volt_id" class="form-select form-select-sm">
@@ -42,20 +46,27 @@
                             </select>
                         </div>
                         <div class="col-md-1">
+                            <input type="number" name="create_year" placeholder="Ашиглалтад орсон он" class="form-control form-control-sm" value="{{ request('create_year') }}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="installed_capacity" placeholder="Суурилагдсан чадал" class="form-control form-control-sm" value="{{ request('installed_capacity') }}">
+                        </div>
+                        
+                        <div class="col-md-1">
                             <select name="is_user_station" class="form-select form-select-sm">
                                 <option value="">Эзэмшил</option>
                                     <option value="0" {{ request('is_user_station') === 0 ? 'selected' : '' }}>Хэрэглэгчийн</option>
                                     <option value="1" {{ request('is_user_station') === 1 ? 'selected' : '' }}>Өөрийн</option>
                             </select>
                         </div>
-                        
+
                         <div class="col-md-1">
-                            <input type="number" name="create_year" placeholder="Ашиглалтад орсон он" class="form-control form-control-sm" value="{{ request('create_year') }}">
+                            <input type="text" name="desc" placeholder="Эх үүсвэр" class="form-control form-control-sm" value="{{ request('desc') }}">
                         </div>
 
                         <div class="col-md-1">
                             <select name="station_category" class="form-select form-select-sm">
-                                <option value="">Ангилал</option>
+                                <option value="">Харьяалал</option>
                                     <option value="Түгээх" {{ request('station_category') === 'Түгээх' ? 'selected' : '' }}>Түгээх</option>
                                     <option value="Дамжуулах" {{ request('station_category') === 'Дамжуулах' ? 'selected' : '' }}>Дамжуулах</option>
                             </select>
@@ -67,8 +78,9 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <table class="table border mb-0" style="font-size: 12px;">
+            </div> --}}
+            <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
+            <table class="table table-bordered table-hover" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>
@@ -83,7 +95,61 @@
                         <th class="bg-body-secondary">Эх үүсвэрийн харьяалал</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
+                    <tr class="align-middle">
+                        <th class=""></th>
+                        <th class="">
+                            <select name="station_type" class="form-select form-select-sm">
+                                <option value=""></option>
+                                <option value="Дэд станц" {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                <option value="Хуваарилах байгууламж" {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
+                            </select>
+                        </th>
+                        <th class="">
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th class="">
+                            <input type="text" name="name" class="form-control form-control-sm" placeholder="" value="{{ request('name') }}">
+                        </th>
+                        <th class="">
+                            <select name="volt_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach($volts as $volt)
+                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th class="">
+                            <input type="number" name="create_year" class="form-control form-control-sm" placeholder="" value="{{ request('create_year') }}">
+                        </th>
+                        <th class="">
+                            <input type="text" name="installed_capacity" class="form-control form-control-sm" placeholder="" value="{{ request('installed_capacity') }}">
+                        </th>
+                        <th class="">
+                            <select name="is_user_station" class="form-select form-select-sm">
+                                <option value=""></option>
+                                <option value="0" {{ request('is_user_station') == "0" ? 'selected' : '' }}>Хэрэглэгчийн</option>
+                                <option value="1" {{ request('is_user_station') == "1" ? 'selected' : '' }}>Өөрийн</option>
+                            </select>
+                        </th>
+                        <th class="">
+                            <input type="text" name="desc" class="form-control form-control-sm" placeholder="" value="{{ request('desc') }}">
+                        </th>
+                        <th class="">
+                            <select name="station_category" class="form-select form-select-sm">
+                                <option value=""></option>
+                                <option value="Түгээх" {{ request('station_category') == 'Түгээх' ? 'selected' : '' }}>Түгээх</option>
+                                <option value="Дамжуулах" {{ request('station_category') == 'Дамжуулах' ? 'selected' : '' }}>Дамжуулах</option>
+                            </select>
+                        </th>
+                        <th class=""></th>
+                    </tr>
                 </thead>
+                
                 <tbody>
                     @foreach ($stations as $station)
                         <tr class="align-middle">
@@ -129,6 +195,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </form>
             <div class="mt-2">
                 {{ $stations->links(); }}
             </div>
@@ -141,6 +208,13 @@
     document.getElementById('reset-filters').addEventListener('click', function () {
         window.location.href = "{{ route('stations.index') }}";
     });
+
+    document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+        element.addEventListener('change', function () {
+            document.getElementById('filter-form').submit();
+        });
+    });
+
 </script>
 
 @endsection
