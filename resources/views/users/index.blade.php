@@ -28,7 +28,7 @@
                     <th class="bg-body-secondary">Хандах эрх</th>
                     <th class="bg-body-secondary">Албан тушаал</th>
                     <th class="bg-body-secondary">Утас</th>
-                    <th class="bg-body-secondary">Захиалга бүртгэх эрх</th>
+                    <th class="bg-body-secondary">Захиалга эрх</th>
                     <th class="bg-body-secondary">Үйлдэл</th>
                 </tr>
                 </thead>
@@ -52,17 +52,17 @@
                         <td>
                             <form action="{{ route('users.toggle-bypass', $user->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-sm {{ $user->can_bypass_restrictions ? 'btn-danger' : 'btn-success' }}">
-                                    {{ $user->can_bypass_restrictions ? 'Хаах' : 'Нээх' }}
+                                <button type="submit" class="btn btn-sm {{ $user->can_bypass_restrictions ? 'btn-danger' : 'btn-success' }} text-light">
+                                    {{ $user->can_bypass_restrictions ? 'Захиалга эрх хаах' : 'Захиалга эрх нээх' }}
                                 </button>
                             </form>
                             <br>
                             @if (Auth::user()->role->name == 'admin')    
-                            <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">Засах</a>
+                            <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm text-light">Засах</a>
                             <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Устгах</button>
+                                <button type="submit" class="btn btn-danger btn-sm text-light">Устгах</button>
                             </form>
                             @endif
                         </td>

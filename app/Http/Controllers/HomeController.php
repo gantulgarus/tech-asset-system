@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Models\Equipment;
+use App\Models\EquipmentType;
 use App\Models\Powerline;
 use App\Models\LogActivity;
 use App\Models\OrderJournal;
@@ -47,6 +48,22 @@ class HomeController extends Controller
                 $query->where('branch_id', $branchId);
             });
         })->count();
+
+        $installedCapacityAll = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->sum('installed_capacity');
+
+        $powerlineLength = Powerline::when($branchId, function ($query, $branchId) {
+            return $query->whereHas('station', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            });
+        })->sum('line_length');
+
+        // $cablelineLength = Equipment::when($branchId, function ($query, $branchId) {
+        //     return $query->whereHas('station', function ($query) use ($branchId) {
+        //         $query->where('branch_id', $branchId);
+        //     });
+        // })->sum('');
 
 
         $userCount = User::when($branchId, function ($query, $branchId) {
@@ -127,7 +144,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId'));
+        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'installedCapacityAll', 'powerlineLength'));
     }
 
     public function logActivity()
