@@ -51,7 +51,7 @@ class HomeController extends Controller
 
         $installedCapacityAll = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->sum('installed_capacity');
+        })->where('station_category', 'Түгээх')->sum('installed_capacity');
 
         $powerlineLength = Powerline::when($branchId, function ($query, $branchId) {
             return $query->whereHas('station', function ($query) use ($branchId) {
