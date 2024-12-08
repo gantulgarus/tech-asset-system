@@ -62,8 +62,12 @@
                                                     <td>{{ $station->create_year }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Суурилагдсан хүчин чадал</th>
+                                                    <th>Суурилагдсан хүчин чадал Т-1</th>
                                                     <td>{{ $station->installed_capacity }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Суурилагдсан хүчин чадал Т-2</th>
+                                                    <td>{{ $station->second_capacity }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

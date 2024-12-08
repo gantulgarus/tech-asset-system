@@ -14,8 +14,8 @@
         </div>
         <div class="card-body">
             <a href="{{ route('stations.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-            <a href="{{ route('export', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-            <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters">Цэвэрлэх</button>
+            <a href="{{ route('export', request()->all()) }}" class="btn btn-primary btn-sm mb-2"><i class="far fa-file-excel"></i> Экспорт</a>
+            <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i class="fas fa-undo-alt"></i> Цэвэрлэх</button>
             {{-- <div class="mb-2">
                 <form method="GET" action="{{ route('stations.index') }}" id="filter-form">
                     <div class="row g-2">
@@ -89,7 +89,8 @@
                         <th class="bg-body-secondary">Дэд станцын ША-ны нэр</th>
                         <th class="bg-body-secondary">Хүчдэлийн түвшин</th>
                         <th class="bg-body-secondary">Ашиглалтад орсон он</th>
-                        <th class="bg-body-secondary">Суурилагдсан хүчин чадал /кВА/</th>
+                        <th class="bg-body-secondary">Суурилагдсан хүчин чадал Т-1 /кВА/</th>
+                        <th class="bg-body-secondary">Суурилагдсан хүчин чадал Т-2 /кВА/</th>
                         <th class="bg-body-secondary">Эзэмшил</th>
                         <th class="bg-body-secondary">Эх үүсвэр</th>
                         <th class="bg-body-secondary">Эх үүсвэрийн харьяалал</th>
@@ -130,6 +131,9 @@
                             <input type="text" name="installed_capacity" class="form-control form-control-sm" placeholder="" value="{{ request('installed_capacity') }}">
                         </th>
                         <th class="">
+                            <input type="text" name="second_capacity" class="form-control form-control-sm" placeholder="" value="{{ request('second_capacity') }}">
+                        </th>
+                        <th class="">
                             <select name="is_user_station" class="form-select form-select-sm">
                                 <option value=""></option>
                                 <option value="0" {{ request('is_user_station') == "0" ? 'selected' : '' }}>Хэрэглэгчийн</option>
@@ -165,6 +169,7 @@
                             </td>
                             <td>{{ $station->create_year }}</td>
                             <td>{{ $station->installed_capacity }}</td>
+                            <td>{{ $station->second_capacity }}</td>
                             <td>{{ $station->is_user_station == 0 ? 'Хэрэглэгчийн' : 'Өөрийн' }}</td>
                             <td>{{ $station->desc }}</td>
                             <td>{{ $station->station_category }}</td>
@@ -195,6 +200,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-3">
+                <p>Нийт мэдээлэл: {{ $stations->count() }}</p>
+            </div>
         </form>
             <div class="mt-2">
                 {{ $stations->links(); }}

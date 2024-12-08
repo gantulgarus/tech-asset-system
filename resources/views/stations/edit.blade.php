@@ -67,9 +67,18 @@
                         
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="installed_capacity" class="form-label">Суурилагдсан чадал /кВА/</label>
+                                <label for="installed_capacity" class="form-label">Суурилагдсан чадал Т-1 /кВА/</label>
                                 <input type="number" name="installed_capacity" value="{{ $station->installed_capacity }}" class="form-control">
                                 @error('installed_capacity')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="second_capacity" class="form-label">Суурилагдсан чадал Т-2 /кВА/</label>
+                                <input type="number" name="second_capacity" value="{{ $station->second_capacity }}" class="form-control">
+                                @error('second_capacity')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

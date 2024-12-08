@@ -50,6 +50,9 @@ class StationController extends Controller
         if ($request->filled('installed_capacity')) {
             $query->where('installed_capacity', $request->input('installed_capacity'));
         }
+        if ($request->filled('second_capacity')) {
+            $query->where('second_capacity', $request->input('second_capacity'));
+        }
 
         if ($request->filled('desc')) {
             $query->where('desc', 'like', '%' . $request->input('desc') . '%');
@@ -100,7 +103,7 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station = Station::create($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type', 'station_category']));
+        $station = Station::create($request->all());
 
         LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
@@ -149,7 +152,7 @@ class StationController extends Controller
             'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
         ]);
 
-        $station->update($request->only(['name', 'branch_id', 'desc', 'installed_capacity', 'create_year', 'is_user_station', 'station_type', 'station_category']));
+        $station->update($request->all());
 
         LogActivity::addToLog("Дэд станцын мэдээлэл амжилттай хадгаллаа.");
 
@@ -202,6 +205,10 @@ class StationController extends Controller
 
         if ($request->filled('installed_capacity')) {
             $query->where('installed_capacity', $request->input('installed_capacity'));
+        }
+
+        if ($request->filled('second_capacity')) {
+            $query->where('second_capacity', $request->input('second_capacity'));
         }
 
         if ($request->filled('desc')) {
