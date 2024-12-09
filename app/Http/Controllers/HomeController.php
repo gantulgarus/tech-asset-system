@@ -37,7 +37,11 @@ class HomeController extends Controller
 
         $stationCount = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->count();
+        })->where('station_type', 'Дэд станц')->count();
+
+        $baiguulamjCount = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_type', 'Хуваарилах байгууламж')->count();
 
         $equipmentCount = Equipment::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
@@ -144,7 +148,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'installedCapacityAll', 'powerlineLength'));
+        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'installedCapacityAll', 'powerlineLength', 'baiguulamjCount'));
     }
 
     public function logActivity()

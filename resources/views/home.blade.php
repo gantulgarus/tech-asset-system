@@ -24,18 +24,6 @@
                         <div class="fs-4 fw-semibold">{{ $stationCount }}</div>
                         <div>Дэд станцын тоо</div>
                     </div>
-                    {{-- <div class="dropdown">
-                        <button class="btn btn-transparent text-white p-0" type="button"
-                            data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <svg class="icon">
-                                <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-options"></use>
-                            </svg>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                href="#">Action</a><a class="dropdown-item" href="#">Another
-                                action</a><a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div> --}}
                 </div>
                 <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                     <canvas class="chart" id="card-chart1" height="70"></canvas>
@@ -75,8 +63,8 @@
             <div class="card text-white bg-danger">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">{{ $userCount }}</div>
-                        <div>Кабель шугам</div>
+                        <div class="fs-4 fw-semibold">{{ $baiguulamjCount }}</div>
+                        <div>Хуваарилах байгууламж</div>
                     </div>
                 </div>
                 <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
