@@ -79,7 +79,7 @@
                             <div class="mb-3">
                                 <label for="current_voltage" class="form-label">Тухайн үеийн хүчдэл /кВ/</label>
                                 <div class="input-group mb-3">
-                                <input type="number" step="0.01" name="current_voltage" class="form-control" value="{{ $powerCut->current_voltage }}">
+                                <input type="number" step="any" name="current_voltage" class="form-control" value="{{ $powerCut->current_voltage }}">
                                 <span class="input-group-text">кВ</span>
                                 </div>
                                 @error('current_voltage')
@@ -90,7 +90,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_amper" class="form-label">Гүйдэл /A/</label>
-                                <input type="number" step="0.01" name="current_amper" class="form-control" value="{{ $powerCut->current_amper }}">
+                                <input type="number" step="any" name="current_amper" class="form-control" value="{{ $powerCut->current_amper }}">
                                 @error('current_amper')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -99,7 +99,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_power" class="form-label">Чадал</label></label>
-                                <input type="number" step="0.01" name="current_power" class="form-control" value="{{ $powerCut->current_power }}">
+                                <input type="number" step="any" name="current_power" class="form-control" value="{{ $powerCut->current_power }}">
                                 @error('current_power')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -139,7 +139,7 @@
                             <div class="mb-3">
                                 <label for="ude" class="form-label">ДТЦЭХ /кВт.ц/</label></label>
                                 <div class="input-group mb-3">
-                                    <input type="number" step="0.01" name="ude" class="form-control" value="{{ $powerCut->ude }}">
+                                    <input type="number" step="any" name="ude" class="form-control" value="{{ $powerCut->ude }}">
                                     <span class="input-group-text">кВт.ц</span>
                                 </div>
                                 @error('ude')

@@ -14,13 +14,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц</label>
+                                <label for="station_id" class="form-label">Дэд станц / Хуваарилах байгууламж</label>
                                 <div class="form-group mb-3">
                                     <select id="station-dropdown" name="station_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($stations as $station)
                                             <option value="{{ $station->id }}" {{ old('station_id', $powerOutage->station_id) == $station->id ? 'selected' : '' }}>
-                                                {{ $station->name }}
+                                                {{ $station->station_type }} | {{ $station->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -74,7 +74,7 @@
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($causeOutages as $cause)
                                             <option value="{{ $cause->id }}" {{ old('cause_outage_id', $powerOutage->cause_outage_id) == $cause->id ? 'selected' : '' }}>
-                                                {{ $cause->name }}
+                                                {{ $cause->description }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -124,7 +124,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_voltage" class="form-label">Тухайн үеийн хүчдэл /кВ/</label></label>
-                                <input type="number" name="current_voltage" value="{{ $powerOutage->current_voltage }}" class="form-control">
+                                <input type="number" step="any" name="current_voltage" value="{{ $powerOutage->current_voltage }}" class="form-control">
                                 @error('current_voltage')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -133,7 +133,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_amper" class="form-label">Гүйдэл /A/</label></label>
-                                <input type="number" name="current_amper" value="{{ $powerOutage->current_amper }}" class="form-control">
+                                <input type="number" step="any" name="current_amper" value="{{ $powerOutage->current_amper }}" class="form-control">
                                 @error('current_amper')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -142,7 +142,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="Cosf" class="form-label">Cosf</label></label>
-                                <input type="number" name="cosf" value="{{ $powerOutage->cosf }}" class="form-control">
+                                <input type="number" step="any" name="cosf" value="{{ $powerOutage->cosf }}" class="form-control">
                                 @error('cosf')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -151,7 +151,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="ude" class="form-label">ДТЦЭХ /кВт.ц/</label></label>
-                                <input type="number" name="ude" value="{{ $powerOutage->ude }}" class="form-control">
+                                <input type="number" step="any" name="ude" value="{{ $powerOutage->ude }}" class="form-control">
                                 @error('ude')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

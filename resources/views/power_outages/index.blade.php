@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container-fluid">
         @if (session('success'))
             <div class="alert alert-success mb-1 mt-1">
                 {{ session('success') }}
@@ -14,7 +14,9 @@
             <div class="card-body">
                 <a href="{{ route('power_outages.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
                 <a href="{{ route('export-power-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-                <div class="mb-2">
+                <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
+                    class="fas fa-undo-alt"></i> Цэвэрлэх</button>
+                {{-- <div class="mb-2">
                     <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
                         <div class="row g-2">
                             <div class="col-md-2">
@@ -28,7 +30,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц" value="{{ request('station') }}">
+                                <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц / ХБ" value="{{ request('station') }}">
                             </div>
                             <div class="col-md-2">
                                 <input type="text" id="starttime" name="starttime" class="form-control form-control-sm" placeholder="Эхлэх" value="{{ request('starttime') }}">
@@ -50,12 +52,13 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> --}}
+                <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
                 <table class="table border mb-0" style="font-size: 12px;">
                     <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">Д/д</th>
-                            <th class="bg-body-secondary">Дэд станц</th>
+                            <th class="bg-body-secondary">Дэд станц / ХБ</th>
                             <th class="bg-body-secondary">Тоноглол</th>
                             <th class="bg-body-secondary">Хамгаалалт</th>
                             <th class="bg-body-secondary">Тасарсан</th>
@@ -72,6 +75,49 @@
                             <th class="bg-body-secondary">Акт</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
+                        <tr class="align-middle">
+                            <th></th>
+                            <th><input type="text" name="station" class="form-control form-control-sm" value="{{ request('station') }}"></th>
+                            <th>
+                                <input type="text" name="equipment" class="form-control form-control-sm" value="{{ request('equipment') }}">
+                            </th>
+                            <th>
+                                <select name="protection_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach ($protections as $protection)
+                                        <option value="{{ $protection->id }}"
+                                            {{ request('protection_id') == $protection->id ? 'selected' : '' }}>
+                                            {{ $protection->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th>
+                                <input type="text" name="start_time" class="form-control form-control-sm" value="{{ request('start_time') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="end_time" class="form-control form-control-sm" value="{{ request('end_time') }}">
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <select name="cause_outage_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach ($causeOutages as $cause)
+                                        <option value="{{ $cause->id }}"
+                                            {{ request('cause_outage_id') == $cause->id ? 'selected' : '' }}>
+                                            {{ $cause->description }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($powerOutages as $powerOutage)
@@ -84,7 +130,7 @@
                                 <td>{{ $powerOutage->end_time }}</td>
                                 <td>{{ $powerOutage->duration }}</td>
                                 <td>{{ $powerOutage->weather }}</td>
-                                <td>{{ $powerOutage->causeOutage->name }}</td>
+                                <td>{{ $powerOutage->causeOutage->description }}</td>
                                 <td>{{ $powerOutage->current_voltage }}</td>
                                 <td>{{ $powerOutage->current_amper }}</td>
                                 <td>{{ $powerOutage->cosf }}</td>
@@ -130,6 +176,7 @@
                 <div class="mt-2">
                     {{ $powerOutages->links() }}
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -137,17 +184,26 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#starttime').flatpickr();
-            $('#endtime').flatpickr();
+        // $(document).ready(function() {
+        //     $('#starttime').flatpickr();
+        //     $('#endtime').flatpickr();
 
-            $('#reset-filters').on('click', function() {
-                // Clear all the input fields
-                $('#filter-form').find('input[type="text"], select').val('');
-                // Submit the form to reload without filters
-                $('#filter-form').submit();
+        //     $('#reset-filters').on('click', function() {
+        //         // Clear all the input fields
+        //         $('#filter-form').find('input[type="text"], select').val('');
+        //         // Submit the form to reload without filters
+        //         $('#filter-form').submit();
+        //     });
+
+        // });
+        document.getElementById('reset-filters').addEventListener('click', function() {
+            window.location.href = "{{ route('power_outages.index') }}";
+        });
+
+        document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+            element.addEventListener('change', function() {
+                document.getElementById('filter-form').submit();
             });
-
         });
     </script>
 @endsection

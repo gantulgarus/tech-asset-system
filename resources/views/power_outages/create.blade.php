@@ -12,13 +12,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц</label>
+                                <label for="station_id" class="form-label">Дэд станц / Хуваарилах байгууламж</label>
                                 <div class="form-group mb-3">
                                     <select id="station-dropdown" name="station_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($stations as $station)
                                             <option value="{{ $station->id }}" {{ old('station_id') == $station->id ? 'selected' : '' }}>
-                                                {{ $station->name }}
+                                                {{ $station->station_type }} | {{ $station->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -72,7 +72,7 @@
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($causeOutages as $cause)
                                             <option value="{{ $cause->id }}" {{ old('cause_outage_id') == $cause->id ? 'selected' : '' }}>
-                                                {{ $cause->name }}
+                                                {{ $cause->description }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -126,7 +126,7 @@
                             <div class="mb-3">
                                 <label for="current_voltage" class="form-label">Тухайн үеийн хүчдэл /кВ/</label>
                                 <div class="input-group mb-3">
-                                <input type="number" name="current_voltage" class="form-control" value="{{ old('current_voltage') }}">
+                                <input type="number" step="any" name="current_voltage" class="form-control" value="{{ old('current_voltage') }}">
                                 <span class="input-group-text">кВ</span>
                                 </div>
                                 @error('current_voltage')
@@ -137,7 +137,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="current_amper" class="form-label">Гүйдэл /A/</label>
-                                <input type="number" name="current_amper" class="form-control" value="{{ old('current_amper') }}">
+                                <input type="number" step="any" name="current_amper" class="form-control" value="{{ old('current_amper') }}">
                                 @error('current_amper')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -146,7 +146,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="cosf" class="form-label">Cosf</label></label>
-                                <input type="number" step="0.01" name="cosf" class="form-control" value="{{ old('cosf') }}">
+                                <input type="number" step="any" name="cosf" class="form-control" value="{{ old('cosf') }}">
                                 @error('cosf')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -156,7 +156,7 @@
                             <div class="mb-3">
                                 <label for="ude" class="form-label">ДТЦЭХ /кВт.ц/</label></label>
                                 <div class="input-group mb-3">
-                                    <input type="number" step="0.01" name="ude" class="form-control" value="{{ old('ude') }}">
+                                    <input type="number" step="any" name="ude" class="form-control" value="{{ old('ude') }}">
                                     <span class="input-group-text">кВт.ц</span>
                                 </div>
                                 @error('ude')

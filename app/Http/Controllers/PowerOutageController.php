@@ -28,15 +28,61 @@ class PowerOutageController extends Controller
         $query = PowerOutage::query();
 
         $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
-            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
-            ->select('power_outages.*', 'stations.name as station_name')
+            ->join('branches', 'stations.branch_id', '=', 'branches.id')
+            ->join('equipment', 'power_outages.equipment_id', '=', 'equipment.id')
+            ->select('power_outages.*', 'stations.name as station_name', 'equipment.name as equipment_name')
             ->orderBy('power_outages.start_time', 'desc');
 
         // Apply filters
         if ($request->filled('station')) {
-            // dd($request->input('station'));
             $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
         }
+
+        if ($request->filled('equipment')) {
+            $query->where('equipment.name', 'like', '%' . $request->input('equipment') . '%');
+        }
+
+        if ($request->filled('protection_id')) {
+            $query->where('protection_id', $request->input('protection_id'));
+        }
+
+        if ($request->filled('cause_outage_id')) {
+            $query->where('cause_outage_id', $request->input('cause_outage_id'));
+        }
+
+        if ($request->filled('start_time')) {
+            $startTime = $request->input('start_time');
+
+            if (preg_match('/^\d{4}$/', $startTime)) {
+                // Search by year (e.g., 2024)
+                $query->whereYear('power_outages.start_time', $startTime);
+            } elseif (preg_match('/^\d{4}-\d{2}$/', $startTime)) {
+                // Search by year and month (e.g., 2024-12)
+                $query->whereYear('power_outages.start_time', substr($startTime, 0, 4))
+                    ->whereMonth('power_outages.start_time', substr($startTime, 5, 2));
+            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $startTime)) {
+                // Search by exact date (e.g., 2024-12-09)
+                $query->whereDate('power_outages.start_time', $startTime);
+            }
+        }
+        if ($request->filled('end_time')) {
+            $endTime = $request->input('end_time');
+
+            if (preg_match('/^\d{4}$/', $endTime)) {
+                // Search by year (e.g., 2024)
+                $query->whereYear('power_outages.end_time', $endTime);
+            } elseif (preg_match('/^\d{4}-\d{2}$/', $endTime)) {
+                // Search by year and month (e.g., 2024-12)
+                $query->whereYear('power_outages.end_time', substr($endTime, 0, 4))
+                    ->whereMonth('power_outages.end_time', substr($endTime, 5, 2));
+            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $endTime)) {
+                // Search by exact date (e.g., 2024-12-09)
+                $query->whereDate('power_outages.end_time', $endTime);
+            }
+        }
+
+
+
 
         // Apply branch filter
         if ($request->filled('branch_id')) {
@@ -58,9 +104,11 @@ class PowerOutageController extends Controller
         $powerOutages = $query->paginate(20)->appends($request->query());
         $branches = Branch::orderBy('name', 'asc')->get();
         $volts = Volt::all();
+        $protections = Protection::all();
+        $causeOutages = CauseOutage::all();
 
         // $powerOutages = PowerOutage::paginate(10);
-        return view('power_outages.index', compact('powerOutages', 'volts', 'branches'));
+        return view('power_outages.index', compact('powerOutages', 'volts', 'branches', 'protections', 'causeOutages'));
     }
 
     /**
