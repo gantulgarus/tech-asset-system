@@ -31,7 +31,6 @@
                                 <label for="name" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
                                     <select  id="country-dropdown" name="branch_id" class="form-select">
-                                        <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                         <option value="{{$branch->id}}">
                                             {{$branch->name}}
