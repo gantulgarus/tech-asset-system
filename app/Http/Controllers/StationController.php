@@ -26,17 +26,15 @@ class StationController extends Controller
         // Get the logged-in user
         $user = auth()->user();
 
-        // Check if the user belongs to a specific branch
-        if ($user->branch_id) {
-            // Show only stations belonging to the user's branch
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
             $query->where('branch_id', $user->branch_id);
         }
 
-        if ($request->filled('branch_id')) {
-            // Allow filtering by branch_id only if the user is in the main branch
-            if ($user->branch_id == 8) {
-                $query->where('branch_id', $request->input('branch_id'));
-            }
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
         }
 
         if ($request->filled('station_type')) {
