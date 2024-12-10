@@ -116,9 +116,6 @@
                         </tr>
                     @endforeach
                 </tbody>
-                <div class="mt-2">
-                    {{ $violations->links() }}
-                </div>
             </table>
             <div class="mt-2">
                 {{ $violations->links() }}
