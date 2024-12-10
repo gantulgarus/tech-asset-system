@@ -81,7 +81,7 @@
                 <tbody>
                     @foreach ($violations as $violation)
                         <tr class="align-middle">
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $violation->branch->name }}</td>
                             <td>{{ $violation->station->name }}</td>
                             <td>{{ $violation->province->name }}</td>
