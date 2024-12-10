@@ -23,6 +23,7 @@ class ProtectionZoneViolation extends Model
         'address',
         'certificate_number',
         'action_taken',
+        'maintainer_name'
     ];
 
     /**

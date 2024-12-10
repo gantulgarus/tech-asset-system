@@ -75,6 +75,7 @@
                         <th class="bg-body-secondary">Хаяг, байршил</th>
                         <th class="bg-body-secondary">Газрын гэрчилгээний дугаар</th>
                         <th class="bg-body-secondary">Авсан арга хэмжээ</th>
+                        <th class="bg-body-secondary">Засвар хийсэн хүний нэр, албан тушаал</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
                 </thead>
@@ -91,6 +92,7 @@
                             <td>{{ $violation->address }}</td>
                             <td>{{ $violation->certificate_number }}</td>
                             <td>{{ $violation->action_taken }}</td>
+                            <td>{{ $violation->maintainer_name }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

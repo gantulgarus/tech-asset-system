@@ -122,6 +122,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="maintainer_name" class="form-label">Засвар хийсэн хүний нэр, албан тушаал</label>
+                                <input type="text" name="maintainer_name" class="form-control" value="{{ old('maintainer_name') }}">
+                                @error('maintainer_name')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>
