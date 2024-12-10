@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('outage_schedules', OutageScheduleController::class);
     Route::get('export-outage', [OutageScheduleController::class, 'export'])->name('export-outage');
     Route::resource('protection-zone-violations', ProtectionZoneViolationController::class);
+    Route::get('/get-sums/{provinceId}', [ProtectionZoneViolationController::class, 'getSumsByProvince'])->name('get.sums');
     Route::resource('maintenance-plans', MaintenancePlanController::class);
     Route::get('maintenance-plan/{equipment}/create', [MaintenancePlanController::class, 'create'])->name('maintenance-plans.create');
     Route::resource('order-journals', OrderJournalController::class);

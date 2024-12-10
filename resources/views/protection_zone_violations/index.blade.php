@@ -1,9 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container-fluid mt-4">
-    
-
+<div class="container-fluid">
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -30,6 +28,14 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <select name="station_id" class="form-select form-select-sm">
+                                <option value="">Дэд станц</option>
+                                @foreach($stations as $station)
+                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <select name="province_id" class="form-select form-select-sm">
                                 <option value="">Аймаг</option>
                                 @foreach($provinces as $province)
@@ -45,14 +51,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <select name="station_id" class="form-select form-select-sm">
-                                <option value="">Дэд станц</option>
-                                @foreach($stations as $station)
-                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        
                         <div class="col-md-2">
                             <input type="text" name="output_name" id="output_name" class="form-control form-control-sm" placeholder="Гаргалгааны нэр, тулгуурын дугаар" value="{{ request('output_name') }}">
                         </div>
@@ -68,9 +67,9 @@
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>
                         <th class="bg-body-secondary">Салбар</th>
+                        <th class="bg-body-secondary">Дэд станц</th>
                         <th class="bg-body-secondary">Аймаг</th>
                         <th class="bg-body-secondary">Сум</th>
-                        <th class="bg-body-secondary">Дэд станцын нэр</th>
                         <th class="bg-body-secondary">Гаргалгааны нэр, тулгуурын дугаар</th>
                         <th class="bg-body-secondary">Хэрэглэгчийн нэр</th>
                         <th class="bg-body-secondary">Хаяг, байршил</th>
@@ -84,9 +83,9 @@
                         <tr class="align-middle">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $violation->branch->name }}</td>
+                            <td>{{ $violation->station->name }}</td>
                             <td>{{ $violation->province->name }}</td>
                             <td>{{ $violation->sum->name }}</td>
-                            <td>{{ $violation->station->name }}</td>
                             <td>{{ $violation->output_name }}</td>
                             <td>{{ $violation->customer_name }}</td>
                             <td>{{ $violation->address }}</td>
@@ -121,6 +120,9 @@
                     {{ $violations->links() }}
                 </div>
             </table>
+            <div class="mt-2">
+                {{ $violations->links() }}
+            </div>
         </div>
     </div>
 

@@ -18,13 +18,22 @@ class ProtectionZoneViolationController extends Controller
      */
     public function index(Request $request)
     {
-        // $violations = ProtectionZoneViolation::paginate(25);
-
         $query = ProtectionZoneViolation::query();
 
-        if ($request->filled('branch_id')) {
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
             $query->where('branch_id', $request->input('branch_id'));
         }
+
         if ($request->filled('province_id')) {
             $query->where('province_id', $request->input('province_id'));
         }
@@ -40,14 +49,20 @@ class ProtectionZoneViolationController extends Controller
         }
 
         // Paginate results
-        $violations = $query->paginate(20)->appends($request->query());
+        $violations = $query->paginate(25)->appends($request->query());
 
-        $branches = Branch::all();
-        $stations = Station::all();
         $provinces = Province::all();
         $sums = Sum::all();
 
-        return view('protection_zone_violations.index', compact('violations', 'branches', 'provinces', 'sums', 'stations'));
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+            $stations = Station::all(); // Main branch sees all stations
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
+        }
+
+        return view('protection_zone_violations.index', compact('violations', 'branches', 'provinces', 'sums', 'stations'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
@@ -55,11 +70,20 @@ class ProtectionZoneViolationController extends Controller
      */
     public function create()
     {
-        $stations = Station::orderBy('name', 'asc')->get();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+            $stations = Station::all(); // Main branch sees all stations
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
+        }
         $provinces = Province::orderBy('name', 'asc')->get();
         $sums = Sum::orderBy('province_id', 'asc')->get();
 
-        return view('protection_zone_violations.create', compact('stations', 'provinces', 'sums'));
+        return view('protection_zone_violations.create', compact('branches', 'stations', 'provinces', 'sums'));
     }
 
     /**
@@ -67,8 +91,10 @@ class ProtectionZoneViolationController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            // 'branch_id' => 'required',
+        $input = $request->all();
+
+        $request->validate([
+            'branch_id' => 'required',
             'province_id' => 'required',
             'sum_id' => 'required',
             'station_id' => 'required',
@@ -79,24 +105,8 @@ class ProtectionZoneViolationController extends Controller
             'action_taken' => 'nullable|string|max:255',
         ]);
 
-        // Get the logged-in user's branch_id
-        $branchId = Auth::user()->branch_id;
-
         // Create the new ProtectionZoneViolation record
-        $violation = new ProtectionZoneViolation([
-            'branch_id' => $branchId,
-            'province_id' => $request->province_id,
-            'sum_id' => $request->sum_id,
-            'station_id' => $request->station_id,
-            'output_name' => $request->output_name,
-            'customer_name' => $request->customer_name,
-            'address' => $request->address,
-            'certificate_number' => $request->certificate_number,
-            'action_taken' => $request->action_taken,
-        ]);
-
-        // Save the record
-        $violation->save();
+        ProtectionZoneViolation::create($input);
 
         LogActivity::addToLog("Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай хадгалагдлаа.");
 
@@ -119,11 +129,22 @@ class ProtectionZoneViolationController extends Controller
     {
         $violation = ProtectionZoneViolation::findOrFail($id);
 
-        $stations = Station::orderBy('name', 'asc')->get();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+            $stations = Station::all(); // Main branch sees all stations
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
+        }
+
+
         $provinces = Province::orderBy('name', 'asc')->get();
         $sums = Sum::orderBy('province_id', 'asc')->orderBy('name', 'asc')->get();
 
-        return view('protection_zone_violations.edit', compact('violation', 'stations', 'provinces', 'sums'));
+        return view('protection_zone_violations.edit', compact('violation', 'branches', 'stations', 'provinces', 'sums'));
     }
 
     /**
@@ -133,8 +154,8 @@ class ProtectionZoneViolationController extends Controller
     {
         $violation = ProtectionZoneViolation::findOrFail($id);
 
-        $validated = $request->validate([
-            // 'branch_id' => 'required',
+        $request->validate([
+            'branch_id' => 'required',
             'province_id' => 'required',
             'sum_id' => 'required',
             'station_id' => 'required',
@@ -145,7 +166,7 @@ class ProtectionZoneViolationController extends Controller
             'action_taken' => 'nullable|string|max:255',
         ]);
 
-        $violation->update($validated);
+        $violation->update($request->all());
 
         LogActivity::addToLog("Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай засагдлаа.");
 
@@ -166,5 +187,11 @@ class ProtectionZoneViolationController extends Controller
 
         return redirect()->route('protection-zone-violations.index')
             ->with('success', 'Хамгаалалтын зурвас судалгаа мэдээлэл амжилттай устгагдлаа.');
+    }
+
+    public function getSumsByProvince($provinceId)
+    {
+        $sums = Sum::where('province_id', $provinceId)->get();
+        return response()->json($sums);
     }
 }

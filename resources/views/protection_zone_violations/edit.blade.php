@@ -4,13 +4,49 @@
     <div class="container mt-2">
         <div class="card">
             <div class="card-header">
-                Зөрчил бүртгэх
+                Хамгаалалтын зурвас зөрчсөн хэрэглэгч засах
             </div>
             <div class="card-body">
                 <form action="{{ route('protection-zone-violations.update', $violation->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="branch_id" class="form-label">Салбар</label>
+                                <div class="form-group mb-3">
+                                    <select id="branch-dropdown" name="branch_id" class="form-control">
+                                        @foreach ($branches as $branch)
+                                            <option value="{{ $branch->id }}" {{ old('branch_id', $violation->branch_id) == $branch->id ? 'selected' : '' }}>
+                                                {{ $branch->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('branch_id')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="station_id" class="form-label">Дэд станц</label>
+                                <div class="form-group mb-3">
+                                    <select id="station-dropdown" name="station_id" class="form-control">
+                                        <option value="">-- Сонгох --</option>
+                                        @foreach ($stations as $station)
+                                            <option value="{{ $station->id }}" {{ old('station_id', $violation->station_id) == $station->id ? 'selected' : '' }}>
+                                                {{ $station->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('station_id')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="province_id" class="form-label">Аймаг</label>
@@ -47,24 +83,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц</label>
-                                <div class="form-group mb-3">
-                                    <select id="station-dropdown" name="station_id" class="form-control">
-                                        <option value="">-- Сонгох --</option>
-                                        @foreach ($stations as $station)
-                                            <option value="{{ $station->id }}" {{ old('station_id', $violation->station_id) == $station->id ? 'selected' : '' }}>
-                                                {{ $station->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('station_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="output_name" class="form-label">Гаргалгааны нэр, тулгуурын дугаар</label>
@@ -122,12 +141,33 @@
 
 @section('scripts')
     <script>
-
-
         $(document).ready(function() {
             $('#station-dropdown').select2();
             $('#province-dropdown').select2();
             $('#sum-dropdown').select2();
+
+            $('#province-dropdown').on('change', function () {
+                let provinceId = $(this).val();
+                let sumDropdown = $('#sum-dropdown');
+
+                // Clear existing options
+                sumDropdown.html('<option value="">-- Сонгох --</option>');
+
+                if (provinceId) {
+                    $.ajax({
+                        url: `/get-sums/${provinceId}`,
+                        type: 'GET',
+                        success: function (data) {
+                            $.each(data, function (index, sum) {
+                                sumDropdown.append(`<option value="${sum.id}">${sum.name}</option>`);
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching sums:', error);
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endsection
