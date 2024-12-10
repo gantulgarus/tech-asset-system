@@ -82,12 +82,15 @@ class EquipmentController extends Controller
         // Get the logged-in user
         $user = auth()->user();
 
+        // Determine branches based on the user's branch_id
         if ($user->branch_id == 8) {
-            $branches = Branch::all();
+            $branches = Branch::all(); // Main branch sees all branches
+            $stations = Station::all(); // Main branch sees all stations
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
         }
-        $stations = Station::all();
+
         $equipmentTypes = EquipmentType::all();
         $volts = Volt::orderBy('order', 'asc')->get();
 
@@ -149,12 +152,15 @@ class EquipmentController extends Controller
         // Get the logged-in user
         $user = auth()->user();
 
+        // Determine branches based on the user's branch_id
         if ($user->branch_id == 8) {
-            $branches = Branch::all();
+            $branches = Branch::all(); // Main branch sees all branches
+            $stations = Station::all(); // Main branch sees all stations
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
         }
-        $stations = Station::all();
+
         $equipmentTypes = EquipmentType::all();
         $volts = Volt::orderBy('order', 'asc')->get();
 

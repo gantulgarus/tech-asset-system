@@ -29,6 +29,7 @@
                                 <label for="station_id" class="form-label">Дэд станц / ХБ</label>
                                 <div class="form-group mb-3">
                                     <select id="station-dropdown" name="station_id" class="form-control">
+                                        <option></option>
                                         @foreach ($stations as $station)
                                         <option value="{{$station->id}}">
                                             {{ $station->station_type }} | {{$station->name}}
@@ -140,6 +141,7 @@
 
             $('#station-dropdown').select2({
                 placeholder: "-- Сонгох --",
+                allowClear: true
             });
 
         });

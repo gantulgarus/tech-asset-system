@@ -30,7 +30,7 @@
                                 <label for="station_id" class="form-label">Дэд станц / ХБ</label>
                                 <div class="form-group mb-3">
                                     <select  id="station-dropdown" name="station_id" class="form-control">
-                                        <option value="">-- Сонгох --</option>
+                                        <option></option>
                                         @foreach ($stations as $station)
                                         <option value="{{$station->id}}" {{ old('station_id', $equipment->station_id) == $station->id ? 'selected' : '' }}>
                                             {{ $station->station_type }} | {{$station->name}}
@@ -144,6 +144,7 @@
 
             $('#station-dropdown').select2({
                 placeholder: "-- Сонгох --",
+                allowClear: true
             });
 
         });
