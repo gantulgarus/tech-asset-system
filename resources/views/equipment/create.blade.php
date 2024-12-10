@@ -11,7 +11,7 @@
                             <div class="mb-3">
                                 <label for="branch_id" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
-                                    <select name="branch_id" class="form-control">
+                                    <select id="branch-dropdown" name="branch_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                         <option value="{{$branch->id}}">
@@ -27,13 +27,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц</label>
+                                <label for="station_id" class="form-label">Дэд станц / ХБ</label>
                                 <div class="form-group mb-3">
-                                    <select name="station_id" class="form-control">
-                                        <option value="">-- Сонгох --</option>
+                                    <select id="station-dropdown" name="station_id" class="form-control">
                                         @foreach ($stations as $station)
                                         <option value="{{$station->id}}">
-                                            {{$station->name}}
+                                            {{ $station->station_type }} | {{$station->name}}
                                         </option>
                                         @endforeach
                                     </select>
@@ -139,6 +138,11 @@
                 placeholder: "-- Сонгох --",
                 allowClear: true
             });
+
+            $('#station-dropdown').select2({
+                placeholder: "-- Сонгох --",
+            });
+
         });
 
         $('#production_date').flatpickr();

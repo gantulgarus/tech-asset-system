@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container-fluid">
     @if (session('success'))
         <div class="alert alert-success mb-1 mt-1">
             {{ session('success') }}
@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-md-2">
                             <select name="station_id" class="form-select form-select-sm">
-                                <option value="">Дэд станц</option>
+                                <option value="">Дэд станц / ХБ</option>
                                 @foreach($stations as $station)
                                     <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
                                 @endforeach

@@ -12,7 +12,7 @@
                             <div class="mb-3">
                                 <label for="branch_id" class="form-label">Салбар</label>
                                 <div class="form-group mb-3">
-                                    <select  id="country-dropdown" name="branch_id" class="form-control">
+                                    <select  id="branch-dropdown" name="branch_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($branches as $branch)
                                         <option value="{{$branch->id}}" {{ old('branch_id', $equipment->branch_id) == $branch->id ? 'selected' : '' }}>
@@ -28,13 +28,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц</label>
+                                <label for="station_id" class="form-label">Дэд станц / ХБ</label>
                                 <div class="form-group mb-3">
-                                    <select  id="country-dropdown" name="station_id" class="form-control">
+                                    <select  id="station-dropdown" name="station_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($stations as $station)
                                         <option value="{{$station->id}}" {{ old('station_id', $equipment->station_id) == $station->id ? 'selected' : '' }}>
-                                            {{$station->name}}
+                                            {{ $station->station_type }} | {{$station->name}}
                                         </option>
                                         @endforeach
                                         
@@ -142,6 +142,11 @@
                 placeholder: "-- Сонгох --",
                 allowClear: true
             });
+
+            $('#station-dropdown').select2({
+                placeholder: "-- Сонгох --",
+            });
+            
         });
     </script>
 @endsection

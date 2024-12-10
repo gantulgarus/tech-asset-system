@@ -23,13 +23,24 @@ class StationController extends Controller
     {
         $query = Station::query();
 
-        if ($request->filled('station_type')) {
-            $query->where('station_type', $request->station_type);
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user belongs to a specific branch
+        if ($user->branch_id) {
+            // Show only stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
         }
 
         if ($request->filled('branch_id')) {
-            // dd($request->input('station'));
-            $query->where('branch_id', $request->input('branch_id'));
+            // Allow filtering by branch_id only if the user is in the main branch
+            if ($user->branch_id == 8) {
+                $query->where('branch_id', $request->input('branch_id'));
+            }
+        }
+
+        if ($request->filled('station_type')) {
+            $query->where('station_type', $request->station_type);
         }
 
         if ($request->filled('name')) {
@@ -69,7 +80,12 @@ class StationController extends Controller
 
         $stations = $query->paginate(25)->appends($request->query());
 
-        $branches = Branch::all();
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
         $volts = Volt::orderBy('order', 'asc')->get();
 
         return view('stations.index', compact('stations', 'branches', 'volts'))
@@ -81,7 +97,15 @@ class StationController extends Controller
      */
     public function create()
     {
-        $branches = Branch::all();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
         $volts = Volt::orderBy('order', 'asc')->get();
         return view('stations.create', compact('branches', 'volts'));
     }
@@ -130,7 +154,15 @@ class StationController extends Controller
      */
     public function edit(Station $station)
     {
-        $branches = Branch::all();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
         $volts = Volt::orderBy('order', 'asc')->get();
         return view('stations.edit', compact('station', 'branches', 'volts'));
     }

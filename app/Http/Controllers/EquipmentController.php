@@ -25,8 +25,20 @@ class EquipmentController extends Controller
     {
         $query = Equipment::query();
 
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user belongs to a specific branch
+        if ($user->branch_id) {
+            // Show only stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+
         if ($request->filled('branch_id')) {
-            $query->where('branch_id', $request->input('branch_id'));
+            // Allow filtering by branch_id only if the user is in the main branch
+            if ($user->branch_id == 8) {
+                $query->where('branch_id', $request->input('branch_id'));
+            }
         }
 
         if ($request->filled('station_id')) {
@@ -46,7 +58,11 @@ class EquipmentController extends Controller
 
         $equipments = $query->paginate(25)->appends($request->query());
 
-        $branches = Branch::all();
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
         $stations = Station::orderBy('name', 'asc')->get();
         $equipment_types = EquipmentType::orderBy('name', 'asc')->get();
         $volts = Volt::orderBy('order', 'asc')->get();
@@ -65,7 +81,14 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        $branches = Branch::all();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
         $stations = Station::all();
         $equipmentTypes = EquipmentType::all();
         $volts = Volt::orderBy('order', 'asc')->get();
@@ -125,7 +148,14 @@ class EquipmentController extends Controller
      */
     public function edit(Equipment $equipment)
     {
-        $branches = Branch::all();
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
         $stations = Station::all();
         $equipmentTypes = EquipmentType::all();
         $volts = Volt::orderBy('order', 'asc')->get();
