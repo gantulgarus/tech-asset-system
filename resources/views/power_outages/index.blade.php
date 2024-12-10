@@ -63,13 +63,14 @@
                             <th class="bg-body-secondary">Хамгаалалт</th>
                             <th class="bg-body-secondary">Тасарсан</th>
                             <th class="bg-body-secondary">Залгасан</th>
-                            <th class="bg-body-secondary">Нийт хугацаа</th>
+                            <th class="bg-body-secondary">Нийт хугацаа мин</th>
                             <th class="bg-body-secondary">Цаг агаар</th>
-                            <th class="bg-body-secondary">Тасралтын шалгтаан</th>
+                            <th class="bg-body-secondary">Тасралтын задаргаа</th>
                             <th class="bg-body-secondary">U кВ</th>
                             <th class="bg-body-secondary">I A</th>
                             <th class="bg-body-secondary">cos ф</th>
                             <th class="bg-body-secondary">ДТЦЭХ кВт.ц</th>
+                            <th class="bg-body-secondary">Гарсан гэмтэл, авсан арга хэмжээ</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
                             <th class="bg-body-secondary">Технологийн зөрчил</th>
                             <th class="bg-body-secondary">Акт</th>
@@ -117,6 +118,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,6 +137,7 @@
                                 <td>{{ $powerOutage->current_amper }}</td>
                                 <td>{{ $powerOutage->cosf }}</td>
                                 <td>{{ $powerOutage->ude }}</td>
+                                <td>{{ $powerOutage->incident_resolution }}</td>
                                 <td>{{ $powerOutage->user->name }}</td>
                                 <td>{{ $powerOutage->technological_violation }}</td>
                                 <td>

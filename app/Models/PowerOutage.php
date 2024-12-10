@@ -30,6 +30,7 @@ class PowerOutage extends Model
         'user_id',
         'act_file_path',
         'technological_violation',
+        'incident_resolution'
     ];
 
     // Define relationships (if applicable)

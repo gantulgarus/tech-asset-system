@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="cause_outage_id" class="form-label">Тасралтын шалтгаан</label>
+                                <label for="cause_outage_id" class="form-label">Тасралтын задаргаа</label>
                                 <div class="form-group mb-3">
                                     <select id="cause-dropdown" name="cause_outage_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
@@ -157,6 +157,17 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="incident_resolution" class="form-label">Гарсан гэмтэл, авсан арга хэмжээ</label>
+                                <textarea id="incident_resolution" name="incident_resolution" class="form-control">{{ $powerOutage->incident_resolution }}</textarea>
+                                @error('incident_resolution')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="technological_violation" class="form-label">ТЕХНОЛОГИЙН ЗӨРЧИЛ</label>
