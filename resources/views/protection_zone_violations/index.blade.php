@@ -68,7 +68,7 @@
                         <th class="bg-body-secondary">Д/д</th>
                         <th class="bg-body-secondary">Салбар</th>
                         <th class="bg-body-secondary">Дэд станц</th>
-                        <th class="bg-body-secondary">Аймаг</th>
+                        <th class="bg-body-secondary">Аймаг / Хот</th>
                         <th class="bg-body-secondary">Сум</th>
                         <th class="bg-body-secondary">Гаргалгааны нэр, тулгуурын дугаар</th>
                         <th class="bg-body-secondary">Хэрэглэгчийн нэр</th>

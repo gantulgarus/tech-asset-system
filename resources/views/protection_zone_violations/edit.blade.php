@@ -49,7 +49,7 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="province_id" class="form-label">Аймаг</label>
+                                <label for="province_id" class="form-label">Аймаг / Хот</label>
                                 <div class="form-group mb-3">
                                     <select id="province-dropdown" name="province_id" class="form-control">
                                         <option value="">-- Сонгох --</option>
