@@ -45,6 +45,16 @@ class EquipmentController extends Controller
         if ($request->filled('equipment_type_id')) {
             $query->where('equipment_type_id', $request->input('equipment_type_id'));
         }
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('mark')) {
+            $query->where('mark', 'like', '%' . $request->input('mark') . '%');
+        }
+        if ($request->filled('production_date')) {
+            $query->where('production_date', 'like', '%' . $request->input('production_date') . '%');
+        }
+
 
 
         if ($request->filled('volt_id')) {
@@ -58,10 +68,11 @@ class EquipmentController extends Controller
 
         if ($user->branch_id == 8) {
             $branches = Branch::all();
+            $stations = Station::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
-        $stations = Station::orderBy('name', 'asc')->get();
         $equipment_types = EquipmentType::orderBy('name', 'asc')->get();
         $volts = Volt::orderBy('order', 'asc')->get();
 
@@ -84,11 +95,11 @@ class EquipmentController extends Controller
 
         // Determine branches based on the user's branch_id
         if ($user->branch_id == 8) {
-            $branches = Branch::all(); // Main branch sees all branches
-            $stations = Station::all(); // Main branch sees all stations
+            $branches = Branch::all();
+            $stations = Station::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
-            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
 
         $equipmentTypes = EquipmentType::all();
@@ -154,11 +165,11 @@ class EquipmentController extends Controller
 
         // Determine branches based on the user's branch_id
         if ($user->branch_id == 8) {
-            $branches = Branch::all(); // Main branch sees all branches
-            $stations = Station::all(); // Main branch sees all stations
+            $branches = Branch::all();
+            $stations = Station::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
-            $stations = Station::where('branch_id', $user->branch_id)->get(); // Filter stations by the user's branch
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
 
         $equipmentTypes = EquipmentType::all();
@@ -219,26 +230,42 @@ class EquipmentController extends Controller
     {
         $query = Equipment::query();
 
-        // Apply filters
-        if ($request->filled('branch_id')) {
-            $query->where('branch_id', $request->branch_id);
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
         }
 
         if ($request->filled('station_id')) {
             $query->where('station_id', $request->input('station_id'));
         }
-
         if ($request->filled('equipment_type_id')) {
             $query->where('equipment_type_id', $request->input('equipment_type_id'));
         }
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('mark')) {
+            $query->where('mark', 'like', '%' . $request->input('mark') . '%');
+        }
+        if ($request->filled('production_date')) {
+            $query->where('production_date', 'like', '%' . $request->input('production_date') . '%');
+        }
 
-        if ($request->has('volt_id')) {
-            $query->whereExists(function ($query) use ($request) {
-                $query->select(DB::raw(1))
-                    ->from('volts')
-                    ->join('equipment_volt', 'volts.id', '=', 'equipment_volt.volt_id')
-                    ->whereRaw('equipment.id = equipment_volt.equipment_id')
-                    ->where('volts.id', $request->volt_id);
+
+
+        if ($request->filled('volt_id')) {
+            $voltId = $request->input('volt_id');
+            $query->whereHas('volts', function ($query) use ($voltId) {
+                $query->where('volts.id', $voltId);
             });
         }
 

@@ -209,13 +209,22 @@ class StationController extends Controller
     {
         $query = Station::query();
 
-        if ($request->filled('station_type')) {
-            $query->where('station_type', $request->station_type);
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
         }
 
-        if ($request->filled('branch_id')) {
-            // dd($request->input('station'));
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
             $query->where('branch_id', $request->input('branch_id'));
+        }
+
+        if ($request->filled('station_type')) {
+            $query->where('station_type', $request->station_type);
         }
 
         if ($request->filled('name')) {
@@ -236,7 +245,6 @@ class StationController extends Controller
         if ($request->filled('installed_capacity')) {
             $query->where('installed_capacity', $request->input('installed_capacity'));
         }
-
         if ($request->filled('second_capacity')) {
             $query->where('second_capacity', $request->input('second_capacity'));
         }

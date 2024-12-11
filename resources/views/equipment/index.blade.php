@@ -15,7 +15,9 @@
         <div class="card-body">
             <a href="{{ route('equipment.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
             <a href="{{ route('export-equipment', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-            <div class="mb-2">
+            <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
+                class="fas fa-undo-alt"></i> Цэвэрлэх</button>
+            {{-- <div class="mb-2">
                 <form method="GET" action="{{ route('equipment.index') }}" id="filter-form">
                     <div class="row g-2">
                         <div class="col-md-2">
@@ -56,7 +58,8 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> --}}
+            <form method="GET" action="{{ route('equipment.index') }}" id="filter-form">
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
@@ -69,6 +72,55 @@
                         <th class="bg-body-secondary">Тип марк</th>
                         <th class="bg-body-secondary">Үйлдвэрлэгдсэн он</th>
                         <th class="bg-body-secondary"></th>
+                    <tr class="align-middle">
+                        <th></th>
+                        <th>
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <select name="station_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach($stations as $station)
+                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <select name="equipment_type_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach($equipment_types as $type)
+                                    <option value="{{ $type->id }}" {{ request('equipment_type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="name" class="form-control form-control-sm" placeholder=""
+                                        value="{{ request('name') }}">
+                        </th>
+                        <th>
+                            <select name="volt_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach($volts as $volt)
+                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="mark" class="form-control form-control-sm" placeholder=""
+                                        value="{{ request('mark') }}">
+                        </th>
+                        <th>
+                            <input type="text" name="production_date" class="form-control form-control-sm" placeholder=""
+                                        value="{{ request('production_date') }}">
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +138,7 @@
                                 кВ
                             </td>
                             <td>{{ $equipment->mark }}</td>
-                            <td>{{ $equipment->production_date }}</td>
+                            <td>{{ \Carbon\Carbon::parse($equipment->production_date)->format('Y') }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -117,6 +169,7 @@
             <div class="mt-2">
                 {{ $equipments->links(); }}
             </div>
+            </form>
         </div>
     </div>
     
@@ -126,6 +179,13 @@
     document.getElementById('reset-filters').addEventListener('click', function () {
         window.location.href = "{{ route('equipment.index') }}";
     });
+
+    document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+            element.addEventListener('change', function() {
+                document.getElementById('filter-form').submit();
+            });
+        });
+
 </script>
 
 @endsection
