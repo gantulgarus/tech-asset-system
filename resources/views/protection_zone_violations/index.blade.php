@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-md-2">
                             <select name="province_id" class="form-select form-select-sm">
-                                <option value="">Аймаг</option>
+                                <option value="">Аймаг / Хот</option>
                                 @foreach($provinces as $province)
                                     <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>{{ $province->name }}</option>
                                 @endforeach
