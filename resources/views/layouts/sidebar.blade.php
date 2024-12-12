@@ -45,9 +45,9 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('protection-zone-violations.index') }}">
         <i class="fas fa-exclamation-triangle nav-icon"></i>
         {{ __('Хамгаалалтын зурвас') }}</a></li>
-    {{-- <li class="nav-item"><a class="nav-link" href="">
-        <i class="far fa-bell nav-icon"></i>
-        {{ __('Олон жилийн график') }}</a></li> --}}
+    <li class="nav-item"><a class="nav-link" href="{{ route('load-reduction-programs.index') }}">
+        <i class="far fa-lightbulb nav-icon"></i>
+        {{ __('Ачаалал хөнгөлөлт') }}</a></li>
     
 </li>
     <li class="nav-title">Журнал</li>
@@ -66,10 +66,6 @@
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-notes') }}"></use>
             </svg> {{ __('Гэмтэл') }}</a></li>
-    {{-- <li class="nav-item"><a class="nav-link" href="#">
-            <svg class="nav-icon">
-                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-library') }}"></use>
-            </svg> {{ __('Тайлан') }}</a></li> --}}
     @if (Auth::user()->role?->name == 'admin')    
     <li class="nav-title">Тохиргоо</li>
     <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">

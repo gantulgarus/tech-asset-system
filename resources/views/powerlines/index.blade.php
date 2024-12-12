@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container-fluid">
     @if ($message = Session::get('success'))
         <div class="alert alert-success mt-2">
             {{ $message }}

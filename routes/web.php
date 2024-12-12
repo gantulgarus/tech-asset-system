@@ -27,6 +27,7 @@ use App\Http\Controllers\MaintenancePlanController;
 use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
+use App\Http\Controllers\LoadReductionProgramController;
 use App\Http\Controllers\ProtectionZoneViolationController;
 
 // Route::get('/', function () {
@@ -89,4 +90,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-journals/{orderJournal}/status-changes', [OrderJournalController::class, 'getStatusChanges']);
     Route::resource('budget-plans', BudgetPlanController::class);
     Route::get('log-activity', [HomeController::class, 'logActivity'])->name('log-activity');
+    Route::resource('load-reduction-programs', LoadReductionProgramController::class);
 });
