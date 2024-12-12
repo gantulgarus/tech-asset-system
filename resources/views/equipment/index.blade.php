@@ -85,12 +85,12 @@
                             </select>
                         </th>
                         <th>
-                            <select name="station_id" class="form-select form-select-sm">
-                                <option value=""></option>
-                                @foreach($stations as $station)
-                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
-                                @endforeach
-                            </select>
+                            <input 
+                                type="text" 
+                                name="station_name" 
+                                class="form-control form-control-sm" 
+                                value="{{ request('station_name') }}"
+                            >
                         </th>
                         <th>
                             <select name="equipment_type_id" class="form-select form-select-sm">

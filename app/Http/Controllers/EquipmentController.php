@@ -39,8 +39,10 @@ class EquipmentController extends Controller
             $query->where('branch_id', $request->input('branch_id'));
         }
 
-        if ($request->filled('station_id')) {
-            $query->where('station_id', $request->input('station_id'));
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
         }
         if ($request->filled('equipment_type_id')) {
             $query->where('equipment_type_id', $request->input('equipment_type_id'));
@@ -55,8 +57,6 @@ class EquipmentController extends Controller
             $query->where('production_date', 'like', '%' . $request->input('production_date') . '%');
         }
 
-
-
         if ($request->filled('volt_id')) {
             $voltId = $request->input('volt_id');
             $query->whereHas('volts', function ($query) use ($voltId) {
@@ -68,15 +68,13 @@ class EquipmentController extends Controller
 
         if ($user->branch_id == 8) {
             $branches = Branch::all();
-            $stations = Station::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
-            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
         $equipment_types = EquipmentType::orderBy('name', 'asc')->get();
         $volts = Volt::orderBy('order', 'asc')->get();
 
-        return view('equipment.index', compact('equipments', 'branches', 'stations', 'equipment_types', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
+        return view('equipment.index', compact('equipments', 'branches', 'equipment_types', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     public function getEquipments($stationId)
@@ -244,8 +242,10 @@ class EquipmentController extends Controller
             $query->where('branch_id', $request->input('branch_id'));
         }
 
-        if ($request->filled('station_id')) {
-            $query->where('station_id', $request->input('station_id'));
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
         }
         if ($request->filled('equipment_type_id')) {
             $query->where('equipment_type_id', $request->input('equipment_type_id'));
@@ -259,8 +259,6 @@ class EquipmentController extends Controller
         if ($request->filled('production_date')) {
             $query->where('production_date', 'like', '%' . $request->input('production_date') . '%');
         }
-
-
 
         if ($request->filled('volt_id')) {
             $voltId = $request->input('volt_id');
