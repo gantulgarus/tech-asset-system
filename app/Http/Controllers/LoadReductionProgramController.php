@@ -13,10 +13,11 @@ class LoadReductionProgramController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $programs = LoadReductionProgram::all();
-        // dd($programs);
+        $date = $request->input('date', now()->toDateString()); // Default to current date if no date is selected
+
+        $programs = LoadReductionProgram::whereDate('created_at', $date)->latest()->get();
 
         $total_reduction_capacity = $programs->sum('reduction_capacity');
         $total_pre_reduction_capacity = $programs->sum('pre_reduction_capacity');
@@ -30,7 +31,8 @@ class LoadReductionProgramController extends Controller
             'total_pre_reduction_capacity',
             'total_reduced_capacity',
             'total_post_reduction_capacity',
-            'total_energy_not_supplied'
+            'total_energy_not_supplied',
+            'date'
         ));
     }
 

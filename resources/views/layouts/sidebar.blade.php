@@ -48,6 +48,9 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('load-reduction-programs.index') }}">
         <i class="far fa-lightbulb nav-icon"></i>
         {{ __('Ачаалал хөнгөлөлт') }}</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('power-limit-adjustments.index') }}">
+        <i class="fas fa-plug nav-icon"></i>
+        {{ __('Хязгаарлалт') }}</a></li>
     
 </li>
     <li class="nav-title">Журнал</li>
