@@ -48,7 +48,7 @@ class OrderJournalController extends Controller
         }
 
         // Paginate results
-        $orderJournals = $query->paginate(20)->appends($request->query());
+        $orderJournals = $query->latest()->paginate(20)->appends($request->query());
 
         $branches = Branch::orderBy('name', 'asc')->get();
         $orderTypes = OrderType::all();

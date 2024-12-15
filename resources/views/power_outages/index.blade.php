@@ -54,7 +54,7 @@
                     </form>
                 </div> --}}
                 <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
-                <table class="table border mb-0" style="font-size: 12px;">
+                <table class="table table-bordered table-hover" style="font-size: 12px;">
                     <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">Д/д</th>
@@ -99,7 +99,9 @@
                                 <input type="text" name="end_time" class="form-control form-control-sm" value="{{ request('end_time') }}">
                             </th>
                             <th></th>
-                            <th></th>
+                            <th>
+                                <input type="text" name="weather" class="form-control form-control-sm" value="{{ request('weather') }}">
+                            </th>
                             <th>
                                 <select name="cause_outage_id" class="form-select form-select-sm">
                                     <option value=""></option>
@@ -114,9 +116,20 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th>
+                                <input type="text" name="incident_resolution" class="form-control form-control-sm" value="{{ request('incident_resolution') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="user_name" class="form-control form-control-sm" value="{{ request('user_name') }}">
+                            </th>
+                            <th>
+                                <select name="technological_violation" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    <option value="Аваар" {{ request('technological_violation') == 'Аваар' ? 'selected' : '' }}>Аваар</option>
+                                    <option value="1-р зэргийн саатал" {{ request('technological_violation') == '1-р зэргийн саатал' ? 'selected' : '' }}>1-р зэргийн саатал</option>
+                                    <option value="2-р зэргийн саатал" {{ request('technological_violation') == '2-р зэргийн саатал' ? 'selected' : '' }}>2-р зэргийн саатал</option>
+                                </select>
+                            </th>
                             <th></th>
                             <th></th>
                         </tr>
