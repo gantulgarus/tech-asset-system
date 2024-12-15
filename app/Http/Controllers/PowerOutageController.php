@@ -30,6 +30,7 @@ class PowerOutageController extends Controller
         $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
             ->join('branches', 'stations.branch_id', '=', 'branches.id')
             ->join('equipment', 'power_outages.equipment_id', '=', 'equipment.id')
+            ->join('users', 'power_outages.user_id', '=', 'users.id')
             ->select('power_outages.*', 'stations.name as station_name', 'equipment.name as equipment_name')
             ->orderBy('power_outages.start_time', 'desc');
 
@@ -79,6 +80,19 @@ class PowerOutageController extends Controller
                 // Search by exact date (e.g., 2024-12-09)
                 $query->whereDate('power_outages.end_time', $endTime);
             }
+        }
+
+        if ($request->filled('weather')) {
+            $query->where('weather', 'like', '%' . $request->input('weather') . '%');
+        }
+        if ($request->filled('incident_resolution')) {
+            $query->where('incident_resolution', 'like', '%' . $request->input('incident_resolution') . '%');
+        }
+        if ($request->filled('user_name')) {
+            $query->where('users.name', 'like', '%' . $request->input('user_name') . '%');
+        }
+        if ($request->filled('technological_violation')) {
+            $query->where('technological_violation', $request->input('technological_violation'));
         }
 
 
