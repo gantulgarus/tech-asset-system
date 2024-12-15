@@ -8,7 +8,14 @@
         </div>
     @endif
     <div class="card">
-        <div class="card-header">ААН-үүдийг ачаалал хөнгөлөх хөтөлбөр</div>
+        <div class="card-header">ААН-үүдийг ачаалал хөнгөлөх хөтөлбөр
+            <form action="{{ route('load-reduction-programs.index') }}" method="GET" class="float-end">
+                <div class="input-group">
+                    <input type="date" name="date" class="form-control" value="{{ $date }}">
+                    <button type="submit" class="btn btn-dark">Харах</button>
+                </div>
+            </form>
+        </div>
         <div class="card-body">
             <a href="{{ route('load-reduction-programs.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
             <table class="table border mb-0" style="font-size: 12px;">

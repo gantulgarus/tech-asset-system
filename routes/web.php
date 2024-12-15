@@ -28,6 +28,7 @@ use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
 use App\Http\Controllers\LoadReductionProgramController;
+use App\Http\Controllers\PowerLimitAdjustmentController;
 use App\Http\Controllers\ProtectionZoneViolationController;
 
 // Route::get('/', function () {
@@ -91,4 +92,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('budget-plans', BudgetPlanController::class);
     Route::get('log-activity', [HomeController::class, 'logActivity'])->name('log-activity');
     Route::resource('load-reduction-programs', LoadReductionProgramController::class);
+    Route::resource('power-limit-adjustments', PowerLimitAdjustmentController::class);
 });
