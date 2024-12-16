@@ -17,7 +17,7 @@ class PowerLimitAdjustmentController extends Controller
     {
         $date = $request->input('date', now()->toDateString()); // Default to current date if no date is selected
 
-        $adjustments = PowerLimitAdjustment::whereDate('created_at', $date)->latest()->get();
+        $adjustments = PowerLimitAdjustment::whereDate('start_time', $date)->latest()->get();
 
         $totalMinutes = $adjustments->sum('duration_minutes');
         $totalHours = $adjustments->sum('duration_hours');

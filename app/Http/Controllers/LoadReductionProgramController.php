@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Helpers\LogActivity;
+use App\Models\ClientOrganization;
 use Illuminate\Http\Request;
 use App\Models\LoadReductionProgram;
 
@@ -17,7 +18,7 @@ class LoadReductionProgramController extends Controller
     {
         $date = $request->input('date', now()->toDateString()); // Default to current date if no date is selected
 
-        $programs = LoadReductionProgram::whereDate('created_at', $date)->latest()->get();
+        $programs = LoadReductionProgram::whereDate('reduction_time', $date)->latest()->get();
 
         $total_reduction_capacity = $programs->sum('reduction_capacity');
         $total_pre_reduction_capacity = $programs->sum('pre_reduction_capacity');
@@ -52,8 +53,9 @@ class LoadReductionProgramController extends Controller
             $branches = Branch::where('id', $user->branch_id)->get();
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
+        $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
 
-        return view('load_reduction_programs.create', compact('branches', 'stations'));
+        return view('load_reduction_programs.create', compact('branches', 'stations', 'clientOrgs'));
     }
 
     /**
@@ -66,7 +68,7 @@ class LoadReductionProgramController extends Controller
         $request->validate([
             'branch_id' => 'required|integer',
             'station_id' => 'required|integer',
-            'company_name' => 'required|string|max:255',
+            'client_organization_id' => 'required|integer',
             'output_name' => 'required|string|max:255',
         ]);
 
@@ -102,7 +104,9 @@ class LoadReductionProgramController extends Controller
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
 
-        return view('load_reduction_programs.edit', compact('loadReductionProgram', 'branches', 'stations'));
+        $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
+
+        return view('load_reduction_programs.edit', compact('loadReductionProgram', 'branches', 'stations', 'clientOrgs'));
     }
 
     /**
@@ -115,7 +119,7 @@ class LoadReductionProgramController extends Controller
         $request->validate([
             'branch_id' => 'required|integer',
             'station_id' => 'required|integer',
-            'company_name' => 'required|string|max:255',
+            'client_organization_id' => 'required|integer',
             'output_name' => 'required|string|max:255',
         ]);
 

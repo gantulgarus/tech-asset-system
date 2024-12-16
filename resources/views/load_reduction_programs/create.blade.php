@@ -45,9 +45,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="company_name" class="form-label">Хэрэглэгчийн ААН-ийн нэр</label>
-                                <input type="text" name="company_name" class="form-control">
-                                @error('company_name')
+                                <label for="client_organization_id" class="form-label">Хэрэглэгч ААН-ийн нэр</label>
+                                <div class="form-group mb-3">
+                                    <select id="client-dropdown" name="client_organization_id" class="form-select">
+                                        <option></option>
+                                        @foreach ($clientOrgs as $org)
+                                        <option value="{{$org->id}}">
+                                            {{$org->name}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('client_organization_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -78,7 +87,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="reduction_time" class="form-label">Ачаалал хөнгөлсөн цаг</label>
-                                <input type="time" name="reduction_time" class="form-control" id="reduction_time">
+                                <input type="datetime-local" name="reduction_time" class="form-control" id="reduction_time">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -97,7 +106,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="restoration_time" class="form-label">Ачаалал авсан цаг</label>
-                                <input type="time" name="restoration_time" class="form-control">
+                                <input type="datetime-local" name="restoration_time" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
