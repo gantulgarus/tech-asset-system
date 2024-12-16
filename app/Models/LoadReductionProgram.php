@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Branch;
 use App\Models\Station;
+use App\Models\ClientOrganization;
 use Illuminate\Database\Eloquent\Model;
 
 class LoadReductionProgram extends Model
@@ -14,6 +15,7 @@ class LoadReductionProgram extends Model
     protected $fillable = [
         'branch_id',
         'station_id',
+        'client_organization_id',
         'company_name',
         'output_name',
         'reduction_capacity',
@@ -34,5 +36,9 @@ class LoadReductionProgram extends Model
     public function station()
     {
         return $this->belongsTo(Station::class);
+    }
+    public function clientOrganization()
+    {
+        return $this->belongsTo(ClientOrganization::class);
     }
 }

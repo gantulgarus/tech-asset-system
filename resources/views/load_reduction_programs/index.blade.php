@@ -57,7 +57,7 @@
                     <tr class="align-middle">
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td class="text-center">{{ $program->branch?->name }}</td>
-                        <td class="text-center">{{ $program->company_name }}</td>
+                        <td class="text-center">{{ $program->clientOrganization?->name }}</td>
                         <td class="text-center">{{ $program->station?->name }}</td>
                         <td class="text-center">{{ $program->output_name }}</td>
                         <td class="text-center">{{ $program->reduction_capacity }}</td>

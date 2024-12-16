@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
         @if (session('success'))
             <div class="alert alert-success mb-1 mt-1">
                 {{ session('success') }}
@@ -51,7 +51,7 @@
                         </div>
                     </form>
                 </div>
-                <table class="table border mb-0" style="font-size: 12px;">
+                <table class="table table-bordered table-hover" style="font-size: 12px;">
                     <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">Д/д</th>
