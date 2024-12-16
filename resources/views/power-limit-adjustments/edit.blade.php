@@ -57,7 +57,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="start_time" class="form-label">Тасарсан хугацаа</label>
-                                <input id="start_time" type="time" name="start_time" class="form-control" value="{{ $powerLimitAdjustment->start_time }}">
+                                <input id="start_time" type="datetime-local" name="start_time" class="form-control" value="{{ $powerLimitAdjustment->start_time }}">
                                 @error('start_time')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -66,7 +66,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="end_time" class="form-label">Залгасан хугацаа</label>
-                                <input id="end_time" type="time" name="end_time" class="form-control" value="{{ $powerLimitAdjustment->end_time }}">
+                                <input id="end_time" type="datetime-local" name="end_time" class="form-control" value="{{ $powerLimitAdjustment->end_time }}">
                                 @error('end_time')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -167,32 +167,32 @@
     const durationHoursInput = document.getElementById("duration_hours");
 
     function calculateDurations() {
-        const startTime = startTimeInput.value;
-        const endTime = endTimeInput.value;
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
 
-        if (startTime && endTime) {
-            // Parse times into Date objects
-            const start = new Date(`1970-01-01T${startTime}:00`);
-            const end = new Date(`1970-01-01T${endTime}:00`);
+            if (startTime && endTime) {
+                // Parse times into Date objects
+                const start = new Date(startTime);
+                const end = new Date(endTime);
 
-            // Calculate difference in minutes
-            const diffInMinutes = (end - start) / (1000 * 60); // Difference in milliseconds, converted to minutes
-            if (diffInMinutes >= 0) {
-                durationMinutesInput.value = diffInMinutes;
-                durationHoursInput.value = (diffInMinutes / 60).toFixed(2); // Convert minutes to hours
+                // Calculate difference in milliseconds and convert to minutes
+                const diffInMilliseconds = end - start;
+                const diffInMinutes = diffInMilliseconds / (1000 * 60);
+
+                if (diffInMinutes >= 0) {
+                    durationMinutesInput.value = diffInMinutes; // Keep 2 decimal places
+                    durationHoursInput.value = (diffInMinutes / 60).toFixed(2); // Convert to hours
+                } else {
+                    alert("End time cannot be earlier than start time.");
+                    durationMinutesInput.value = "";
+                    durationHoursInput.value = "";
+                }
             } else {
-                durationMinutesInput.value = 0;
-                durationHoursInput.value = 0;
+                // Clear values if times are invalid
+                durationMinutesInput.value = "";
+                durationHoursInput.value = "";
             }
-        } else {
-            durationMinutesInput.value = "";
-            durationHoursInput.value = "";
         }
-    }
-
-    // Attach event listeners to both time inputs
-    startTimeInput.addEventListener("input", calculateDurations);
-    endTimeInput.addEventListener("input", calculateDurations);
 
     function calculateUDE() {
         const voltage = parseFloat($('input[name="voltage"]').val()); // U
@@ -213,6 +213,16 @@
             $('input[name="energy_not_supplied"]').val(''); // Clear the field if any value is missing
         }
     }
+
+    // Attach event listeners to start_time and end_time inputs
+    startTimeInput.addEventListener("change", () => {
+            calculateDurations();
+            calculateUDE();
+        });
+        endTimeInput.addEventListener("change", () => {
+            calculateDurations();
+            calculateUDE();
+        });
 
     $(document).ready(function() {
         $('#station-dropdown').select2();
