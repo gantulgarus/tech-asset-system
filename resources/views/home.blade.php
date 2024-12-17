@@ -19,14 +19,12 @@
         </div>
         <div class="col-sm-6 col-xl-3">
             <div class="card text-white bg-primary">
-                <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="fs-4 fw-semibold">{{ $stationCount }}</div>
-                        <div>Дэд станцын тоо</div>
-                    </div>
+                <div class="card-body">
+                    <div class="">Хэрэглэгчийн - {{ $stationCountUser }}</div>
+                    <div class="">Өөрийн - {{ $stationCountOwn }}</div>
                 </div>
-                <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                    <canvas class="chart" id="card-chart1" height="70"></canvas>
+                <div class="mt-3 mx-3" style="height:70px;">
+                    <div class="">Дэд станцын тоо</div>
                 </div>
             </div>
         </div>
@@ -35,7 +33,7 @@
             <div class="card text-white bg-info">
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="fs-4 fw-semibold">{{ number_format($installedCapacityAll) }} кВА</div>
+                        <div class="fs-4 fw-semibold">{{ number_format($installedCapacityAll + $secondCapacityAll) }} кВА</div>
                         <div>Суурьлагдсан хүчин чадал</div>
                     </div>
                 </div>
@@ -61,14 +59,12 @@
         <!-- /.col-->
         <div class="col-sm-6 col-xl-3">
             <div class="card text-white bg-danger">
-                <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="fs-4 fw-semibold">{{ $baiguulamjCount }}</div>
-                        <div>Хуваарилах байгууламж</div>
-                    </div>
+                <div class="card-body">
+                    <div class="">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
+                    <div class="">Өөрийн - {{ $baiguulamjCountOwn }}</div>
                 </div>
-                <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                    <canvas class="chart" id="card-chart4" height="70"></canvas>
+                <div class="mt-3 mx-3" style="height:70px;">
+                    <div class="">Хуваарилах байгууламжийн тоо</div>
                 </div>
             </div>
         </div>
