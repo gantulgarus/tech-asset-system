@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ClientRestriction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,6 +29,7 @@ class PowerLimitAdjustment extends Model
         'power',
         'energy_not_supplied',
         'user_count',
+        'client_restriction_id'
     ];
 
     /**
@@ -44,5 +46,10 @@ class PowerLimitAdjustment extends Model
     public function station()
     {
         return $this->belongsTo(Station::class);
+    }
+
+    public function clientRestriction()
+    {
+        return $this->belongsTo(ClientRestriction::class);
     }
 }

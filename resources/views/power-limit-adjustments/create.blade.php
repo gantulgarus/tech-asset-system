@@ -10,44 +10,17 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="branch_id" class="form-label">Салбар</label>
+                                <label for="client_restriction_id" class="form-label">Гаргалгааны нэр</label>
                                 <div class="form-group mb-3">
-                                    <select id="branch-dropdown" name="branch_id" class="form-select">
-                                        @foreach ($branches as $branch)
-                                        <option value="{{$branch->id}}">
-                                            {{$branch->name}}
+                                    <select id="output-dropdown" name="client_restriction_id" class="form-select">
+                                        @foreach ($clients as $client)
+                                        <option value="{{$client->id}}">
+                                            {{$client->output_name}}
                                         </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('branch_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц / ХБ</label>
-                                <div class="form-group mb-3">
-                                    <select id="station-dropdown" name="station_id" class="form-select">
-                                        <option></option>
-                                        @foreach ($stations as $station)
-                                        <option value="{{$station->id}}">
-                                            {{ $station->station_type }} | {{$station->name}}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('station_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="output_name" class="form-label">Гаргалгааны нэр</label>
-                                <input type="text" name="output_name" class="form-control">
-                                @error('output_name')
+                                @error('client_restriction_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

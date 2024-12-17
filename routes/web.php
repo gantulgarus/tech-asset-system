@@ -27,6 +27,7 @@ use App\Http\Controllers\MaintenancePlanController;
 use App\Http\Controllers\EquipmentHistoryController;
 use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
+use App\Http\Controllers\ClientRestrictionController;
 use App\Http\Controllers\ClientOrganizationController;
 use App\Http\Controllers\LoadReductionProgramController;
 use App\Http\Controllers\PowerLimitAdjustmentController;
@@ -95,4 +96,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('load-reduction-programs', LoadReductionProgramController::class);
     Route::resource('power-limit-adjustments', PowerLimitAdjustmentController::class);
     Route::resource('client-organizations', ClientOrganizationController::class);
+    Route::resource('client-restrictions', ClientRestrictionController::class);
 });

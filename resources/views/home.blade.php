@@ -2,73 +2,67 @@
 
 @section('content')
 <div class="container-lg px-4">
-    <div class="row g-4 mb-4">
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <form method="GET" action="{{ route('home') }}">
-                    <select id="branch_id" name="branch_id" class="form-select" onchange="this.form.submit()">
-                        <option value="">Бүх салбар</option>
-                        @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}" {{ $branchId == $branch->id ? 'selected' : '' }}>
-                                {{ $branch->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <form method="GET" action="{{ route('home') }}">
+                <select id="branch_id" name="branch_id" class="form-select" onchange="this.form.submit()">
+                    <option value="">Бүх салбар</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" {{ $branchId == $branch->id ? 'selected' : '' }}>
+                            {{ $branch->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
         </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <div class="">Хэрэглэгчийн - {{ $stationCountUser }}</div>
-                    <div class="">Өөрийн - {{ $stationCountOwn }}</div>
-                </div>
-                <div class="mt-3 mx-3" style="height:70px;">
-                    <div class="">Дэд станцын тоо</div>
+        <div class="row d-flex mt-4">
+            <div class="col-sm-6 col-xl-3 d-flex">
+                <div class="card text-white bg-primary w-100">
+                    <div class="card-body">
+                        <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $stationCountUser }}</div>
+                        <div class="fs-6 fw-semibold">Өөрийн - {{ $stationCountOwn }}</div>
+                    </div>
+                    <div class="mt-3 mx-3" style="height:70px;">
+                        <div class="">Дэд станцын тоо</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- /.col-->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card text-white bg-info">
-                <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="fs-4 fw-semibold">{{ number_format($installedCapacityAll + $secondCapacityAll) }} кВА</div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+                <div class="card text-white bg-info w-100">
+                    <div class="card-body">
+                        <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ number_format($totalCapacityUser) }} kBA</div>
+                        <div class="fs-6 fw-semibold">Өөрийн - {{ number_format($totalCapacityOwn) }} kBA</div>
+                    </div>
+                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                         <div>Суурьлагдсан хүчин чадал</div>
                     </div>
                 </div>
-                <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                    <canvas class="chart" id="card-chart2" height="70"></canvas>
-                </div>
             </div>
-        </div>
-        <!-- /.col-->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="fs-4 fw-semibold">{{ number_format($powerlineLength) }} км</div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+                <div class="card text-white bg-warning w-100">
+                    <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="fs-6 fw-semibold">{{ number_format($powerlineLength) }} км</div>
+                        </div>
+                    </div>
+                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                         <div>ЦДАШ</div>
                     </div>
                 </div>
-                <div class="c-chart-wrapper mt-3" style="height:70px;">
-                    <canvas class="chart" id="card-chart3" height="70"></canvas>
+            </div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+                <div class="card text-white bg-danger w-100">
+                    <div class="card-body">
+                        <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
+                        <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
+                    </div>
+                    <div class="mt-3 mx-3" style="height:70px;">
+                        <div class="">Хуваарилах байгууламжийн тоо</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- /.col-->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card text-white bg-danger">
-                <div class="card-body">
-                    <div class="">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
-                    <div class="">Өөрийн - {{ $baiguulamjCountOwn }}</div>
-                </div>
-                <div class="mt-3 mx-3" style="height:70px;">
-                    <div class="">Хуваарилах байгууламжийн тоо</div>
-                </div>
-            </div>
-        </div>
-        <!-- /.col-->
+        
     </div>
 
     <div class="row row-cols-2">

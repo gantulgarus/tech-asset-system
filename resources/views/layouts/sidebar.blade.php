@@ -86,10 +86,12 @@
                             class="nav-icon-bullet"></span></span> Хамгаалалт</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('cause_outages.index') }}"><span class="nav-icon"><span
                             class="nav-icon-bullet"></span></span> Тасралт шалтгаан</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('cause_cuts.index') }}"><span class="nav-icon"><span
-                            class="nav-icon-bullet"></span></span> Таслалт шалтгаан</a></li>
+            {{-- <li class="nav-item"><a class="nav-link" href="{{ route('cause_cuts.index') }}"><span class="nav-icon"><span
+                            class="nav-icon-bullet"></span></span> Таслалт шалтгаан</a></li> --}}
             <li class="nav-item"><a class="nav-link" href="{{ route('client-organizations.index') }}"><span class="nav-icon"><span
                             class="nav-icon-bullet"></span></span> Хэрэглэгч ААН-ийн нэр</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('client-restrictions.index') }}"><span class="nav-icon"><span
+                            class="nav-icon-bullet"></span></span> Хязгаарлалт лавлах сан</a></li>
         </ul>
     </li>
     <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">

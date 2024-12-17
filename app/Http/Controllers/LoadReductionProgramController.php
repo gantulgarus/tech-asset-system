@@ -16,7 +16,8 @@ class LoadReductionProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->input('date', now()->toDateString()); // Default to current date if no date is selected
+        $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
+        // dd($date);
 
         $programs = LoadReductionProgram::whereDate('reduction_time', $date)->latest()->get();
 

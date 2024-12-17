@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Helpers\LogActivity;
+use App\Models\ClientRestriction;
 use Illuminate\Http\Request;
 use App\Models\PowerLimitAdjustment;
 
@@ -15,7 +16,7 @@ class PowerLimitAdjustmentController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->input('date', now()->toDateString()); // Default to current date if no date is selected
+        $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
 
         $adjustments = PowerLimitAdjustment::whereDate('start_time', $date)->latest()->get();
 
@@ -45,7 +46,9 @@ class PowerLimitAdjustmentController extends Controller
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
 
-        return view('power-limit-adjustments.create', compact('branches', 'stations'));
+        $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
+
+        return view('power-limit-adjustments.create', compact('branches', 'stations', 'clients'));
     }
 
     /**
@@ -56,10 +59,17 @@ class PowerLimitAdjustmentController extends Controller
         $input = $request->all();
 
         $request->validate([
-            'branch_id' => 'required|exists:branches,id',
-            'station_id' => 'required|exists:stations,id',
-            'output_name' => 'required|string|max:255',
+            'client_restriction_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
+
+        // Find the selected client organization
+        $client = ClientRestriction::findOrFail($request->client_restriction_id);
+
+        $input['branch_id'] = $client->branch_id;
+        $input['station_id'] = $client->station_id;
+        $input['output_name'] = $client->output_name;
 
         PowerLimitAdjustment::create($input);
 
@@ -94,7 +104,9 @@ class PowerLimitAdjustmentController extends Controller
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
 
-        return view('power-limit-adjustments.edit', compact('powerLimitAdjustment', 'branches', 'stations'));
+        $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
+
+        return view('power-limit-adjustments.edit', compact('powerLimitAdjustment', 'branches', 'stations', 'clients'));
     }
 
     /**
@@ -105,10 +117,17 @@ class PowerLimitAdjustmentController extends Controller
         $input = $request->all();
 
         $request->validate([
-            'branch_id' => 'required|exists:branches,id',
-            'station_id' => 'required|exists:stations,id',
-            'output_name' => 'required|string|max:255',
+            'client_restriction_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
+
+        // Find the selected client organization
+        $client = ClientRestriction::findOrFail($request->client_restriction_id);
+
+        $input['branch_id'] = $client->branch_id;
+        $input['station_id'] = $client->station_id;
+        $input['output_name'] = $client->output_name;
 
         $powerLimitAdjustment->update($input);
 

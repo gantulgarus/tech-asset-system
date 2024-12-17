@@ -36,13 +36,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="reduction_time" class="form-label">Ачаалал хөнгөлсөн цаг</label>
-                                <input type="datetime-local" name="reduction_time" class="form-control" id="reduction_time" value="{{ old('reduction_time', $loadReductionProgram->reduction_time) }}">
+                                <input type="datetime-local" name="reduction_time" class="form-control" id="reduction_time" value="{{ old('reduction_time', $loadReductionProgram->reduction_time) }}" onchange="calculateEnergyNotSupplied()">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="reduced_capacity" class="form-label">Хөнгөлсөн чадал, (МВт)</label>
-                                <input type="number" step="any" name="reduced_capacity" class="form-control" id="reduced_capacity" value="{{ old('reduced_capacity', $loadReductionProgram->reduced_capacity) }}">
+                                <input type="number" step="any" name="reduced_capacity" class="form-control" id="reduced_capacity" value="{{ old('reduced_capacity', $loadReductionProgram->reduced_capacity) }}" onchange="calculateEnergyNotSupplied()">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -54,7 +54,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="restoration_time" class="form-label">Ачаалал авсан цаг</label>
-                                <input type="datetime-local" name="restoration_time" class="form-control" value="{{ old('restoration_time', $loadReductionProgram->restoration_time) }}">
+                                <input type="datetime-local" name="restoration_time" class="form-control" value="{{ old('restoration_time', $loadReductionProgram->restoration_time) }}" id="restoration_time" onchange="calculateEnergyNotSupplied()">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -77,4 +77,36 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    function calculateEnergyNotSupplied() {
+        const reductionTime = document.getElementById('reduction_time').value;
+        const restorationTime = document.getElementById('restoration_time').value;
+        const reducedCapacity = parseFloat(document.getElementById('reduced_capacity').value || 0);
+
+        if (reductionTime && restorationTime && reducedCapacity) {
+            const reductionDate = new Date(reductionTime);
+            const restorationDate = new Date(restorationTime);
+
+            // Calculate the difference in minutes
+            const diffInMinutes = (restorationDate - reductionDate) / (1000 * 60); // Milliseconds to minutes
+
+            if (diffInMinutes > 0) {
+                // Calculate energy not supplied
+                const energyNotSupplied = (diffInMinutes / 60) * reducedCapacity * 1000; // Convert minutes to hours
+                document.getElementById('energy_not_supplied').value = energyNotSupplied.toFixed(2);
+            } else {
+                // If restoration time is earlier than reduction time
+                document.getElementById('energy_not_supplied').value = '';
+                alert("Restoration time must be later than reduction time.");
+            }
+        } else {
+            // Clear the field if any value is missing
+            document.getElementById('energy_not_supplied').value = '';
+        }
+    }
+
+</script>
 @endsection

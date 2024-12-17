@@ -25,7 +25,7 @@ class LoadReductionProgram extends Model
         'post_reduction_capacity',
         'restoration_time',
         'energy_not_supplied',
-        'remarks'
+        'remarks',
     ];
 
     public function branch()
