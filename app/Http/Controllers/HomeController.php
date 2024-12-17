@@ -35,13 +35,20 @@ class HomeController extends Controller
     {
         $branchId = $request->get('branch_id');
 
-        $stationCount = Station::when($branchId, function ($query, $branchId) {
+        $stationCountUser = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->where('station_type', 'Дэд станц')->count();
+        })->where('station_type', 'Дэд станц')->where('is_user_station', 0)->count();
 
-        $baiguulamjCount = Station::when($branchId, function ($query, $branchId) {
+        $stationCountOwn = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->where('station_type', 'Хуваарилах байгууламж')->count();
+        })->where('station_type', 'Дэд станц')->where('is_user_station', 1)->count();
+
+        $baiguulamjCountUser = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 0)->count();
+        $baiguulamjCountOwn = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 1)->count();
 
         $equipmentCount = Equipment::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
@@ -56,6 +63,10 @@ class HomeController extends Controller
         $installedCapacityAll = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
         })->where('station_category', 'Түгээх')->sum('installed_capacity');
+
+        $secondCapacityAll = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_category', 'Түгээх')->sum('second_capacity');
 
         $powerlineLength = Powerline::when($branchId, function ($query, $branchId) {
             return $query->whereHas('station', function ($query) use ($branchId) {
@@ -148,7 +159,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('stationCount', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'installedCapacityAll', 'powerlineLength', 'baiguulamjCount'));
+        return view('home', compact('stationCountUser', 'stationCountOwn', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'installedCapacityAll', 'powerlineLength', 'baiguulamjCountUser', 'baiguulamjCountOwn', 'secondCapacityAll'));
     }
 
     public function logActivity()
