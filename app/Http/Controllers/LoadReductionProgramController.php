@@ -66,11 +66,19 @@ class LoadReductionProgramController extends Controller
         $input = $request->all();
 
         $request->validate([
-            'branch_id' => 'required|integer',
-            'station_id' => 'required|integer',
-            'client_organization_id' => 'required|integer',
-            'output_name' => 'required|string|max:255',
+            'client_organization_id' => 'required|integer|exists:client_organizations,id',
+            'reduction_time' => 'required|date',
+            'remarks' => 'nullable|string|max:255',
         ]);
+
+
+        // Find the selected client organization
+        $clientOrg = ClientOrganization::findOrFail($request->client_organization_id);
+
+        $input['branch_id'] = $clientOrg->branch_id;
+        $input['station_id'] = $clientOrg->station_id;
+        $input['output_name'] = $clientOrg->output_name;
+        $input['reduction_capacity'] = $clientOrg->reduction_capacity;
 
         LoadReductionProgram::create($input);
 
@@ -116,13 +124,23 @@ class LoadReductionProgramController extends Controller
     {
         $input = $request->all();
 
+        // Validate only the fields that are directly provided in the form
         $request->validate([
-            'branch_id' => 'required|integer',
-            'station_id' => 'required|integer',
-            'client_organization_id' => 'required|integer',
-            'output_name' => 'required|string|max:255',
+            'client_organization_id' => 'required|integer|exists:client_organizations,id',
+            'reduction_time' => 'required|date',
+            'remarks' => 'nullable|string|max:255',
         ]);
 
+        // Find the selected client organization
+        $clientOrg = ClientOrganization::findOrFail($request->client_organization_id);
+
+        // Dynamically set values from the selected client organization
+        $input['branch_id'] = $clientOrg->branch_id;
+        $input['station_id'] = $clientOrg->station_id;
+        $input['output_name'] = $clientOrg->output_name;
+        $input['reduction_capacity'] = $clientOrg->reduction_capacity;
+
+        // Update the LoadReductionProgram record with the new data
         $loadReductionProgram->update($input);
 
         LogActivity::addToLog("ААН-үүдийг ачаалал хөнгөлөх хөтөлбөрийн мэдээлэл амжилттай засагдлаа.");

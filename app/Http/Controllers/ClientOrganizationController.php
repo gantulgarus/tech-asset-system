@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClientOrganization;
+use App\Models\Branch;
+use App\Models\Station;
 use Illuminate\Http\Request;
+use App\Models\ClientOrganization;
 
 class ClientOrganizationController extends Controller
 {
@@ -21,7 +23,10 @@ class ClientOrganizationController extends Controller
      */
     public function create()
     {
-        return view('client_organizations.create');
+        $branches = Branch::all();
+        $stations = Station::orderBy('name', 'asc')->get();
+
+        return view('client_organizations.create', compact('branches', 'stations'));
     }
 
     /**
@@ -50,7 +55,10 @@ class ClientOrganizationController extends Controller
      */
     public function edit(ClientOrganization $clientOrganization)
     {
-        return view('client_organizations.edit', compact('clientOrganization'));
+        $branches = Branch::all();
+        $stations = Station::orderBy('name', 'asc')->get();
+
+        return view('client_organizations.edit', compact('clientOrganization', 'branches', 'stations'));
     }
 
     /**
