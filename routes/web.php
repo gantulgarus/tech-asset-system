@@ -93,7 +93,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-journals/{orderJournal}/status-changes', [OrderJournalController::class, 'getStatusChanges']);
     Route::resource('budget-plans', BudgetPlanController::class);
     Route::get('log-activity', [HomeController::class, 'logActivity'])->name('log-activity');
+    Route::get('load-reduction-programs/export', [LoadReductionProgramController::class, 'export'])->name('load-reduction-programs.export');
     Route::resource('load-reduction-programs', LoadReductionProgramController::class);
+    Route::get('power-limit-adjustments/export', [PowerLimitAdjustmentController::class, 'export'])->name('power-limit-adjustments.export');
     Route::resource('power-limit-adjustments', PowerLimitAdjustmentController::class);
     Route::resource('client-organizations', ClientOrganizationController::class);
     Route::resource('client-restrictions', ClientRestrictionController::class);

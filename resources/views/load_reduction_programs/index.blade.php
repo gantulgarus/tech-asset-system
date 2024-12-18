@@ -11,6 +11,14 @@
         <div class="card-header">ААН-үүдийг ачаалал хөнгөлөх хөтөлбөр
             <form action="{{ route('load-reduction-programs.index') }}" method="GET" class="float-end">
                 <div class="input-group">
+                    <select name="branch_id" class="form-select">
+                        <option value="">Бүх салбар</option>
+                        @foreach ($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
                     <input type="date" name="date" class="form-control" value="{{ $date }}">
                     <button type="submit" class="btn btn-dark">Харах</button>
                 </div>
@@ -18,6 +26,10 @@
         </div>
         <div class="card-body">
             <a href="{{ route('load-reduction-programs.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
+            <a href="{{ route('load-reduction-programs.export', ['date' => request('date'), 'branch_id' => request('branch_id')]) }}"
+                class="btn btn-success btn-sm mb-2">
+                 Excel Экспорт
+             </a>
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">

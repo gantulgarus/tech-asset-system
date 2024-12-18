@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Helpers\LogActivity;
-use App\Models\ClientOrganization;
 use Illuminate\Http\Request;
+use App\Models\ClientOrganization;
 use App\Models\LoadReductionProgram;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LoadReductionProgramExport;
 
 class LoadReductionProgramController extends Controller
 {
@@ -17,15 +19,22 @@ class LoadReductionProgramController extends Controller
     public function index(Request $request)
     {
         $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
-        // dd($date);
+        $branchId = $request->input('branch_id');
 
-        $programs = LoadReductionProgram::whereDate('reduction_time', $date)->latest()->get();
+        $programs = LoadReductionProgram::when($date, function ($query, $date) {
+            $query->whereDate('reduction_time', $date);
+        })
+            ->when($branchId, function ($query, $branchId) {
+                $query->where('branch_id', $branchId);
+            })
+            ->latest()->get();
 
         $total_reduction_capacity = $programs->sum('reduction_capacity');
         $total_pre_reduction_capacity = $programs->sum('pre_reduction_capacity');
         $total_reduced_capacity = $programs->sum('reduced_capacity');
         $total_post_reduction_capacity = $programs->sum('post_reduction_capacity');
         $total_energy_not_supplied = $programs->sum('energy_not_supplied');
+        $branches = Branch::all();
 
         return view('load_reduction_programs.index', compact(
             'programs',
@@ -34,7 +43,8 @@ class LoadReductionProgramController extends Controller
             'total_reduced_capacity',
             'total_post_reduction_capacity',
             'total_energy_not_supplied',
-            'date'
+            'date',
+            'branches'
         ));
     }
 
@@ -159,5 +169,11 @@ class LoadReductionProgramController extends Controller
         LogActivity::addToLog("ААН-үүдийг ачаалал хөнгөлөх хөтөлбөрийн мэдээлэл амжилттай устгалаа.");
 
         return redirect()->route('load-reduction-programs.index')->with('success', 'Мэдээлэл амжилттай устгалаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $filter = $request->only('date', 'branch_id');
+        return Excel::download(new LoadReductionProgramExport($filter), 'achaalal_hongololt.xlsx');
     }
 }

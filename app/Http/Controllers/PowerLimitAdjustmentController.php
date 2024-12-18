@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PowerLimitAdjustmentsExport;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Helpers\LogActivity;
-use App\Models\ClientRestriction;
 use Illuminate\Http\Request;
+use App\Models\ClientRestriction;
 use App\Models\PowerLimitAdjustment;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PowerLimitAdjustmentController extends Controller
 {
@@ -17,16 +19,24 @@ class PowerLimitAdjustmentController extends Controller
     public function index(Request $request)
     {
         $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
+        $branchId = $request->input('branch_id');
 
-        $adjustments = PowerLimitAdjustment::whereDate('start_time', $date)->latest()->get();
+        $adjustments = PowerLimitAdjustment::when($date, function ($query, $date) {
+            $query->whereDate('start_time', $date);
+        })
+            ->when($branchId, function ($query, $branchId) {
+                $query->where('branch_id', $branchId);
+            })
+            ->latest()->get();
 
         $totalMinutes = $adjustments->sum('duration_minutes');
         $totalHours = $adjustments->sum('duration_hours');
         $totalPower = $adjustments->sum('power');
         $totalEnergyNotSupplied = $adjustments->sum('energy_not_supplied');
         $totalUserCount = $adjustments->sum('user_count');
+        $branches = Branch::all();
 
-        return view('power-limit-adjustments.index', compact('adjustments', 'totalMinutes', 'totalHours', 'totalPower', 'totalEnergyNotSupplied', 'totalUserCount', 'date'));
+        return view('power-limit-adjustments.index', compact('adjustments', 'totalMinutes', 'totalHours', 'totalPower', 'totalEnergyNotSupplied', 'totalUserCount', 'date', 'branches'));
     }
 
     /**
@@ -148,5 +158,11 @@ class PowerLimitAdjustmentController extends Controller
 
         return redirect()->route('power-limit-adjustments.index')
             ->with('success', 'Хөнгөлөлт, хязгаарлалтын мэдээлэл амжилттай устгагдлаа.');
+    }
+
+    public function export(Request $request)
+    {
+        $filter = $request->only('date', 'branch_id');
+        return Excel::download(new PowerLimitAdjustmentsExport($filter), 'hyzgaarlalt.xlsx');
     }
 }

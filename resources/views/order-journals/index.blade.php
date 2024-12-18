@@ -68,8 +68,6 @@
                             <th class="bg-body-secondary">Таслах өдөр, цаг</th>
                             <th class="bg-body-secondary">Залгах өдөр, цаг</th>
                             <th class="bg-body-secondary">Захиалга дамжуулсан ажилтны нэр</th>
-                            {{-- <th class="bg-body-secondary">Хүлээн авсан</th>
-                            <th class="bg-body-secondary">Захиалга баталсан</th> --}}
                             <th class="bg-body-secondary">Үйлдэл</th>
                         </tr>
                     </thead>
@@ -110,8 +108,6 @@
                                 <td>{{ $orderJournal->start_date }}</td>
                                 <td>{{ $orderJournal->end_date }}</td>
                                 <td>{{ $orderJournal->transferred_by }}</td>
-                                {{-- <td>{{ $orderJournal->received_at . ': ' . $orderJournal->receivedUser?->name }}</td>
-                                <td>{{ $orderJournal->approved_at . ': ' . $orderJournal->approvedUser?->name }}</td> --}}
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -124,17 +120,24 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <button class="dropdown-item"
-                                                onclick="openStatusModal({{ $orderJournal->id }}, 2)"
-                                                {{ in_array($orderJournal->order_status_id, [2, 3]) ? 'disabled' : '' }}>
-                                                Хүлээн авах</button>
+                                                    onclick="openStatusModal({{ $orderJournal->id }}, 2)"
+                                                    {{ $orderJournal->order_status_id != 1 ? 'disabled' : '' }}>
+                                                Хүлээн авах
+                                            </button>
                                             <button class="dropdown-item"
-                                                onclick="openStatusModal({{ $orderJournal->id }}, 3)"
-                                                {{ $orderJournal->order_status_id == 3 ? 'disabled' : '' }}
-                                                >Батлах</button>
+                                                    onclick="openStatusModal({{ $orderJournal->id }}, 3)"
+                                                    {{ in_array($orderJournal->order_status_id, [3, 4]) ? 'disabled' : '' }}>
+                                                Батлах
+                                            </button>
+                                            <button class="dropdown-item"
+                                                    onclick="openStatusModal({{ $orderJournal->id }}, 4)"
+                                                    {{ $orderJournal->order_status_id == 3 || $orderJournal->order_status_id == 4 ? 'disabled' : '' }}>
+                                                Цуцлах
+                                            </button>
                                             <button class="dropdown-item"
                                                 onclick="loadStatusChanges({{ $orderJournal->id }}, 3)">Төлөв
                                                 харах</button>
-                                            @if (!in_array($orderJournal->order_status_id, [2, 3]))    
+                                            @if (!in_array($orderJournal->order_status_id, [2, 3, 4]))    
                                             <a class="dropdown-item"
                                                 href="{{ route('order-journals.edit', $orderJournal) }}">Засах</a>
                                             <form action="{{ route('order-journals.destroy', $orderJournal) }}"
