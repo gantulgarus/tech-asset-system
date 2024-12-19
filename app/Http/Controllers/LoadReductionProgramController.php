@@ -18,34 +18,51 @@ class LoadReductionProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
-        $branchId = $request->input('branch_id');
+        $query = LoadReductionProgram::query();
 
-        $programs = LoadReductionProgram::when($date, function ($query, $date) {
-            $query->whereDate('reduction_time', $date);
-        })
-            ->when($branchId, function ($query, $branchId) {
-                $query->where('branch_id', $branchId);
-            })
-            ->latest()->get();
+        $user = auth()->user();
 
-        $total_reduction_capacity = $programs->sum('reduction_capacity');
-        $total_pre_reduction_capacity = $programs->sum('pre_reduction_capacity');
-        $total_reduced_capacity = $programs->sum('reduced_capacity');
-        $total_post_reduction_capacity = $programs->sum('post_reduction_capacity');
-        $total_energy_not_supplied = $programs->sum('energy_not_supplied');
-        $branches = Branch::all();
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('client_name')) {
+            $query->whereHas('clientOrganization', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('client_name') . '%');
+            });
+        }
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
+        }
+        if ($request->filled('output_name')) {
+            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('reduction_time', $request->date);
+        }
+
+        if ($request->filled('remarks')) {
+            $query->where('remarks', 'like', '%' . $request->input('remarks') . '%');
+        }
+
+        $programs = $query->latest()->paginate(25)->appends($request->query());
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
 
         return view('load_reduction_programs.index', compact(
             'programs',
-            'total_reduction_capacity',
-            'total_pre_reduction_capacity',
-            'total_reduced_capacity',
-            'total_post_reduction_capacity',
-            'total_energy_not_supplied',
-            'date',
             'branches'
-        ));
+        ))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
@@ -173,7 +190,41 @@ class LoadReductionProgramController extends Controller
 
     public function export(Request $request)
     {
-        $filter = $request->only('date', 'branch_id');
-        return Excel::download(new LoadReductionProgramExport($filter), 'achaalal_hongololt.xlsx');
+        $query = LoadReductionProgram::query();
+
+        $user = auth()->user();
+
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('client_name')) {
+            $query->whereHas('clientOrganization', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('client_name') . '%');
+            });
+        }
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
+        }
+        if ($request->filled('output_name')) {
+            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('reduction_time', $request->date);
+        }
+
+        if ($request->filled('remarks')) {
+            $query->where('remarks', 'like', '%' . $request->input('remarks') . '%');
+        }
+
+        $programs = $query->get();
+
+        return Excel::download(new LoadReductionProgramExport($programs), 'achaalal_hongololt.xlsx');
     }
 }

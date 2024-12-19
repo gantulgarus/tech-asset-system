@@ -2,35 +2,42 @@
 
 namespace App\Exports;
 
-use App\Models\LoadReductionProgram;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class LoadReductionProgramExport implements FromCollection, WithHeadings, WithMapping
+class LoadReductionProgramExport implements FromCollection, WithHeadings, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected $filter;
+    protected $programs;
 
-    public function __construct($filter)
+    public function __construct($programs)
     {
-        $this->filter = $filter;
+        $this->programs = $programs;
     }
 
     public function collection()
     {
-        $query = LoadReductionProgram::with(['branch', 'clientOrganization', 'station']);
-
-        if (!empty($this->filter['branch_id'])) {
-            $query->where('branch_id', $this->filter['branch_id']);
-        }
-
-        $date = $this->filter['date'] ?? now()->setTimezone('Asia/Ulaanbaatar')->toDateString();
-        $query->whereDate('start_time', $date);
-
-        return $query->get();
+        return $this->programs->map(function ($program, $index) {
+            return [
+                'N' => $index + 1,
+                'Branch' => $program->branch->name ?? '',
+                'ClientOrg' => $program->clientOrganization?->name ?? '',
+                'Station' => $program->station?->name ?? '',
+                'Output_name' => $program->output_name ?? '',
+                'reduction_capacity' => $program->reduction_capacity,
+                'pre_reduction_capacity' => $program->pre_reduction_capacity,
+                'reduction_time' => \Carbon\Carbon::parse($program->reduction_time)->format('Y-m-d H:i'),
+                'reduced_capacity' => $program->reduced_capacity,
+                'post_reduction_capacity' => $program->post_reduction_capacity,
+                'restoration_time' => \Carbon\Carbon::parse($program->restoration_time)->format('Y-m-d H:i'),
+                'energy_not_supplied' => $program->energy_not_supplied,
+                'remarks' => $program->remarks,
+            ];
+        });
     }
 
     public function headings(): array
@@ -51,21 +58,16 @@ class LoadReductionProgramExport implements FromCollection, WithHeadings, WithMa
         ];
     }
 
-    public function map($program): array
+    public function styles(Worksheet $sheet)
     {
         return [
-            $program->branch?->name ?? 'N/A', // Use 'name' of the branch or 'N/A' if null
-            $program->clientOrganization?->name ?? 'N/A', // Use 'name' of the organization or 'N/A' if null
-            $program->station?->name ?? 'N/A', // Use 'name' of the station or 'N/A' if null
-            $program->output_name ?? 'N/A',
-            $program->reduction_capacity,
-            $program->pre_reduction_capacity,
-            \Carbon\Carbon::parse($program->reduction_time)->format('H:i'),
-            $program->reduced_capacity,
-            $program->post_reduction_capacity,
-            \Carbon\Carbon::parse($program->restoration_time)->format('H:i'),
-            $program->energy_not_supplied,
-            $program->remarks,
+            1 => [
+                'font' => ['bold' => true],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => 'D9E1F2'],
+                ],
+            ],
         ];
     }
 }

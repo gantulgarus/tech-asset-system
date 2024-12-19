@@ -239,7 +239,6 @@ class OrderJournalController extends Controller
         // Get the filtered data
         $orderJournals = $query->get();
 
-
         return Excel::download(new OrderJournalExport($orderJournals), 'order_journal_data.xlsx');
     }
 }
