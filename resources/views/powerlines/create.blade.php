@@ -18,7 +18,7 @@
                                         <option value="">-- Сонгох --</option>
                                         @foreach ($stations as $station)
                                             <option value="{{ $station->id }}" {{ old('station_id') == $station->id ? 'selected' : '' }}>
-                                                {{ $station->name }}
+                                                {{ $station->branch?->name }} | {{ $station->name }}
                                             </option>
                                         @endforeach
                                     </select>

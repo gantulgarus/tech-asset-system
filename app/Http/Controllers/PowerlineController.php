@@ -19,6 +19,24 @@ class PowerlineController extends Controller
     {
         $query = Powerline::query();
 
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Filter by branch_id in the Station model
+            $query->whereHas('station', function ($q) use ($user) {
+                $q->where('branch_id', $user->branch_id);
+            });
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('branch_id', $request->input('branch_id'));
+            });
+        }
+
         if ($request->filled('station_id')) {
             $query->where('station_id', $request->input('station_id'));
         }
@@ -33,16 +51,32 @@ class PowerlineController extends Controller
         }
 
         if ($request->filled('create_year')) {
-            $query->where('create_year', $request->input('create_year'));
+            $query->where('create_year', 'like', '%' . $request->input('create_year') . '%');
+        }
+        if ($request->filled('line_mark')) {
+            $query->where('line_mark', 'like', '%' . $request->input('line_mark') . '%');
+        }
+        if ($request->filled('tower_mark')) {
+            $query->where('tower_mark', 'like', '%' . $request->input('tower_mark') . '%');
+        }
+        if ($request->filled('isolation_mark')) {
+            $query->where('isolation_mark', 'like', '%' . $request->input('isolation_mark') . '%');
         }
 
-        $powerlines = $query->orderBy('station_id', 'asc')->paginate(25)->appends($request->query());
+        $powerlines = $query->with(['station.branch'])->orderBy('station_id', 'asc')->paginate(25)->appends($request->query());
 
-        $stations = Station::orderBy('name', 'asc')->get();
+        // Determine branches based on the user's branch_id
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+            $stations = Station::orderBy('name', 'asc')->get();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+        }
+
         $volts = Volt::orderBy('order', 'asc')->get();
 
-        // $powerlines = Powerline::orderBy('station_id', 'asc')->paginate(25);
-        return view('powerlines.index', compact('powerlines', 'stations', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
+        return view('powerlines.index', compact('powerlines', 'branches', 'stations', 'volts'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
@@ -50,7 +84,15 @@ class PowerlineController extends Controller
      */
     public function create()
     {
-        $stations = Station::all();
+        // Get the logged-in user
+        $user = auth()->user();
+        // Determine branches based on the user's branch_id
+        if ($user->branch_id == 8) {
+            $stations = Station::orderBy('name', 'asc')->get();
+        } else {
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+        }
+
         $volts = Volt::all();
 
         return view('powerlines.create', compact('stations', 'volts'));
@@ -96,7 +138,15 @@ class PowerlineController extends Controller
      */
     public function edit(Powerline $powerline)
     {
-        $stations = Station::all();
+        // Get the logged-in user
+        $user = auth()->user();
+        // Determine branches based on the user's branch_id
+        if ($user->branch_id == 8) {
+            $stations = Station::orderBy('name', 'asc')->get();
+        } else {
+            $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+        }
+
         $volts = Volt::all();
 
         return view('powerlines.edit', compact('powerline', 'stations', 'volts'));

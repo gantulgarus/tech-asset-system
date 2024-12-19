@@ -12,42 +12,14 @@
         <div class="card-header">ЦДАШ-ын мэдээлэл</div>
         <div class="card-body">
             <a href="{{ route('powerlines.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-            <div class="mb-2">
-                <form method="GET" action="{{ route('powerlines.index') }}" id="filter-form">
-                    <div class="row g-2">
-                        <div class="col-md-2">
-                            <select name="station_id" class="form-select form-select-sm">
-                                <option value="">Дэд станц</option>
-                                @foreach($stations as $station)
-                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="text" name="powerline" class="form-control form-control-sm" placeholder="Шугамын нэр" value="{{ request('powerline') }}">
-                        </div>
-                        <div class="col-md-2">
-                            <select name="volt_id" class="form-select form-select-sm">
-                                <option value="">Хүчдэлийн түвшин</option>
-                                @foreach($volts as $volt)
-                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="text" id="create_year" name="create_year" class="form-control form-control-sm" placeholder="Ашиглалтад орсон он" value="{{ request('create_year') }}">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
-                            <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
+                class="fas fa-undo-alt"></i> Цэвэрлэх</button>
+            <form method="GET" action="{{ route('powerlines.index') }}" id="filter-form">
             <table class="table border mb-0" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>
+                        <th class="bg-body-secondary">Салбар</th>
                         <th class="bg-body-secondary">Дэд станц</th>
                         <th class="bg-body-secondary">Шугамын ША-ны нэр</th>
                         <th class="bg-body-secondary">Хүчдэлийн түвшин /кВ/</th>
@@ -59,15 +31,65 @@
                         <th class="bg-body-secondary">Изоляторын маяг</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
+                    <tr class="align-middle">
+                        <th></th>
+                        <th>
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option value=""></option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <select name="station_id" class="form-select form-select-sm">
+                                <option></option>
+                                @foreach($stations as $station)
+                                    <option value="{{ $station->id }}" {{ request('station_id') == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="powerline" class="form-control form-control-sm" placeholder="Шугамын нэр" value="{{ request('powerline') }}">
+                        </th>
+                        <th>
+                            <select name="volt_id" class="form-select form-select-sm">
+                                <option></option>
+                                @foreach($volts as $volt)
+                                    <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" id="create_year" name="create_year" class="form-control form-control-sm" value="{{ request('create_year') }}">
+                            
+                        </th>
+                        
+                        <th>
+                            <input type="text" id="line_mark" name="line_mark" class="form-control form-control-sm" value="{{ request('line_mark') }}">
+                        </th>
+                        <th>
+                            <input type="text" id="tower_mark" name="tower_mark" class="form-control form-control-sm" value="{{ request('tower_mark') }}">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <input type="text" id="isolation_mark" name="isolation_mark" class="form-control form-control-sm" value="{{ request('isolation_mark') }}">
+                        </th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($powerlines as $powerline)
                         <tr class="align-middle">
                             <td>{{ ++$i }}</td>
+                            <td>{{ $powerline->station->branch->name ?? 'N/A' }}</td>
                             <td>{{ $powerline->station?->name }}</td>
                             <td>{{ $powerline->name }}</td>
                             <td>{{ $powerline->volt?->name }}</td>
-                            <td>{{ $powerline->create_year }}</td>
+                            <td>{{ \Carbon\Carbon::parse($powerline->create_year)->format('Y') }}</td>
                             <td>{{ $powerline->line_mark }}</td>
                             <td>{{ $powerline->tower_mark }}</td>
                             <td>{{ $powerline->tower_count }}</td>
@@ -103,23 +125,23 @@
             <div class="mt-2">
                 {{ $powerlines->links(); }}
             </div>
+            </form>
         </div>
     </div>
 </div>
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#create_year').flatpickr();
+<script>
+    document.getElementById('reset-filters').addEventListener('click', function () {
+        window.location.href = "{{ route('powerlines.index') }}";
+    });
 
-            $('#reset-filters').on('click', function() {
-                // Clear all the input fields
-                $('#filter-form').find('input[type="text"], select').val('');
-                // Submit the form to reload without filters
-                $('#filter-form').submit();
+    document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+            element.addEventListener('change', function() {
+                document.getElementById('filter-form').submit();
             });
-
         });
-    </script>
+
+</script>
 @endsection
