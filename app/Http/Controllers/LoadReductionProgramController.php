@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Branch;
 use App\Models\Station;
 use App\Helpers\LogActivity;
@@ -212,7 +213,7 @@ class LoadReductionProgramController extends Controller
             });
         }
         if ($request->filled('output_name')) {
-            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+            $query->where('output_name', 'LIKE', '%' . $request->input('output_name') . '%');
         }
 
         if ($request->filled('date')) {
@@ -220,7 +221,7 @@ class LoadReductionProgramController extends Controller
         }
 
         if ($request->filled('remarks')) {
-            $query->where('remarks', 'like', '%' . $request->input('remarks') . '%');
+            $query->where('remarks', 'LIKE', '%' . $request->input('remarks') . '%');
         }
 
         $programs = $query->get();

@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <a href="{{ route('load-reduction-programs.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-                <a href="{{ route('load-reduction-programs.export', ['date' => request('date'), 'branch_id' => request('branch_id')]) }}"
+                <a href="{{ route('load-reduction-programs.export', request()->all()) }}"
                     class="btn btn-success btn-sm mb-2 text-white">
                     Excel Экспорт
                 </a>
@@ -66,16 +66,13 @@
                                     </select>
                                 </th>
                                 <th>
-                                    <input type="text" name="client_name" class="form-control form-control-sm"
-                                        placeholder="" value="{{ request('client_name') }}">
+                                    <input type="text" name="client_name" class="form-control form-control-sm" value="{{ request('client_name') }}">
                                 </th>
                                 <th>
-                                    <input type="text" name="station_name" class="form-control form-control-sm"
-                                        placeholder="" value="{{ request('station_name') }}">
+                                    <input type="text" name="station_name" class="form-control form-control-sm" value="{{ request('station_name') }}">
                                 </th>
                                 <th>
-                                    <input type="text" name="output_name" class="form-control form-control-sm"
-                                        placeholder="" value="{{ request('output_name') }}">
+                                    <input type="text" name="output_name" class="form-control form-control-sm" value="{{ request('output_name') }}">
                                 </th>
                                 <th></th>
                                 <th></th>
@@ -88,8 +85,7 @@
                                 <th></th>
                                 <th></th>
                                 <th>
-                                    <input type="text" name="remarks" class="form-control form-control-sm" placeholder=""
-                                        value="{{ request('remarks') }}">
+                                    <input type="text" name="remarks" class="form-control form-control-sm" value="{{ request('remarks') }}">
                                 </th>
                             </tr>
                         </thead>

@@ -43,6 +43,7 @@ class LoadReductionProgramExport implements FromCollection, WithHeadings, WithSt
     public function headings(): array
     {
         return [
+            'Д/д',
             'Салбар',
             'Хэрэглэгчийн ААН-ийн нэр',
             'Дэд станц',
