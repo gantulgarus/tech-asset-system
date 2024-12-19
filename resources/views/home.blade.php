@@ -42,7 +42,7 @@
                 <div class="card text-white bg-warning w-100">
                     <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                         <div>
-                            <div class="fs-6 fw-semibold">{{ number_format($powerlineLength) }} км</div>
+                            <div class="fs-6 fw-semibold">{{ number_format($powerlineLength, 2) }} км</div>
                         </div>
                     </div>
                     <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
