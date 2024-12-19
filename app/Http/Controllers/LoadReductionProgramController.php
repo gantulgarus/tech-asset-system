@@ -78,11 +78,12 @@ class LoadReductionProgramController extends Controller
         if ($user->branch_id == 8) {
             $branches = Branch::all();
             $stations = Station::orderBy('name', 'asc')->get();
+            $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+            $clientOrgs = ClientOrganization::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
-        $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
 
         return view('load_reduction_programs.create', compact('branches', 'stations', 'clientOrgs'));
     }
@@ -136,12 +137,12 @@ class LoadReductionProgramController extends Controller
         if ($user->branch_id == 8) {
             $branches = Branch::all();
             $stations = Station::orderBy('name', 'asc')->get();
+            $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+            $clientOrgs = ClientOrganization::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
         }
-
-        $clientOrgs = ClientOrganization::orderBy('name', 'asc')->get();
 
         return view('load_reduction_programs.edit', compact('loadReductionProgram', 'branches', 'stations', 'clientOrgs'));
     }
