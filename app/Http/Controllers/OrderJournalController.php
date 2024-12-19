@@ -48,12 +48,13 @@ class OrderJournalController extends Controller
         }
 
         // Paginate results
-        $orderJournals = $query->latest()->paginate(20)->appends($request->query());
+        $orderJournals = $query->latest()->paginate(25)->appends($request->query());
 
         $branches = Branch::orderBy('name', 'asc')->get();
         $orderTypes = OrderType::all();
 
-        return view('order-journals.index', compact('orderJournals', 'branches', 'orderTypes'));
+        return view('order-journals.index', compact('orderJournals', 'branches', 'orderTypes'))
+            ->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**

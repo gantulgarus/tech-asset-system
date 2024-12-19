@@ -74,7 +74,7 @@
                     <tbody>
                         @foreach ($orderJournals as $orderJournal)
                             <tr class="align-middle">
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ++$i }}</td>
                                 <td>{{ $orderJournal->branch->name }}</td>
                                 <td>{{ $orderJournal->orderType->name }}</td>
                                 <td>{{ $orderJournal->order_number }}</td>
@@ -156,6 +156,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-2">
+                    {{ $orderJournals->links() }}
+                </div>
             </div>
         </div>
     </div>
