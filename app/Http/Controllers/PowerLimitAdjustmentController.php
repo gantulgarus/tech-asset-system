@@ -37,8 +37,11 @@ class PowerLimitAdjustmentController extends Controller
         if ($request->filled('output_name')) {
             $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
         }
-        if ($request->filled('date')) {
-            $query->whereDate('reduction_time', $request->date);
+        if ($request->filled('start_time')) {
+            $query->whereDate('start_time', $request->start_time);
+        }
+        if ($request->filled('end_time')) {
+            $query->whereDate('end_time', $request->end_time);
         }
 
         $adjustments = $query->latest()->paginate(25)->appends($request->query());
@@ -194,8 +197,11 @@ class PowerLimitAdjustmentController extends Controller
         if ($request->filled('output_name')) {
             $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
         }
-        if ($request->filled('date')) {
-            $query->whereDate('reduction_time', $request->date);
+        if ($request->filled('start_time')) {
+            $query->whereDate('start_time', $request->start_time);
+        }
+        if ($request->filled('end_time')) {
+            $query->whereDate('end_time', $request->end_time);
         }
 
         $adjustments = $query->latest()->get();
