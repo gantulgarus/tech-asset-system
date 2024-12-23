@@ -49,7 +49,7 @@ class PowerLimitAdjustmentController extends Controller
             $branches = Branch::where('id', $user->branch_id)->get();
         }
 
-        return view('power-limit-adjustments.index', compact('adjustments', 'branches'));
+        return view('power-limit-adjustments.index', compact('adjustments', 'branches'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**

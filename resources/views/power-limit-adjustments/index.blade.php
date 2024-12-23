@@ -92,9 +92,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($adjustments as $index => $adjustment)
+                    @foreach ($adjustments as $adjustment)
                     <tr class="align-middle">
-                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="text-center">{{ ++$i }}</td>
                         <td class="text-center">{{ $adjustment->branch?->name }}</td>
                         <td class="text-center">{{ $adjustment->station?->name }}</td>
                         <td class="text-center">{{ $adjustment->output_name }}</td>
