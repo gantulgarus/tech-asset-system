@@ -21,6 +21,7 @@
                                 <label for="station_type" class="form-label">Төрөл:</label>
                                 <select name="station_type" id="station_type" class="form-select">
                                     <option value="Дэд станц" {{ old('station_type', 'Дэд станц') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц</option>
+                                    <option value="Дэд өртөө" {{ old('station_type') == 'Дэд өртөө' ? 'selected' : '' }}>Дэд өртөө</option>
                                     <option value="Хуваарилах байгууламж" {{ old('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>Хуваарилах байгууламж</option>
                                 </select>
                             </div>

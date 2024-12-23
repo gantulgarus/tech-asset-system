@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="station_id" class="form-label">Дэд станц / Хуваарилах байгууламж</label>
+                                <label for="station_id" class="form-label">Дэд станц</label>
                                 <div class="form-group mb-3">
                                     <select id="station-dropdown" name="station_id" class="form-control">
                                         <option value="">-- Сонгох --</option>

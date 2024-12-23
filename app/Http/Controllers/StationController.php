@@ -122,7 +122,7 @@ class StationController extends Controller
             'installed_capacity' => 'required',
             'create_year' => ['required', 'numeric', 'regex:/^\d{4}$/'],
             'desc' => 'nullable',
-            'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
+            'station_type' => ['required', 'in:Дэд станц,Дэд өртөө,Хуваарилах байгууламж'],
         ]);
 
         $station = Station::create($request->all());
@@ -179,7 +179,7 @@ class StationController extends Controller
             'installed_capacity' => 'required',
             'create_year' => ['required', 'numeric', 'regex:/^\d{4}$/'],
             'desc' => 'nullable',
-            'station_type' => ['required', 'in:Дэд станц,Хуваарилах байгууламж'],
+            'station_type' => ['required', 'in:Дэд станц,Дэд өртөө,Хуваарилах байгууламж'],
         ]);
 
         $station->update($request->all());

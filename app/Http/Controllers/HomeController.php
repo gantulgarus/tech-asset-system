@@ -46,10 +46,10 @@ class HomeController extends Controller
 
         $baiguulamjCountUser = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 0)->count();
+        })->where('station_type', 'Дэд өртөө')->where('is_user_station', 0)->count();
         $baiguulamjCountOwn = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
-        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 1)->count();
+        })->where('station_type', 'Дэд өртөө')->where('is_user_station', 1)->count();
 
 
         $equipmentCount = Equipment::when($branchId, function ($query, $branchId) {

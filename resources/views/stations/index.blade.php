@@ -42,6 +42,9 @@
                                         <option value="Дэд станц"
                                             {{ request('station_type') == 'Дэд станц' ? 'selected' : '' }}>Дэд станц
                                         </option>
+                                        <option value="Дэд өртөө"
+                                            {{ request('station_type') == 'Дэд өртөө' ? 'selected' : '' }}>
+                                            Дэд өртөө</option>
                                         <option value="Хуваарилах байгууламж"
                                             {{ request('station_type') == 'Хуваарилах байгууламж' ? 'selected' : '' }}>
                                             Хуваарилах байгууламж</option>

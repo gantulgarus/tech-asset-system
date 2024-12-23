@@ -57,7 +57,7 @@
                         <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
                     </div>
                     <div class="mt-3 mx-3" style="height:70px;">
-                        <div class="">Хуваарилах байгууламжийн тоо</div>
+                        <div class="">Дэд өртөөний тоо</div>
                     </div>
                 </div>
             </div>
