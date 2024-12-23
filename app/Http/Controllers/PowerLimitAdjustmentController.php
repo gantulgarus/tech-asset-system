@@ -18,25 +18,38 @@ class PowerLimitAdjustmentController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->input('date', now()->setTimezone('Asia/Ulaanbaatar')->toDateString());
-        $branchId = $request->input('branch_id');
+        $query = PowerLimitAdjustment::query();
 
-        $adjustments = PowerLimitAdjustment::when($date, function ($query, $date) {
-            $query->whereDate('start_time', $date);
-        })
-            ->when($branchId, function ($query, $branchId) {
-                $query->where('branch_id', $branchId);
-            })
-            ->latest()->get();
+        $user = auth()->user();
 
-        $totalMinutes = $adjustments->sum('duration_minutes');
-        $totalHours = $adjustments->sum('duration_hours');
-        $totalPower = $adjustments->sum('power');
-        $totalEnergyNotSupplied = $adjustments->sum('energy_not_supplied');
-        $totalUserCount = $adjustments->sum('user_count');
-        $branches = Branch::all();
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
+        }
+        if ($request->filled('output_name')) {
+            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+        }
+        if ($request->filled('date')) {
+            $query->whereDate('reduction_time', $request->date);
+        }
 
-        return view('power-limit-adjustments.index', compact('adjustments', 'totalMinutes', 'totalHours', 'totalPower', 'totalEnergyNotSupplied', 'totalUserCount', 'date', 'branches'));
+        $adjustments = $query->latest()->paginate(25)->appends($request->query());
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
+        return view('power-limit-adjustments.index', compact('adjustments', 'branches'));
     }
 
     /**
@@ -51,12 +64,12 @@ class PowerLimitAdjustmentController extends Controller
         if ($user->branch_id == 8) {
             $branches = Branch::all();
             $stations = Station::orderBy('name', 'asc')->get();
+            $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+            $clients = ClientRestriction::where('branch_id', $user->branch_id)->orderBy('output_name', 'asc')->get();
         }
-
-        $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
 
         return view('power-limit-adjustments.create', compact('branches', 'stations', 'clients'));
     }
@@ -109,12 +122,12 @@ class PowerLimitAdjustmentController extends Controller
         if ($user->branch_id == 8) {
             $branches = Branch::all();
             $stations = Station::orderBy('name', 'asc')->get();
+            $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
         } else {
             $branches = Branch::where('id', $user->branch_id)->get();
             $stations = Station::where('branch_id', $user->branch_id)->orderBy('name', 'asc')->get();
+            $clients = ClientRestriction::where('branch_id', $user->branch_id)->orderBy('output_name', 'asc')->get();
         }
-
-        $clients = ClientRestriction::orderBy('output_name', 'asc')->get();
 
         return view('power-limit-adjustments.edit', compact('powerLimitAdjustment', 'branches', 'stations', 'clients'));
     }
@@ -162,7 +175,31 @@ class PowerLimitAdjustmentController extends Controller
 
     public function export(Request $request)
     {
-        $filter = $request->only('date', 'branch_id');
-        return Excel::download(new PowerLimitAdjustmentsExport($filter), 'hyzgaarlalt.xlsx');
+        $query = PowerLimitAdjustment::query();
+
+        $user = auth()->user();
+
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Restrict to stations belonging to the user's branch
+            $query->where('branch_id', $user->branch_id);
+        }
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->where('branch_id', $request->input('branch_id'));
+        }
+        if ($request->filled('station_name')) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station_name') . '%');
+            });
+        }
+        if ($request->filled('output_name')) {
+            $query->where('output_name', 'like', '%' . $request->input('output_name') . '%');
+        }
+        if ($request->filled('date')) {
+            $query->whereDate('reduction_time', $request->date);
+        }
+
+        $adjustments = $query->latest()->get();
+
+        return Excel::download(new PowerLimitAdjustmentsExport($adjustments), 'hyzgaarlalt.xlsx');
     }
 }

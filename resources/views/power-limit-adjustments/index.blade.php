@@ -9,28 +9,17 @@
     @endif
     <div class="card">
         <div class="card-header">2024-2025 оны өвлийн их ачааллын онцгой үеийн хөнгөлөлт, хязгаарлалтын багц-14
-            <form action="{{ route('power-limit-adjustments.index') }}" method="GET" class="float-end">
-                <div class="input-group">
-                    <select name="branch_id" class="form-select">
-                        <option value="">Бүх салбар</option>
-                        @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
-                                {{ $branch->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <input type="date" name="date" class="form-control" value="{{ $date }}">
-                    <button type="submit" class="btn btn-dark">Харах</button>
-                </div>
-            </form>
         </div>
         <div class="card-body">
             <a href="{{ route('power-limit-adjustments.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
-            <a href="{{ route('power-limit-adjustments.export', ['branch_id' => request('branch_id'), 'date' => request('date')]) }}" 
+            <a href="{{ route('power-limit-adjustments.export', request()->all()) }}" 
                 class="btn btn-success btn-sm mb-2">
                 Excel Экспорт
              </a>
-            <table class="table border mb-0" style="font-size: 12px;">
+             <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
+                class="fas fa-undo-alt"></i> Цэвэрлэх</button>
+             <form action="{{ route('power-limit-adjustments.index') }}" method="GET" id="filter-form">
+            <table class="table table-bordered table-hover" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>
@@ -65,6 +54,42 @@
                         <th class="text-center">13</th>
                         <th class="text-center">14</th>
                     </tr>
+                    <tr class="align-middle">
+                        <th></th>
+                        <th class="text-center">
+                            <select name="branch_id" class="form-select form-select-sm">
+                                <option></option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </th>
+                        <th class="text-center">
+                            <input type="text" name="station_name" class="form-control form-control-sm" value="{{ request('station_name') }}">
+                        </th>
+                        <th class="text-center">
+                            <input type="text" name="output_name" class="form-control form-control-sm" value="{{ request('output_name') }}">
+                        </th>
+                        <th class="text-center">
+                            <input type="date" name="start_time" class="form-control form-control-sm"
+                                        value="{{ request('start_time') }}">
+                        </th>
+                        <th class="text-center">
+                            <input type="date" name="end_time" class="form-control form-control-sm"
+                                        value="{{ request('end_time') }}">
+                        </th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($adjustments as $index => $adjustment)
@@ -73,8 +98,8 @@
                         <td class="text-center">{{ $adjustment->branch?->name }}</td>
                         <td class="text-center">{{ $adjustment->station?->name }}</td>
                         <td class="text-center">{{ $adjustment->output_name }}</td>
-                        <td class="text-center">{{ \Carbon\Carbon::parse($adjustment->start_time)->format('H:i') }}</td>
-                        <td class="text-center">{{ \Carbon\Carbon::parse($adjustment->end_time)->format('H:i') }}</td>
+                        <td class="text-center">{{ \Carbon\Carbon::parse($adjustment->start_time)->format('Y-m-d H:i') }}</td>
+                        <td class="text-center">{{ \Carbon\Carbon::parse($adjustment->end_time)->format('Y-m-d H:i') }}</td>
                         <td class="text-center">{{ $adjustment->duration_minutes }}</td>
                         <td class="text-center">{{ $adjustment->duration_hours }}</td>
                         <td class="text-center">{{ $adjustment->voltage }}</td>
@@ -108,19 +133,23 @@
                     </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr class="align-middle">
-                        <td colspan="6" class="text-end fw-bold">Нийт:</td>
-                        <td class="text-center fw-bold">{{ $totalMinutes }}</td>
-                        <td class="text-center fw-bold">{{ $totalHours }}</td>
-                        <td colspan="3"></td>
-                        <td class="text-center fw-bold">{{ $totalPower }}</td>
-                        <td class="text-center fw-bold">{{ $totalEnergyNotSupplied }}</td>
-                        <td class="text-center fw-bold">{{ $totalUserCount }}</td>
-                    </tr>
-                </tfoot>
             </table>
+        </form>
+        <div class="mt-2">
+            {{ $adjustments->links() }}
+        </div>
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('reset-filters').addEventListener('click', function() {
+        window.location.href = "{{ route('power-limit-adjustments.index') }}";
+    });
+
+    document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+        element.addEventListener('change', function() {
+            document.getElementById('filter-form').submit();
+        });
+    });
+</script>
 @endsection

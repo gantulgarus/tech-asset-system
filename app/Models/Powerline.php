@@ -22,6 +22,7 @@ class Powerline extends Model
         'tower_count',
         'line_length',
         'isolation_mark',
+        'line_type'
     ];
 
     public function station()

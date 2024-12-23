@@ -40,6 +40,9 @@ class PowerlineController extends Controller
         if ($request->filled('station_id')) {
             $query->where('station_id', $request->input('station_id'));
         }
+        if ($request->filled('line_type')) {
+            $query->where('line_type', $request->input('line_type'));
+        }
 
         if ($request->filled('powerline')) {
             // dd($request->input('station'));

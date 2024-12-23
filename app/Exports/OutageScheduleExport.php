@@ -49,7 +49,7 @@ class OutageScheduleExport implements FromCollection, WithHeadings, WithMapping,
             $schedule->task, // Task details
             $customDateFormat . ' ' . $startTime,
             $customDateFormat . ' ' . $endTime,
-            $schedule->type, // Type
+            $schedule->outageScheduleType?->name, // Type
             $schedule->affected_users, // Affected users
             $schedule->responsible_officer, // Responsible staff
         ];

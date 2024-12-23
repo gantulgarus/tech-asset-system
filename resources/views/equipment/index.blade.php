@@ -60,7 +60,7 @@
                 </form>
             </div> --}}
             <form method="GET" action="{{ route('equipment.index') }}" id="filter-form">
-            <table class="table border mb-0" style="font-size: 12px;">
+            <table class="table table-bordered table-hover" style="font-size: 12px;">
                 <thead class="fw-semibold text-nowrap">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>

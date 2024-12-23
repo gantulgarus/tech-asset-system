@@ -15,12 +15,13 @@
             <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
                 class="fas fa-undo-alt"></i> Цэвэрлэх</button>
             <form method="GET" action="{{ route('powerlines.index') }}" id="filter-form">
-            <table class="table border mb-0" style="font-size: 12px;">
+            <table class="table table-bordered table-hover" style="font-size: 12px;">
                 <thead class="fw-semibold">
                     <tr class="align-middle">
                         <th class="bg-body-secondary">Д/д</th>
                         <th class="bg-body-secondary">Салбар</th>
                         <th class="bg-body-secondary">Дэд станц</th>
+                        <th class="bg-body-secondary">Төрөл</th>
                         <th class="bg-body-secondary">Шугамын ША-ны нэр</th>
                         <th class="bg-body-secondary">Хүчдэлийн түвшин /кВ/</th>
                         <th class="bg-body-secondary">Ашиглалтад орсон он</th>
@@ -52,7 +53,18 @@
                             </select>
                         </th>
                         <th>
-                            <input type="text" name="powerline" class="form-control form-control-sm" placeholder="Шугамын нэр" value="{{ request('powerline') }}">
+                            <select name="line_type" class="form-select form-select-sm">
+                                <option></option>
+                                <option value="ЦДАШ"
+                                    {{ request('line_type') == 'ЦДАШ' ? 'selected' : '' }}>ЦДАШ
+                                </option>
+                                <option value="ЦДКШ"
+                                    {{ request('line_type') == 'ЦДКШ' ? 'selected' : '' }}>
+                                    ЦДКШ</option>
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="powerline" class="form-control form-control-sm" value="{{ request('powerline') }}">
                         </th>
                         <th>
                             <select name="volt_id" class="form-select form-select-sm">
@@ -87,6 +99,7 @@
                             <td>{{ ++$i }}</td>
                             <td>{{ $powerline->station->branch->name ?? 'N/A' }}</td>
                             <td>{{ $powerline->station?->name }}</td>
+                            <td>{{ $powerline->line_type }}</td>
                             <td>{{ $powerline->name }}</td>
                             <td>{{ $powerline->volt?->name }}</td>
                             <td>{{ \Carbon\Carbon::parse($powerline->create_year)->format('Y') }}</td>

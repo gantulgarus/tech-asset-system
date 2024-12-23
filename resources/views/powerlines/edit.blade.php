@@ -29,6 +29,20 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="line_type" class="form-label">Төрөл</label>
+                                <div class="form-group mb-3">
+                                    <select id="type-dropdown" name="line_type" class="form-control">
+                                        <option value="ЦДАШ" {{ $powerline->line_type == 'ЦДАШ' ? 'selected' : '' }}>ЦДАШ</option>
+                                        <option value="ЦДКШ" {{ $powerline->line_type == 'ЦДКШ' ? 'selected' : '' }}>ЦДКШ</option>
+                                    </select>
+                                </div>
+                                @error('line_type')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">

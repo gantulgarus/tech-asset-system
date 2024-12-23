@@ -2,41 +2,50 @@
 
 namespace App\Exports;
 
-use App\Models\PowerLimitAdjustment;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PowerLimitAdjustmentsExport implements FromCollection, WithHeadings, WithMapping
+class PowerLimitAdjustmentsExport implements FromCollection, WithHeadings, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
      */
 
-    protected $filter;
+    protected $adjustments;
 
-    public function __construct($filter)
+    public function __construct($adjustments)
     {
-        $this->filter = $filter;
+        $this->adjustments = $adjustments;
     }
 
     public function collection()
     {
-        $query = PowerLimitAdjustment::with(['branch', 'station']);
-
-        if (!empty($this->filter['branch_id'])) {
-            $query->where('branch_id', $this->filter['branch_id']);
-        }
-
-        $date = $this->filter['date'] ?? now()->setTimezone('Asia/Ulaanbaatar')->toDateString();
-        $query->whereDate('start_time', $date);
-
-        return $query->get();
+        return $this->adjustments->map(function ($adjustment, $index) {
+            return [
+                'N' => $index + 1,
+                'Branch' => $adjustment->branch->name ?? '',
+                'Station' => $adjustment->station?->name ?? '',
+                'Output_name' => $adjustment->output_name ?? '',
+                'start_time' => \Carbon\Carbon::parse($adjustment->start_time)->format('Y-m-d H:i'),
+                'end_time' => \Carbon\Carbon::parse($adjustment->end_time)->format('Y-m-d H:i'),
+                'duration_minutes' => $adjustment->duration_minutes,
+                'duration_hours' => $adjustment->duration_hours,
+                'voltage' => $adjustment->voltage,
+                'amper' => $adjustment->amper,
+                'cosf' => $adjustment->cosf,
+                'power' => $adjustment->power,
+                'energy_not_supplied' => $adjustment->energy_not_supplied,
+                'user_count' => $adjustment->user_count,
+            ];
+        });
     }
 
     public function headings(): array
     {
         return [
+            'Д/д',
             'Салбар',
             'Дэд станц',
             'Гаргалгааны нэр',
@@ -53,22 +62,16 @@ class PowerLimitAdjustmentsExport implements FromCollection, WithHeadings, WithM
         ];
     }
 
-    public function map($adjustment): array
+    public function styles(Worksheet $sheet)
     {
         return [
-            $adjustment->branch?->name ?? 'N/A',
-            $adjustment->station?->name ?? 'N/A',
-            $adjustment->output_name ?? 'N/A',
-            \Carbon\Carbon::parse($adjustment->start_time)->format('H:i'),
-            \Carbon\Carbon::parse($adjustment->end_time)->format('H:i'),
-            $adjustment->duration_minutes ?? 'N/A',
-            $adjustment->duration_hours ?? 'N/A',
-            $adjustment->voltage ?? 'N/A',
-            $adjustment->amper ?? 'N/A',
-            $adjustment->cosf ?? 'N/A',
-            $adjustment->power ?? 'N/A',
-            $adjustment->energy_not_supplied ?? 'N/A',
-            $adjustment->user_count ?? 'N/A',
+            1 => [
+                'font' => ['bold' => true],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => 'D9E1F2'],
+                ],
+            ],
         ];
     }
 }

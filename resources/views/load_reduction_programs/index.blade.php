@@ -19,7 +19,7 @@
                 <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
                     class="fas fa-undo-alt"></i> Цэвэрлэх</button>
                 <form action="{{ route('load-reduction-programs.index') }}" method="GET" id="filter-form">
-                    <table class="table border mb-0" style="font-size: 12px;">
+                    <table class="table table-bordered table-hover" style="font-size: 12px;">
                         <thead class="fw-semibold">
                             <tr class="align-middle">
                                 <th class="bg-body-secondary">Д/д</th>
