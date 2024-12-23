@@ -53,9 +53,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="type" class="form-label">Төрөл</label>
-                                    <input id="type" type="text" name="type" class="form-control" value="{{ old('type') }}">
-                                @error('duration')
+                                <label for="outage_schedule_type_id" class="form-label">Төрөл</label>
+                                <div class="form-group mb-3">
+                                    <select id="station-dropdown" name="outage_schedule_type_id" class="form-select">
+                                        <option value="">-- Сонгох --</option>
+                                        @foreach ($scheduleTypes as $type)
+                                            <option value="{{ $type->id }}" {{ old('outage_schedule_type_id') == $type->id ? 'selected' : '' }}>
+                                                {{ $type->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('outage_schedule_type_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\OutageSchedule;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OutageScheduleExport;
+use App\Models\OutageScheduleType;
 
 class OutageScheduleController extends Controller
 {
@@ -61,8 +62,9 @@ class OutageScheduleController extends Controller
     public function create()
     {
         $branches = Branch::all();
+        $scheduleTypes = OutageScheduleType::all();
 
-        return view('outage_schedules.create', compact('branches'));
+        return view('outage_schedules.create', compact('branches', 'scheduleTypes'));
     }
 
     /**
@@ -82,7 +84,7 @@ class OutageScheduleController extends Controller
             'task' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'type' => 'required|string',
+            'outage_schedule_type_id' => 'required|string',
             'affected_users' => 'required|string',
             'responsible_officer' => 'required|string',
         ]);
@@ -109,8 +111,9 @@ class OutageScheduleController extends Controller
     public function edit(OutageSchedule $outageSchedule)
     {
         $branches = Branch::all();
+        $scheduleTypes = OutageScheduleType::all();
 
-        return view('outage_schedules.edit', compact('outageSchedule', 'branches'));
+        return view('outage_schedules.edit', compact('outageSchedule', 'branches', 'scheduleTypes'));
     }
 
     /**
@@ -131,7 +134,7 @@ class OutageScheduleController extends Controller
             'task' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'type' => 'required|string',
+            'outage_schedule_type_id' => 'required|string',
             'affected_users' => 'required|string',
             'responsible_officer' => 'required|string',
         ]);

@@ -29,6 +29,7 @@ use App\Http\Controllers\PowerlineGeojsonController;
 use App\Http\Controllers\UserTierResearchController;
 use App\Http\Controllers\ClientRestrictionController;
 use App\Http\Controllers\ClientOrganizationController;
+use App\Http\Controllers\OutageScheduleTypeController;
 use App\Http\Controllers\LoadReductionProgramController;
 use App\Http\Controllers\PowerLimitAdjustmentController;
 use App\Http\Controllers\ProtectionZoneViolationController;
@@ -99,4 +100,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('power-limit-adjustments', PowerLimitAdjustmentController::class);
     Route::resource('client-organizations', ClientOrganizationController::class);
     Route::resource('client-restrictions', ClientRestrictionController::class);
+    Route::resource('outage-schedule-types', OutageScheduleTypeController::class);
 });
