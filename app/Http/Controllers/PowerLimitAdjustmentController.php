@@ -44,7 +44,7 @@ class PowerLimitAdjustmentController extends Controller
             $query->whereDate('end_time', $request->end_time);
         }
 
-        $adjustments = $query->latest()->paginate(25)->appends($request->query());
+        $adjustments = $query->orderBy('start_time', 'desc')->paginate(25)->appends($request->query());
 
         if ($user->branch_id == 8) {
             $branches = Branch::all();
@@ -204,7 +204,7 @@ class PowerLimitAdjustmentController extends Controller
             $query->whereDate('end_time', $request->end_time);
         }
 
-        $adjustments = $query->latest()->get();
+        $adjustments = $query->orderBy('start_time', 'desc')->get();
 
         return Excel::download(new PowerLimitAdjustmentsExport($adjustments), 'hyzgaarlalt.xlsx');
     }

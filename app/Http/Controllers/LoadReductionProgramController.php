@@ -52,7 +52,7 @@ class LoadReductionProgramController extends Controller
             $query->where('remarks', 'like', '%' . $request->input('remarks') . '%');
         }
 
-        $programs = $query->latest()->paginate(25)->appends($request->query());
+        $programs = $query->orderBy('reduction_time', 'desc')->paginate(25)->appends($request->query());
 
         if ($user->branch_id == 8) {
             $branches = Branch::all();
@@ -225,7 +225,7 @@ class LoadReductionProgramController extends Controller
             $query->where('remarks', 'LIKE', '%' . $request->input('remarks') . '%');
         }
 
-        $programs = $query->get();
+        $programs = $query->orderBy('reduction_time', 'desc')->get();
 
         return Excel::download(new LoadReductionProgramExport($programs), 'achaalal_hongololt.xlsx');
     }
