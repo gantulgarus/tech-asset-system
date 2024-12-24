@@ -112,10 +112,10 @@ class PowerlineController extends Controller
             'volt_id' => 'required|exists:volts,id',
             'create_year' => 'required|date',
             'line_mark' => 'required|string|max:255',
-            'tower_mark' => 'required|string|max:255',
-            'tower_count' => 'required|integer',
+            // 'tower_mark' => 'required|string|max:255',
+            // 'tower_count' => 'required|integer',
             'line_length' => 'required|numeric',
-            'isolation_mark' => 'required|string|max:255',
+            // 'isolation_mark' => 'required|string|max:255',
         ]);
 
         Powerline::create($request->all());
@@ -166,10 +166,10 @@ class PowerlineController extends Controller
             'volt_id' => 'required|exists:volts,id',
             'create_year' => 'required|date',
             'line_mark' => 'required|string|max:255',
-            'tower_mark' => 'required|string|max:255',
-            'tower_count' => 'required|integer',
+            // 'tower_mark' => 'required|string|max:255',
+            // 'tower_count' => 'required|integer',
             'line_length' => 'required|numeric',
-            'isolation_mark' => 'required|string|max:255',
+            // 'isolation_mark' => 'required|string|max:255',
         ]);
 
         $powerline->update($request->all());

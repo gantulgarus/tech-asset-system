@@ -84,7 +84,12 @@ class HomeController extends Controller
             return $query->whereHas('station', function ($query) use ($branchId) {
                 $query->where('branch_id', $branchId);
             });
-        })->sum('line_length');
+        })->where('line_type', 'ЦДАШ')->sum('line_length');
+        $powercableLength = Powerline::when($branchId, function ($query, $branchId) {
+            return $query->whereHas('station', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            });
+        })->where('line_type', 'ЦДКШ')->sum('line_length');
 
         // $cablelineLength = Equipment::when($branchId, function ($query, $branchId) {
         //     return $query->whereHas('station', function ($query) use ($branchId) {
@@ -171,7 +176,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('stationCountUser', 'stationCountOwn', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'powerlineLength', 'baiguulamjCountUser', 'baiguulamjCountOwn', 'totalCapacityUser', 'totalCapacityOwn'));
+        return view('home', compact('stationCountUser', 'stationCountOwn', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'powerlineLength', 'baiguulamjCountUser', 'baiguulamjCountOwn', 'totalCapacityUser', 'totalCapacityOwn', 'powercableLength'));
     }
 
     public function logActivity()

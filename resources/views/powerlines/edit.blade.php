@@ -126,6 +126,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="muft_count" class="form-label">Муфтны тоо</label>
+                                <input type="number" name="muft_count" class="form-control" value="{{ $powerline->muft_count }}">
+                                @error('muft_count')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>

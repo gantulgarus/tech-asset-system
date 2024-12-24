@@ -22,7 +22,8 @@ class Powerline extends Model
         'tower_count',
         'line_length',
         'isolation_mark',
-        'line_type'
+        'line_type',
+        'muft_count'
     ];
 
     public function station()

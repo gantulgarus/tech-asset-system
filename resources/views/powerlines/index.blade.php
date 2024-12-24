@@ -29,6 +29,7 @@
                                 <th class="bg-body-secondary">Тулгуурын тоо</th>
                                 <th class="bg-body-secondary">Шугамын урт /км/</th>
                                 <th class="bg-body-secondary">Изоляторын маяг</th>
+                                <th class="bg-body-secondary">Муфтны тоо</th>
                                 <th class="bg-body-secondary"></th>
                             </tr>
                             <tr class="align-middle">
@@ -97,6 +98,7 @@
                                         class="form-control form-control-sm" value="{{ request('isolation_mark') }}">
                                 </th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,6 +116,7 @@
                                     <td>{{ $powerline->tower_count }}</td>
                                     <td>{{ $powerline->line_length }}</td>
                                     <td>{{ $powerline->isolation_mark }}</td>
+                                    <td>{{ $powerline->muft_count }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-transparent p-0" type="button"
