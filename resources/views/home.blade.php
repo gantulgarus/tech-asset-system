@@ -15,7 +15,7 @@
                     </select>
                 </form>
             </div>
-            <div class="row d-flex mt-4">
+            {{-- <div class="row d-flex mt-4">
                 <div class="col-sm-6 col-xl-3 d-flex">
                     <div class="card text-white bg-primary w-100">
                         <div class="card-body">
@@ -62,7 +62,69 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 col-xl-3 d-flex">
+                    <div class="card text-white bg-danger w-100">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div class="">Хуваарилах байгууламжийн тоо</div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            <div class="row d-flex mt-4">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <div class="card text-white bg-primary" style="width: 19%;">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $stationCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $stationCountOwn }}</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div class="">Дэд станцын тоо</div>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-danger" style="width: 19%;">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $ortooCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $ortooCountOwn }}</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div class="">Дэд өртөөний тоо</div>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-success" style="width: 19%;">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div class="">Хуваарилах байгууламжийн тоо</div>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-info" style="width: 19%;">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ number_format($totalCapacityUser) }} kBA</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ number_format($totalCapacityOwn) }} kBA</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div>Суурьлагдсан хүчин чадал</div>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-warning" style="width: 19%;">
+                        <div class="card-body">
+                            <div class="fs-6 fw-semibold">ЦДАШ - {{ number_format($powerlineLength, 2) }} км</div>
+                            <div class="fs-6 fw-semibold">ЦДКШ - {{ number_format($powercableLength, 2) }} км</div>
+                        </div>
+                        <div class="mt-3 mx-3" style="height:70px;">
+                            <div>ЦДАШ, ЦДКШ-ын урт</div>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
+            
         </div>
 
         <div class="row row-cols-2">

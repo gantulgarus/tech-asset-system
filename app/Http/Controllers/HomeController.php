@@ -44,12 +44,19 @@ class HomeController extends Controller
         })->where('station_type', 'Дэд станц')->where('is_user_station', 1)->count();
 
 
-        $baiguulamjCountUser = Station::when($branchId, function ($query, $branchId) {
+        $ortooCountUser = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
         })->where('station_type', 'Дэд өртөө')->where('is_user_station', 0)->count();
-        $baiguulamjCountOwn = Station::when($branchId, function ($query, $branchId) {
+        $ortooCountOwn = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
         })->where('station_type', 'Дэд өртөө')->where('is_user_station', 1)->count();
+
+        $baiguulamjCountUser = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 0)->count();
+        $baiguulamjCountOwn = Station::when($branchId, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        })->where('station_type', 'Хуваарилах байгууламж')->where('is_user_station', 1)->count();
 
 
         $equipmentCount = Equipment::when($branchId, function ($query, $branchId) {
@@ -176,7 +183,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('stationCountUser', 'stationCountOwn', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'powerlineLength', 'baiguulamjCountUser', 'baiguulamjCountOwn', 'totalCapacityUser', 'totalCapacityOwn', 'powercableLength'));
+        return view('home', compact('stationCountUser', 'stationCountOwn', 'equipmentCount', 'powerlineCount', 'userCount', 'labels', 'dataOutages', 'dataCuts', 'dataFailures', 'equipmentsByBranch', 'branches', 'orderJournals', 'branchId', 'powerlineLength', 'baiguulamjCountUser', 'baiguulamjCountOwn', 'totalCapacityUser', 'totalCapacityOwn', 'powercableLength', 'ortooCountUser', 'ortooCountOwn'));
     }
 
     public function logActivity()
