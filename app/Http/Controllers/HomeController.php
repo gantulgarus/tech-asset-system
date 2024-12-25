@@ -33,7 +33,16 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $branchId = $request->get('branch_id');
+        // Get the logged-in user
+        $user = auth()->user();
+
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+            $branchId = $request->get('branch_id');
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+            $branchId = $user->branch_id;
+        }
 
         $stationCountUser = Station::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
@@ -174,7 +183,7 @@ class HomeController extends Controller
         }
 
         // Fetch all branches
-        $branches = Branch::all(); // This retrieves all branches
+        // $branches = Branch::all(); // This retrieves all branches
 
         $orderJournals = OrderJournal::when($branchId, function ($query, $branchId) {
             return $query->where('branch_id', $branchId);
