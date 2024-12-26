@@ -142,10 +142,10 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-2">
-                    <div class="card text-white bg-danger w-100">
+                    <div class="card text-white bg-success w-100">
                         <div class="card-body">
-                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
-                            <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $ortooCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $ortooCountOwn }}</div>
                         </div>
                         <div class="mt-3 mx-3" style="height:70px;">
                             <div class="">Дэд өртөөний тоо</div>
@@ -153,16 +153,17 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-2">
-                    <div class="card text-white bg-success w-100">
+                    <div class="card text-white bg-danger w-100">
                         <div class="card-body">
-                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $ortooCountUser }}</div>
-                            <div class="fs-6 fw-semibold">Өөрийн - {{ $ortooCountOwn }}</div>
+                            <div class="fs-6 fw-semibold">Хэрэглэгчийн - {{ $baiguulamjCountUser }}</div>
+                            <div class="fs-6 fw-semibold">Өөрийн - {{ $baiguulamjCountOwn }}</div>
                         </div>
                         <div class="mt-3 mx-3" style="height:70px;">
                             <div class="">Хуваарилах байгууламжийн тоо</div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-12 col-md-6 col-xl-2">
                     <div class="card text-white bg-info w-100">
                         <div class="card-body">
