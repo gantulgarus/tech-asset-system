@@ -179,6 +179,24 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="disconnected_users" class="form-label">Тасарсан хэрэглэгчийн тоо</label></label>
+                                <input type="number" name="disconnected_users" class="form-control" value="{{ $powerOutage->disconnected_users }}">
+                                @error('disconnected_users')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="create_user" class="form-label">Бүртгэсэн хүний нэр, албан тушаал</label></label>
+                                <input type="text" name="create_user" class="form-control" value="{{ $powerOutage->create_user }}">
+                                @error('create_user')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary ml-3">Хадгалах</button>
                         </div>

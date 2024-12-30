@@ -27,20 +27,34 @@ class PowerOutageController extends Controller
 
         $query = PowerOutage::query();
 
-        $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
-            ->join('branches', 'stations.branch_id', '=', 'branches.id')
-            ->join('equipment', 'power_outages.equipment_id', '=', 'equipment.id')
-            ->join('users', 'power_outages.user_id', '=', 'users.id')
-            ->select('power_outages.*', 'stations.name as station_name', 'equipment.name as equipment_name')
-            ->orderBy('power_outages.start_time', 'desc');
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Filter by branch_id in the Station model
+            $query->whereHas('station', function ($q) use ($user) {
+                $q->where('branch_id', $user->branch_id);
+            });
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('branch_id', $request->input('branch_id'));
+            });
+        }
 
         // Apply filters
         if ($request->filled('station')) {
-            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station') . '%');
+            });
         }
-
         if ($request->filled('equipment')) {
-            $query->where('equipment.name', 'like', '%' . $request->input('equipment') . '%');
+            $query->whereHas('equipment', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('equipment') . '%');
+            });
         }
 
         if ($request->filled('protection_id')) {
@@ -52,34 +66,10 @@ class PowerOutageController extends Controller
         }
 
         if ($request->filled('start_time')) {
-            $startTime = $request->input('start_time');
-
-            if (preg_match('/^\d{4}$/', $startTime)) {
-                // Search by year (e.g., 2024)
-                $query->whereYear('power_outages.start_time', $startTime);
-            } elseif (preg_match('/^\d{4}-\d{2}$/', $startTime)) {
-                // Search by year and month (e.g., 2024-12)
-                $query->whereYear('power_outages.start_time', substr($startTime, 0, 4))
-                    ->whereMonth('power_outages.start_time', substr($startTime, 5, 2));
-            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $startTime)) {
-                // Search by exact date (e.g., 2024-12-09)
-                $query->whereDate('power_outages.start_time', $startTime);
-            }
+            $query->where('start_time', 'like', '%' . $request->input('start_time') . '%');
         }
         if ($request->filled('end_time')) {
-            $endTime = $request->input('end_time');
-
-            if (preg_match('/^\d{4}$/', $endTime)) {
-                // Search by year (e.g., 2024)
-                $query->whereYear('power_outages.end_time', $endTime);
-            } elseif (preg_match('/^\d{4}-\d{2}$/', $endTime)) {
-                // Search by year and month (e.g., 2024-12)
-                $query->whereYear('power_outages.end_time', substr($endTime, 0, 4))
-                    ->whereMonth('power_outages.end_time', substr($endTime, 5, 2));
-            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $endTime)) {
-                // Search by exact date (e.g., 2024-12-09)
-                $query->whereDate('power_outages.end_time', $endTime);
-            }
+            $query->where('end_time', 'like', '%' . $request->input('end_time') . '%');
         }
 
         if ($request->filled('weather')) {
@@ -88,23 +78,11 @@ class PowerOutageController extends Controller
         if ($request->filled('incident_resolution')) {
             $query->where('incident_resolution', 'like', '%' . $request->input('incident_resolution') . '%');
         }
-        if ($request->filled('user_name')) {
-            $query->where('users.name', 'like', '%' . $request->input('user_name') . '%');
+        if ($request->filled('create_user')) {
+            $query->where('create_user', 'like', '%' . $request->input('create_user') . '%');
         }
         if ($request->filled('technological_violation')) {
             $query->where('technological_violation', $request->input('technological_violation'));
-        }
-
-
-
-
-        // Apply branch filter
-        if ($request->filled('branch_id')) {
-            $query->where('stations.branch_id', $request->input('branch_id'));
-        }
-
-        if ($request->filled('starttime') && $request->filled('endtime')) {
-            $query->whereBetween('power_outages.start_time', [$request->input('starttime'), $request->input('endtime')]);
         }
 
         if ($request->filled('volt_id')) {
@@ -115,14 +93,21 @@ class PowerOutageController extends Controller
         }
 
         // Paginate results
-        $powerOutages = $query->paginate(20)->appends($request->query());
-        $branches = Branch::orderBy('name', 'asc')->get();
+        $powerOutages = $query->latest()->paginate(25)->appends($request->query());
+
         $volts = Volt::all();
         $protections = Protection::all();
         $causeOutages = CauseOutage::all();
 
+        // Determine branches based on the user's branch_id
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
         // $powerOutages = PowerOutage::paginate(10);
-        return view('power_outages.index', compact('powerOutages', 'volts', 'branches', 'protections', 'causeOutages'));
+        return view('power_outages.index', compact('powerOutages', 'volts', 'branches', 'protections', 'causeOutages'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
@@ -273,25 +258,61 @@ class PowerOutageController extends Controller
     {
         $query = PowerOutage::query();
 
-        // Apply filters
-        $query->join('stations', 'power_outages.station_id', '=', 'stations.id')
-            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
-            ->select('power_outages.*', 'stations.name as station_name')
-            ->orderBy('power_outages.start_time', 'desc');
+        $user = auth()->user();
 
-        // Apply branch filter
-        if ($request->filled('branch_id')) {
-            $query->where('stations.branch_id', $request->input('branch_id'));
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Filter by branch_id in the Station model
+            $query->whereHas('station', function ($q) use ($user) {
+                $q->where('branch_id', $user->branch_id);
+            });
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('branch_id', $request->input('branch_id'));
+            });
         }
 
         // Apply filters
         if ($request->filled('station')) {
-            // dd($request->input('station'));
-            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station') . '%');
+            });
+        }
+        if ($request->filled('equipment')) {
+            $query->whereHas('equipment', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('equipment') . '%');
+            });
         }
 
-        if ($request->filled('starttime') && $request->filled('endtime')) {
-            $query->whereBetween('power_outages.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        if ($request->filled('protection_id')) {
+            $query->where('protection_id', $request->input('protection_id'));
+        }
+
+        if ($request->filled('cause_outage_id')) {
+            $query->where('cause_outage_id', $request->input('cause_outage_id'));
+        }
+
+        if ($request->filled('start_time')) {
+            $query->where('start_time', 'like', '%' . $request->input('start_time') . '%');
+        }
+        if ($request->filled('end_time')) {
+            $query->where('end_time', 'like', '%' . $request->input('end_time') . '%');
+        }
+
+        if ($request->filled('weather')) {
+            $query->where('weather', 'like', '%' . $request->input('weather') . '%');
+        }
+        if ($request->filled('incident_resolution')) {
+            $query->where('incident_resolution', 'like', '%' . $request->input('incident_resolution') . '%');
+        }
+        if ($request->filled('create_user')) {
+            $query->where('create_user', 'like', '%' . $request->input('create_user') . '%');
+        }
+        if ($request->filled('technological_violation')) {
+            $query->where('technological_violation', $request->input('technological_violation'));
         }
 
         if ($request->filled('volt_id')) {

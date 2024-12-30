@@ -26,6 +26,7 @@ class PowerOutageExport implements FromCollection, WithHeadings, WithStyles
         return $this->powerOutages->map(function ($outage, $index) {
             return [
                 'N' => $index + 1,
+                'Branch' => $outage->station->branch->name ?? '',
                 'Station' => $outage->station->name ?? '',
                 'Equipment' => $outage->equipment->name ?? '',
                 'Protection' => $outage->protection->name ?? '',
@@ -38,8 +39,9 @@ class PowerOutageExport implements FromCollection, WithHeadings, WithStyles
                 'Amper' => $outage->current_amper,
                 'Cosf' => $outage->cosf,
                 'ude' => $outage->ude,
-                'User' => $outage->user->name ?? '',
+                'User' => $outage->create_user,
                 'technological_violation' => $outage->technological_violation,
+                'disconnected_users' => $outage->disconnected_users,
             ];
         });
     }
@@ -48,6 +50,7 @@ class PowerOutageExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'Д/д',
+            'Салбар',
             'Дэд станц',
             'Тоноглол',
             'Хамгаалалт',
@@ -62,6 +65,7 @@ class PowerOutageExport implements FromCollection, WithHeadings, WithStyles
             'ДТЦЭХ кВт.ц',
             'Бүртгэсэн',
             'Технологийн зөрчил',
+            'Тасарсан хэрэглэгчийн тоо',
         ];
     }
 

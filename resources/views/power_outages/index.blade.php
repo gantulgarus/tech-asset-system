@@ -58,6 +58,7 @@
                     <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">Д/д</th>
+                            <th class="bg-body-secondary">Салбар</th>
                             <th class="bg-body-secondary">Дэд станц / ХБ</th>
                             <th class="bg-body-secondary">Тоноглол</th>
                             <th class="bg-body-secondary">Хамгаалалт</th>
@@ -73,11 +74,22 @@
                             <th class="bg-body-secondary">Гарсан гэмтэл, авсан арга хэмжээ</th>
                             <th class="bg-body-secondary">Бүртгэсэн</th>
                             <th class="bg-body-secondary">Технологийн зөрчил</th>
+                            <th class="bg-body-secondary">Тасарсан хэрэглэгчийн тоо</th>
                             <th class="bg-body-secondary">Акт</th>
                             <th class="bg-body-secondary"></th>
-                        </tr>
+                        </tr>   
                         <tr class="align-middle">
                             <th></th>
+                            <th>
+                                <select name="branch_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{ $branch->id }}"
+                                            {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                            {{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
                             <th><input type="text" name="station" class="form-control form-control-sm" value="{{ request('station') }}"></th>
                             <th>
                                 <input type="text" name="equipment" class="form-control form-control-sm" value="{{ request('equipment') }}">
@@ -112,7 +124,14 @@
                                     @endforeach
                                 </select>
                             </th>
-                            <th></th>
+                            <th>
+                                <select name="volt_id" class="form-select form-select-sm">
+                                    <option value="">Хүчдэлийн түвшин</option>
+                                    @foreach($volts as $volt)
+                                        <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                    @endforeach
+                                </select>
+                            </th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -120,7 +139,7 @@
                                 <input type="text" name="incident_resolution" class="form-control form-control-sm" value="{{ request('incident_resolution') }}">
                             </th>
                             <th>
-                                <input type="text" name="user_name" class="form-control form-control-sm" value="{{ request('user_name') }}">
+                                <input type="text" name="create_user" class="form-control form-control-sm" value="{{ request('create_user') }}">
                             </th>
                             <th>
                                 <select name="technological_violation" class="form-select form-select-sm">
@@ -132,12 +151,14 @@
                             </th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($powerOutages as $powerOutage)
                             <tr class="align-middle">
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ++$i }}</td>
+                                <td>{{ $powerOutage->station->branch->name ?? 'N/A' }}</td>
                                 <td>{{ $powerOutage->station->name }}</td>
                                 <td>{{ $powerOutage->equipment->name }}</td>
                                 <td>{{ $powerOutage->protection->name }}</td>
@@ -151,8 +172,9 @@
                                 <td>{{ $powerOutage->cosf }}</td>
                                 <td>{{ $powerOutage->ude }}</td>
                                 <td>{{ $powerOutage->incident_resolution }}</td>
-                                <td>{{ $powerOutage->user->name }}</td>
+                                <td>{{ $powerOutage->create_user }}</td>
                                 <td>{{ $powerOutage->technological_violation }}</td>
+                                <td>{{ $powerOutage->disconnected_users }}</td>
                                 <td>
                                     @if($powerOutage->act_file_path)
                                         <a href="{{ Storage::url($powerOutage->act_file_path) }}" target="_blank">

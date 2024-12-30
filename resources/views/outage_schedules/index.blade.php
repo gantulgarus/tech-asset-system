@@ -1,7 +1,8 @@
 @php
     $today = now(); // Get the current date and time
     $day = $today->day; // Get the day of the month
-    $disableButton = ($day > 25); // Disable button condition
+    $isAdmin = Auth::user()->role?->name == 'admin'; // Check if the user is an admin
+    $disableButton = (!$isAdmin && $day > 25); // Disable for non-admins after the 25th
 @endphp
 <style>
     .btn[disabled] {
