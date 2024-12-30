@@ -7,9 +7,10 @@ use App\Models\Branch;
 use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use App\Models\OutageSchedule;
+use App\Models\OutageScheduleType;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OutageScheduleExport;
-use App\Models\OutageScheduleType;
 
 class OutageScheduleController extends Controller
 {
@@ -72,9 +73,12 @@ class OutageScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $canBypass = $user->role->name == 'admin';
+
         $today = now()->day;
 
-        if ($today > 25) {
+        if (!$canBypass && $today > 25) {
             return redirect()->back()->withErrors(['error' => 'Таслалтын графикийг зөвхөн сар бүрийн 1-25-ний хооронд бүртгэх боломжтой.']);
         }
 
@@ -121,10 +125,13 @@ class OutageScheduleController extends Controller
      */
     public function update(Request $request, OutageSchedule $outageSchedule)
     {
+        $user = Auth::user();
+        $canBypass = $user->role->name == 'admin';
+
         $today = now()->day;
 
         // Block updates if today's date is 25 or later
-        if ($today > 25) {
+        if (!$canBypass && $today > 25) {
             return redirect()->back()->withErrors(['error' => 'Сар бүрийн 25-наас хойш таслалтын графикийг засах боломжгүй.']);
         }
 
