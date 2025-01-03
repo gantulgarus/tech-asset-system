@@ -16,43 +16,6 @@
                 <a href="{{ route('export-power-outage', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
                 <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
                     class="fas fa-undo-alt"></i> Цэвэрлэх</button>
-                {{-- <div class="mb-2">
-                    <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
-                        <div class="row g-2">
-                            <div class="col-md-2">
-                                <select name="branch_id" class="form-select form-select-sm">
-                                    <option value="">Салбар</option>
-                                    @foreach($branches as $branch)
-                                        <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
-                                            {{ $branch->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" name="station" class="form-control form-control-sm" placeholder="Дэд станц / ХБ" value="{{ request('station') }}">
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" id="starttime" name="starttime" class="form-control form-control-sm" placeholder="Эхлэх" value="{{ request('starttime') }}">
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" id="endtime" name="endtime" class="form-control form-control-sm" placeholder="Дуусах" value="{{ request('endtime') }}">
-                            </div>
-                            <div class="col-md-2">
-                                <select name="volt_id" class="form-select form-select-sm">
-                                    <option value="">Хүчдэлийн түвшин</option>
-                                    @foreach($volts as $volt)
-                                        <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary btn-sm">Хайх</button>
-                                <button type="button" class="btn btn-secondary btn-sm" id="reset-filters">Цэвэрлэх</button>
-                            </div>
-                        </div>
-                    </form>
-                </div> --}}
                 <form method="GET" action="{{ route('power_outages.index') }}" id="filter-form">
                 <table class="table table-bordered table-hover" style="font-size: 12px;">
                     <thead class="fw-semibold">

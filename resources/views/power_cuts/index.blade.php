@@ -14,7 +14,9 @@
             <div class="card-body">
                 <a href="{{ route('power_cuts.create') }}" class="btn btn-dark btn-sm mb-2">Нэмэх</a>
                 <a href="{{ route('export-power-cut', request()->all()) }}" class="btn btn-primary btn-sm mb-2">Экспорт</a>
-                <div class="mb-2">
+                <button type="button" class="btn btn-secondary btn-sm mb-2" id="reset-filters"><i
+                    class="fas fa-undo-alt"></i> Цэвэрлэх</button>
+                {{-- <div class="mb-2">
                     <form method="GET" action="{{ route('power_cuts.index') }}" id="filter-form">
                         <div class="row g-2">
                             <div class="col-md-2">
@@ -50,11 +52,13 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> --}}
+                <form method="GET" action="{{ route('power_cuts.index') }}" id="filter-form">
                 <table class="table table-bordered table-hover" style="font-size: 12px;">
                     <thead class="fw-semibold">
                         <tr class="align-middle">
                             <th class="bg-body-secondary">Д/д</th>
+                            <th class="bg-body-secondary">Салбар</th>
                             <th class="bg-body-secondary">Дэд станц</th>
                             <th class="bg-body-secondary">Тоноглол</th>
                             <th class="bg-body-secondary">Захиалгын төрөл</th>
@@ -71,14 +75,75 @@
                             <th class="bg-body-secondary">Бүртгэсэн</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
+                        <tr class="align-middle">
+                            <th></th>
+                            <th>
+                                <select name="branch_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{ $branch->id }}"
+                                            {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                            {{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th>
+                                <input type="text" name="station" class="form-control form-control-sm" value="{{ request('station') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="equipment" class="form-control form-control-sm" value="{{ request('equipment') }}">
+                            </th>
+                            <th>
+                                <select name="cut_type_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach ($cutTypes as $type)
+                                        <option value="{{ $type->id }}"
+                                            {{ request('cut_type_id') == $type->id ? 'selected' : '' }}>
+                                            {{ $type->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th>
+                                <input type="text" name="cause_cut" class="form-control form-control-sm" value="{{ request('cause_cut') }}">
+                            </th>
+                            <th>
+                                <select name="volt_id" class="form-select form-select-sm">
+                                    <option value=""></option>
+                                    @foreach($volts as $volt)
+                                        <option value="{{ $volt->id }}" {{ request('volt_id') == $volt->id ? 'selected' : '' }}>{{ $volt->name }}кВ</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <input type="text" name="start_time" class="form-control form-control-sm" value="{{ request('start_time') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="end_time" class="form-control form-control-sm" value="{{ request('end_time') }}">
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <input type="text" name="approved_by" class="form-control form-control-sm" value="{{ request('approved_by') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="order_number" class="form-control form-control-sm" value="{{ request('order_number') }}">
+                            </th>
+                            <th>
+                                <input type="text" name="created_by" class="form-control form-control-sm" value="{{ request('created_by') }}">
+                            </th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($powerCuts as $powerCut)
                             <tr class="align-middle">
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ++$i }}</td>
+                                <td>{{ $powerCut->station?->branch->name }}</td>
                                 <td>{{ $powerCut->station?->name }}</td>
                                 <td>{{ $powerCut->equipment?->name }}</td>
-                                <td>{{ $powerCut->orderType?->name }}</td>
+                                <td>{{ $powerCut->cutType?->name }}</td>
                                 <td>{{ $powerCut->cause_cut }}</td>
                                 <td>{{ $powerCut->current_voltage }}</td>
                                 <td>{{ $powerCut->current_amper }}</td>
@@ -119,6 +184,7 @@
                 <div class="mt-2">
                     {{ $powerCuts->links() }}
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -126,17 +192,26 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#starttime').flatpickr();
-            $('#endtime').flatpickr();
+        // $(document).ready(function() {
+        //     $('#starttime').flatpickr();
+        //     $('#endtime').flatpickr();
 
-            $('#reset-filters').on('click', function() {
-                // Clear all the input fields
-                $('#filter-form').find('input[type="text"], select').val('');
-                // Submit the form to reload without filters
-                $('#filter-form').submit();
+        //     $('#reset-filters').on('click', function() {
+        //         // Clear all the input fields
+        //         $('#filter-form').find('input[type="text"], select').val('');
+        //         // Submit the form to reload without filters
+        //         $('#filter-form').submit();
+        //     });
+
+        // });
+        document.getElementById('reset-filters').addEventListener('click', function() {
+            window.location.href = "{{ route('power_cuts.index') }}";
+        });
+
+        document.querySelectorAll('#filter-form input, #filter-form select').forEach(element => {
+            element.addEventListener('change', function() {
+                document.getElementById('filter-form').submit();
             });
-
         });
     </script>
 @endsection

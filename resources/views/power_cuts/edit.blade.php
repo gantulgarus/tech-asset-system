@@ -49,18 +49,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="order_type_id" class="form-label">Захиалгын төрөл</label>
+                                <label for="cut_type_id" class="form-label">Захиалгын төрөл</label>
                                 <div class="form-group mb-3">
-                                    <select id="order-type-dropdown" name="order_type_id" class="form-select">
+                                    <select id="order-type-dropdown" name="cut_type_id" class="form-select">
                                         <option value="">-- Сонгох --</option>
-                                        @foreach ($orderTypes as $type)
-                                            <option value="{{ $type->id }}" {{ old('order_type_id', $powerCut->order_type_id) == $type->id ? 'selected' : '' }}>
+                                        @foreach ($cutTypes as $type)
+                                            <option value="{{ $type->id }}" {{ old('cut_type_id', $powerCut->cut_type_id) == $type->id ? 'selected' : '' }}>
                                                 {{ $type->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('order_type_id')
+                                @error('cut_type_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>

@@ -11,6 +11,7 @@ use App\Models\PowerCut;
 use App\Models\Equipment;
 use App\Helpers\LogActivity;
 use App\Models\OrderType;
+use App\Models\PowerCutType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,28 +23,45 @@ class PowerCutController extends Controller
      */
     public function index(Request $request)
     {
-        // $powerCuts = PowerCut::paginate(25);
-
         $query = PowerCut::query();
 
-        $query->join('stations', 'power_cuts.station_id', '=', 'stations.id')
-            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
-            ->select('power_cuts.*', 'stations.name as station_name')
-            ->orderBy('power_cuts.start_time', 'desc');
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Filter by branch_id in the Station model
+            $query->whereHas('station', function ($q) use ($user) {
+                $q->where('branch_id', $user->branch_id);
+            });
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('branch_id', $request->input('branch_id'));
+            });
+        }
 
         // Apply filters
         if ($request->filled('station')) {
-            // dd($request->input('station'));
-            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station') . '%');
+            });
         }
 
-        // Apply branch filter
-        if ($request->filled('branch_id')) {
-            $query->where('stations.branch_id', $request->input('branch_id'));
+        if ($request->filled('equipment')) {
+            $query->whereHas('equipment', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('equipment') . '%');
+            });
         }
 
-        if ($request->filled('starttime') && $request->filled('endtime')) {
-            $query->whereBetween('power_cuts.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        if ($request->filled('cut_type_id')) {
+            $query->where('cut_type_id', $request->input('cut_type_id'));
+        }
+
+        if ($request->filled('cause_cut')) {
+            $query->where('cause_cut', 'like', '%' . $request->input('cause_cut') . '%');
         }
 
         if ($request->filled('volt_id')) {
@@ -53,12 +71,39 @@ class PowerCutController extends Controller
             });
         }
 
-        // Paginate results
-        $powerCuts = $query->paginate(20)->appends($request->query());
-        $branches = Branch::orderBy('name', 'asc')->get();
-        $volts = Volt::all();
+        if ($request->filled('start_time')) {
+            $query->where('start_time', 'like', '%' . $request->input('start_time') . '%');
+        }
+        if ($request->filled('end_time')) {
+            $query->where('end_time', 'like', '%' . $request->input('end_time') . '%');
+        }
 
-        return view('power_cuts.index', compact('powerCuts', 'volts', 'branches'));
+        if ($request->filled('approved_by')) {
+            $query->where('approved_by', 'like', '%' . $request->input('approved_by') . '%');
+        }
+
+        if ($request->filled('order_number')) {
+            $query->where('order_number', 'like', '%' . $request->input('order_number') . '%');
+        }
+
+        if ($request->filled('created_by')) {
+            $query->where('created_by', 'like', '%' . $request->input('created_by') . '%');
+        }
+
+        // Paginate results
+        $powerCuts = $query->latest()->paginate(25)->appends($request->query());
+
+        // Determine branches based on the user's branch_id
+        if ($user->branch_id == 8) {
+            $branches = Branch::all();
+        } else {
+            $branches = Branch::where('id', $user->branch_id)->get();
+        }
+
+        $volts = Volt::all();
+        $cutTypes = PowerCutType::all();
+
+        return view('power_cuts.index', compact('powerCuts', 'volts', 'branches', 'cutTypes'))->with('i', (request()->input('page', 1) - 1) * 25);
     }
 
     /**
@@ -68,9 +113,9 @@ class PowerCutController extends Controller
     {
         $stations = Station::all();
         $equipments = Equipment::all();
-        $orderTypes = OrderType::all();
+        $cutTypes = PowerCutType::all();
 
-        return view('power_cuts.create', compact('stations', 'equipments', 'orderTypes'));
+        return view('power_cuts.create', compact('stations', 'equipments', 'cutTypes'));
     }
 
     /**
@@ -90,7 +135,7 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            'order_type_id' => 'required',
+            'cut_type_id' => 'required',
         ]);
 
         PowerCut::create($input);
@@ -115,9 +160,9 @@ class PowerCutController extends Controller
     {
         $stations = Station::all();
         $equipments = Equipment::all();
-        $orderTypes = OrderType::all();
+        $cutTypes = PowerCutType::all();
 
-        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'orderTypes'));
+        return view('power_cuts.edit', compact('powerCut', 'stations', 'equipments', 'cutTypes'));
     }
 
     /**
@@ -135,7 +180,7 @@ class PowerCutController extends Controller
             'current_power' => 'required|numeric',
             'start_time' => 'required|date',
             'end_time' => 'nullable|date',
-            'order_type_id' => 'required',
+            'cut_type_id' => 'required',
         ]);
 
         $powerCut->update($input);
@@ -161,24 +206,43 @@ class PowerCutController extends Controller
     {
         $query = PowerCut::query();
 
-        $query->join('stations', 'power_cuts.station_id', '=', 'stations.id')
-            ->join('branches', 'stations.branch_id', '=', 'branches.id') // Assuming branches table exists
-            ->select('power_cuts.*', 'stations.name as station_name')
-            ->orderBy('power_cuts.start_time', 'desc');
+        // Get the logged-in user
+        $user = auth()->user();
+
+        // Check if the user is not in the main branch (branch_id = 8)
+        if ($user->branch_id && $user->branch_id != 8) {
+            // Filter by branch_id in the Station model
+            $query->whereHas('station', function ($q) use ($user) {
+                $q->where('branch_id', $user->branch_id);
+            });
+        }
+
+        // Allow filtering by branch_id if the user is in the main branch
+        if ($request->filled('branch_id') && $user->branch_id == 8) {
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('branch_id', $request->input('branch_id'));
+            });
+        }
 
         // Apply filters
         if ($request->filled('station')) {
-            // dd($request->input('station'));
-            $query->where('stations.name', 'like', '%' . $request->input('station') . '%');
+            $query->whereHas('station', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('station') . '%');
+            });
         }
 
-        // Apply branch filter
-        if ($request->filled('branch_id')) {
-            $query->where('stations.branch_id', $request->input('branch_id'));
+        if ($request->filled('equipment')) {
+            $query->whereHas('equipment', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->input('equipment') . '%');
+            });
         }
 
-        if ($request->filled('starttime') && $request->filled('endtime')) {
-            $query->whereBetween('power_cuts.start_time', [$request->input('starttime'), $request->input('endtime')]);
+        if ($request->filled('cut_type_id')) {
+            $query->where('cut_type_id', $request->input('cut_type_id'));
+        }
+
+        if ($request->filled('cause_cut')) {
+            $query->where('cause_cut', 'like', '%' . $request->input('cause_cut') . '%');
         }
 
         if ($request->filled('volt_id')) {
@@ -188,8 +252,27 @@ class PowerCutController extends Controller
             });
         }
 
+        if ($request->filled('start_time')) {
+            $query->where('start_time', 'like', '%' . $request->input('start_time') . '%');
+        }
+        if ($request->filled('end_time')) {
+            $query->where('end_time', 'like', '%' . $request->input('end_time') . '%');
+        }
+
+        if ($request->filled('approved_by')) {
+            $query->where('approved_by', 'like', '%' . $request->input('approved_by') . '%');
+        }
+
+        if ($request->filled('order_number')) {
+            $query->where('order_number', 'like', '%' . $request->input('order_number') . '%');
+        }
+
+        if ($request->filled('created_by')) {
+            $query->where('created_by', 'like', '%' . $request->input('created_by') . '%');
+        }
+
         // Paginate results
-        $powerCuts = $query->get();
+        $powerCuts = $query->latest()->get();
 
 
         return Excel::download(new PowerCutExport($powerCuts), 'taslalt.xlsx');

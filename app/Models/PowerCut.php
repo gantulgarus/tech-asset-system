@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Station;
 use App\Models\CauseCut;
 use App\Models\Equipment;
-use App\Models\OrderType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,7 +28,7 @@ class PowerCut extends Model
         'created_by',
         'user_id',
         'order_number',
-        'order_type_id',
+        'cut_type_id',
         'cause_cut'
     ];
 
@@ -53,8 +52,8 @@ class PowerCut extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function orderType()
+    public function cutType()
     {
-        return $this->belongsTo(OrderType::class);
+        return $this->belongsTo(PowerCutType::class);
     }
 }

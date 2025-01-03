@@ -26,9 +26,10 @@ class PowerCutExport implements FromCollection, WithHeadings, WithStyles
         return $this->powerCuts->map(function ($cut, $index) {
             return [
                 'N' => $index + 1,
+                'Branch' => $cut->station->branch->name ?? '',
                 'Station' => $cut->station->name ?? '',
                 'Equipment' => $cut->equipment->name ?? '',
-                'OrderType' => $cut->orderType->name ?? '',
+                'CutType' => $cut->cutType->name ?? '',
                 'CauseCut' => $cut->cause_cut,
                 'Voltage' => $cut->current_voltage,
                 'Amper' => $cut->current_amper,
@@ -48,6 +49,7 @@ class PowerCutExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'Д/д',
+            'Салбар',
             'Дэд станц',
             'Тоноглол',
             'Захиалгын төрөл',

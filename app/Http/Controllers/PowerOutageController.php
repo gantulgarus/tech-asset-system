@@ -323,7 +323,7 @@ class PowerOutageController extends Controller
         }
 
         // Get the filtered data
-        $powerOutages = $query->get();
+        $powerOutages = $query->latest()->get();
 
 
         return Excel::download(new PowerOutageExport($powerOutages), 'tasralt.xlsx');
